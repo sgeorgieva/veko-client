@@ -1,0 +1,193 @@
+// /* Animate the page header separatly */
+// .pageHeader {
+//   view-transition-name: page-header;
+// }
+
+// .pageContent {
+//   view-transition-name: page-content;
+// }
+
+// .pageFooter {
+//   view-transition-name: page-footer;
+// }
+
+// .buttonHeader {
+//   view-transition-name: button-header;
+// }
+
+// /* Views Animation */
+// html::view-transition-old(root) {
+//   animation: fade-and-scale-out 1s ease 1 forwards;
+// }
+
+// html::view-transition-new(root) {
+//   animation: fade-and-scale-in 1s ease 1 forwards;
+// }
+
+// html::view-transition-old(page-header) {
+//   animation: hide 1s ease-in-out 1 forwards;
+// }
+
+// html::view-transition-new(page-header) {
+//   animation-composition: replace;
+//   animation: slide-right 2s ease-in-out 1 forwards;
+// }
+
+// html::view-transition-old(page-footer) {
+//   animation: hide 1s ease-in-out 1 forwards;
+// }
+
+// html::view-transition-new(page-footer) {
+//   animation-composition: replace;
+//   animation: slide-right 2s ease-in-out 1 forwards;
+// }
+
+// html::view-transition-old(page-content) {
+//   animation: hide 1s ease-in-out 1 forwards;
+// }
+
+// html::view-transition-new(page-content) {
+//   animation-composition: replace;
+//   animation: slide-left 2.5s ease-in-out 1 forwards;
+// }
+
+// html::view-transition-old(button-header) {
+//   animation: hide 1s ease-in-out 1 forwards;
+// }
+
+// html::view-transition-new(button-header) {
+//   animation-composition: replace;
+//   animation: slide-bottom 2.5s ease-in-out 1 forwards;
+// }
+
+// @keyframes fade-and-scale-in {
+//   from {
+//     opacity: 0;
+//     transform: scale(0);
+//   }
+
+//   to {
+//     opacity: 1;
+//     transform: scale(1);
+//   }
+// }
+
+// @keyframes fade-and-scale-out {
+//   from {
+//     opacity: 1;
+//     transform: scale(1);
+//   }
+
+//   to {
+//     opacity: 0;
+//     transform: scale(0);
+//   }
+// }
+
+// @keyframes hide {
+//   from {
+//     opacity: 1;
+//   }
+
+//   to {
+//     opacity: 0;
+//   }
+// }
+
+// @keyframes fade-and-scale-right {
+//   from {
+//     opacity: 1;
+//     transform: scale(1);
+//   }
+
+//   to {
+//     opacity: 0;
+//     transform: scale(0);
+//   }
+// }
+
+// /* Second animation */
+// @keyframes slide-left {
+//   from {
+//     opacity: 0;
+//     transform: translateX(-100%);
+//   }
+
+//   to {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+// }
+
+// @keyframes slide-right {
+//   from {
+//     opacity: 0;
+//     transform: translateX(100%);
+//   }
+
+//   to {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+// }
+
+// @keyframes slide-bottom {
+//   from {
+//     opacity: 0;
+//     transform: translateY(0%);
+//   }
+
+//   to {
+//     opacity: 1;
+//     transform: translateY(5%);
+//   }
+// }
+
+// @media only screen and (max-device-width: 768px) { 
+//   html::view-transition-old(root),
+//   html::view-transition-new(root),
+//   html::view-transition-old(page-header),
+//   html::view-transition-new(page-header),
+//   html::view-transition-old(page-footer)
+//   html::view-transition-new(page-footer),
+//   html::view-transition-old(page-content),
+//   html::view-transition-new(page-content),
+//   html::view-transition-old(button-header),
+//   html::view-transition-new(button-header) {
+//     animation: none;
+//   }
+// }
+
+.header-nested-links {
+  z-index: 99999;
+}
+
+.active-hover {
+  .header-nested-links {
+    list-style-type: none;
+    margin-bottom: 0 !important;
+
+    li {
+      
+      &:first-of-type {
+        a {
+          width: 18vw;
+          padding: 40px 0 15px 0;
+          background: #fff;
+        }
+      }
+
+      a {
+        width: 18vw;
+        padding: 20px 0;
+        background: #fff;
+      }
+    }
+  }
+
+  .row {
+    background: #fff;
+    margin: inherit;
+    padding: 0;
+  }
+}

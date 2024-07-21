@@ -1,0 +1,335 @@
+@use '../../colors';
+
+.customer-support-info {
+  margin: 10px 0 !important;
+  z-index: 4;
+
+  .col-md-8 {
+    z-index: 99999;
+ 
+    > span {
+      font-family: '--font-sf-pro-display-medium';
+      background: #F1F1F1;
+      color: #2b2b2b;
+      border-radius: 15px;
+      padding: 7px 22px;
+      font-weight: 700;
+      z-index: 99999;
+      cursor: pointer;
+      letter-spacing: 1.3px;
+  
+      &:hover {
+        cursor: url("../../../../public/images/icons/hand-pointing.png"), auto;
+        background: #0B669D;
+        color: #fff;
+      }
+    }
+  }
+
+  .col-md-4 {
+    z-index: 99999;
+
+    span {
+      &:hover {
+        div {
+          div,
+          button,
+          input {
+            cursor: url("../../../../public/images/icons/hand-pointing.png"), auto !important;
+          }
+        }
+      }
+    }
+    div
+    .OGJ,
+    .bPW {
+      cursor: url("../../../../public/images/icons/hand-pointing.png"), auto !important;
+    }
+  }
+}
+
+.line {
+  position: absolute;
+  margin: 0 auto;
+  border-top: unset !important;
+  border-bottom: 1px solid #fff;
+  opacity: 1;
+  width: 98%;
+  z-index: 7;
+}
+
+.row-links-nested {
+  background: #fff;
+}
+
+.header-links {
+  display: flex;
+  position: relative;
+  margin-top: 60px;
+  justify-content: space-around;
+  opacity: 1;
+  z-index: 5;
+
+  a {
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    display: inline-block;
+    padding: 20px 0;
+    position: relative;
+
+    &:hover {
+      font-weight: 600;
+      cursor: url("../../../../public/images/icons/hand-pointing.png"), auto;
+    }
+
+    &.active {
+      &:hover {
+        &::after {
+          content: unset;
+        }
+      }
+      border-bottom: 6px solid #0B669D;
+      margin-bottom: -1px;
+      font-weight: bold;
+    }
+  }
+  
+  a:after {    
+    background: none repeat scroll 0 0 transparent;
+    bottom: -1%;
+    content: "";
+    display: block;
+    height: 6px;
+    left: 50%;
+    position: absolute;
+    background: #0B669D;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+    opacity: 1;
+  }
+
+  a:hover:after { 
+    width: 100%;
+    left: 0;
+    z-index: 9999;
+    cursor: url("../../../../public/images/icons/hand-pointing.png"), auto;
+  }
+
+  &.header-links-nested {
+    background-color: #fff;
+    a {
+      color: #121212;
+    }
+  }
+}
+
+.logo {
+  position: absolute;
+  width: auto;
+  height: auto;
+  top: 115%;
+  left: 38vw;
+  z-index: 1;
+}
+
+.mobile-header-links {
+  padding-left: 0 !important;
+
+  .container-fluid {
+    max-height: 10px;
+  }
+
+  .navbar-nav {
+    position: relative;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .navbar-toggler {
+    position: absolute;
+    color: transparent!important;
+    border: 0!important;
+    background: transparent!important;
+    margin-right: 0 !important;
+    top: -100%;
+    right: -2%;
+    transform: translate(10%, -230%);
+
+    &:hover {        
+      color: transparent!important;
+      border: 0!important;
+      background: transparent!important;
+      cursor: url("../../../../public/images/icons/hand-pointing.png"), auto;
+    }
+  }
+  .navbar-nav {
+    text-align: center;
+    font-size: 12px;
+
+    > *:not(:last-child) {
+      padding-bottom: 15px;
+    }
+
+    .nav-item a {
+      font-family: var(--font-raleway);
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+  }
+}
+
+.container-fluid {
+  max-height: 100%;
+  height: 100%;
+  z-index: 2;
+  
+  &.about-header-links {
+    .header-links {
+      a {
+        color: #1a1818;
+      }
+    }
+  }
+  
+  .row {
+    position: absolute;
+    width: 100%;
+    // z-index: 1;
+    
+    &.scrollbar {
+      backdrop-filter: blur(100px);
+      -webkit-backdrop-filter: blur(100px);
+      z-index: 4;
+      overflow: hidden;
+      // height: calc(100% - 540px);
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-default {
+  cursor: default;
+
+  &:hover {
+    cursor: default;
+  }
+}
+
+.small {
+  .navbar-brand {
+    margin-left: 25px;
+  }
+}
+
+.mb-ps {
+  position: absolute;
+  top: 25% !important;
+  right: 3%;
+}
+
+@media (min-width: 768px) {
+  .navbar-expand-md {
+    .navbar-nav {
+      flex-direction: column !important;
+    }
+  }
+}
+
+@media only screen and (max-device-width : 768px) {
+  .mobile-header-links {
+    .navbar-toggler {
+      top: 0;
+      right: -5%;
+      transform: none;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 280px) and (max-device-width: 767px) and (orientation : landscape) {
+  .mobile-header-links {
+    .navbar-toggler { 
+      top: 0 !important;
+      right: 0 !important;
+      transform: none;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 991px) { 
+  .title-wrapper {
+    left: 5%;
+
+    .title {
+      margin-bottom: -90px;
+      
+      &:first-child {
+        text-align: left;
+      }
+    }
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 991px) and (orientation: landscape) { 
+  .mobile-header-links {
+    .navbar-toggler {
+      right: 0;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 820px) and (max-device-height: 1180px) and (orientation: portrait) { 
+  .mobile-header-links {
+    .navbar-toggler {
+      right: -1%;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 820px) and (orientation: landscape) {
+  .mobile-header-links {
+    .navbar-toggler {
+      top: -50%;
+      right: 0;
+      transform: none;
+    }
+  }
+}
+
+@media only screen and (max-device-width: 1024px) and (max-device-height: 768px) and (orientation: landscape) { 
+  .mobile-header-links {
+    .navbar-toggler {
+      right: 0;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (min-device-height: 1024px) and (orientation: portrait) {
+  .mobile-header-links {
+    .navbar-toggler {
+      right: -1%;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 1024px) and (min-device-height: 768px) and (max-device-width: 1366px) { 
+  .mobile-header-links {
+    .navbar-toggler {
+      right: 0;
+    }
+  }
+}
+
+@media only screen and (max-device-width : 768px) and (orientation: landscape) { 
+  .mobile-header-links {
+    .navbar-toggler {
+      right: -1%;
+    }
+  }
+}
