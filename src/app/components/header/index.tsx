@@ -80,7 +80,7 @@ export default function Header({ classname, isOpen, setIsOpen }) {
     >
       <div
         className={`row customer-support-info align-items-center ${
-          !isHover ? "background-overlay" : ""
+          !isHover ? "background-overlay" : "background-white"
         }`}
       >
         <div className="col-md-8">
@@ -120,7 +120,9 @@ export default function Header({ classname, isOpen, setIsOpen }) {
             }`}
           />
         ) : (
-          <div className="col text-start">
+          <div className={`text-start ${
+            !isHover ? "col" : "p-0"
+          }`}>
             <div
               className={`header-links ${isHover ? "header-links-nested" : ""}`}
             >
@@ -254,10 +256,10 @@ export default function Header({ classname, isOpen, setIsOpen }) {
             <AnimatedLink hasActiveClass={false} href="/">
               <Image priority src={Logo} alt="veko-oil logo" className="logo" />
             </AnimatedLink>
-            <hr
+            {!isHover && <hr
               className={isMobile ? "line-xs" : "line"}
               data-content="&nbsp;&nbsp;"
-            />
+            />}
           </div>
         )}
       </div>

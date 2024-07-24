@@ -1,8 +1,9 @@
 @use '../../colors';
 
 .customer-support-info {
-  margin: 10px 0 !important;
+  padding: 10px 0 !important;
   z-index: 4;
+  background: #fff;
 
   .col-md-8 {
     z-index: 99999;
@@ -90,18 +91,18 @@
           content: unset;
         }
       }
-      border-bottom: 6px solid #0B669D;
-      margin-bottom: -1px;
+      // border-bottom: 4px solid #0B669D;
+      margin-bottom: 0px;
       font-weight: bold;
     }
   }
   
   a:after {    
     background: none repeat scroll 0 0 transparent;
-    bottom: -1%;
+    bottom: 0;
     content: "";
     display: block;
-    height: 6px;
+    height: 5px;
     left: 50%;
     position: absolute;
     background: #0B669D;
@@ -232,6 +233,10 @@
   position: absolute;
   top: 25% !important;
   right: 3%;
+}
+
+.background-white {
+  background: #fff;
 }
 
 @media (min-width: 768px) {
