@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import HomeComponent from "../HomeComponent";
-import OilsComponent from "../OilsComponent";
-import AccumulatorsComponent from "../AccumulatorsComponent";
-import AutoConsumablesComponent from "../AutoConsumablesComponent";
-import SpecialLiquidsComponent from "../SpecialLiquidsComponent";
+import OilsComponent from "./OilsComponent";
+import AccumulatorsComponent from "./AccumulatorsComponent";
+import AutoConsumablesComponent from "./AutoConsumablesComponent";
+import SpecialLiquidsComponent from "./SpecialLiquidsComponent";
 import OilImage from "../../../../public/images/oil.png";
 import AutoConsumablesImage from "../../../../public/images/auto-consumables.png";
 import BatteryImage from "../../../../public/images/battery.png";
@@ -34,7 +34,6 @@ export default function TradeComponent() {
               <div className="row d-flex align-items-center py-4 flex-nowrap">
                 <Link
                   href="/trade/oils"
-                  onClick={() => router.push("/trade/oils")}
                   children={<OilsComponent />}
                   className="w-25 p-0"
                 >
@@ -43,7 +42,6 @@ export default function TradeComponent() {
                 </Link>
                 <Link
                   href="/trade/accumulators"
-                  onClick={() => router.push("/trade/accumulators")}
                   children={<AccumulatorsComponent />}
                   className="w-25 p-0 mx-5"
                 >
@@ -52,7 +50,6 @@ export default function TradeComponent() {
                 </Link>
                 <Link
                   href="/trade/auto-consumables"
-                  onClick={() => router.push("/trade/auto-consumables")}
                   children={<AutoConsumablesComponent />}
                   className="w-25 p-0"
                 >
@@ -61,7 +58,7 @@ export default function TradeComponent() {
                 </Link>
                 <Link
                   href="/trade/speical-liquids"
-                  onClick={() => router.push("/trade/speical-liquids")}
+                  // onClick={() => router.push("/trade/speical-liquids")}
                   children={<SpecialLiquidsComponent />}
                   className="w-25 p-0 ms-5"
                 >

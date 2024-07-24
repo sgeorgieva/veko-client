@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import EcologyComponent from '../../components/EcologyComponent';
+import EcologyComponent from '../../components/ServicesComponent/EcologyComponent';
 
 // import Image from "../../../public/images/portfolio.webp";
 

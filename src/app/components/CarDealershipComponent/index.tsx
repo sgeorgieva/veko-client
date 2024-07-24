@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import HomeComponent from "../HomeComponent";
-import BrandsComponent from "../BrandsComponent";
-import CarCentersComponent from "../CarCentersComponent";
+import BrandsComponent from "./BrandsComponent";
+import CarCentersComponent from "./CarCentersComponent";
 import BrandsImage from "../../../../public/images/brands.png";
 import UsedCarImage from "../../../../public/images/autocenters.png";
 

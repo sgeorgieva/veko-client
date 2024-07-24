@@ -2,11 +2,11 @@
 
 import { Suspense } from "react";
 import Link from "next/link";
-import Loader from "../Loader";
-import HomeComponent from "../HomeComponent";
-import MonbatImage from "../../../../public/images/Monbat-logo.png";
-import BoschImage from "../../../../public/images/bosch-logo-simple.png";
-import GigaWattImage from "../../../../public/images/GIGAWATT-Logo.png";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
+import MonbatImage from "../../../../../public/images/Monbat-logo.png";
+import BoschImage from "../../../../../public/images/bosch-logo-simple.png";
+import GigaWattImage from "../../../../../public/images/GIGAWATT-Logo.png";
 
 import "./accumulatorsComponent.scss";
 

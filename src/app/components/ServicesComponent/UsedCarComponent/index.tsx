@@ -2,8 +2,8 @@
 
 import { Suspense } from "react";
 import { Icon } from "gestalt";
-import Loader from "../../components/Loader";
-import HomeComponent from "../HomeComponent";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
 
 import './usedCarComponent.scss';
 

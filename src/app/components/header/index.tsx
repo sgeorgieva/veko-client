@@ -127,13 +127,12 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
             >
               <AnimatedLink
                 isHover={isHover}
-                hasActiveClass={pathname == "/car-dealership" ? true : false}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
                 title={t('car-dealership-title')}
                 name={t('car-dealership-title')}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
                 href="/car-dealership"
-                locale="car-dealership"
+                hasActiveClass={pathname == "/car-dealership" ? true : false}
               >
                 { t('car-dealership-title') }
                 {isHover && name === t('common:car-dealership-title') ? (
@@ -142,23 +141,16 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
                       <ul className="d-block header-nested-links">
                         <li className="d-flex-inline">
                           <AnimatedLink  
-                            href="/brands"
+                            href="/car-dealership/brands"
                             pathname="/car-dealership/brands"
-                            // passHref={true}
-                            // prefetch={false} 
-                            locale="car-dealership"
                           >
                             Марки
                           </AnimatedLink>
                         </li>
                         <li>
                           <AnimatedLink
-                            href="/car-centers"
-                            pathname="/car-dealership/car-centers"
-                            // passHref={true}
-                            // prefetch={false}
-                            shallow={true}
-                            locale="car-dealership"
+                            href="/car-dealership/car-centers"
+                            hasTarget
                           >
                             Автоцентрове
                           </AnimatedLink>

@@ -4,8 +4,8 @@ import { Suspense, useState } from "react";
 import { BannerSlim, Box, Button, TextArea, TextField } from "gestalt";
 import { DatePicker } from "gestalt-datepicker";
 import { bg } from "date-fns/locale";
-import Loader from "../../components/Loader";
-import HomeComponent from "../HomeComponent";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
 
 import "./carCentersComponent.scss";
 

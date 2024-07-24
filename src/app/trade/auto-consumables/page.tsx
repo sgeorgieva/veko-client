@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import AutoConsumablesComponent from '@/app/components/AutoConsumablesComponent';
+import AutoConsumablesComponent from '@/app/components/TradeComponent/AutoConsumablesComponent';
 
 // import Image from "../../../public/images/portfolio.webp";
 

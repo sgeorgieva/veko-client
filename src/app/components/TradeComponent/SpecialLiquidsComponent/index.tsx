@@ -2,9 +2,9 @@
 
 import { Suspense } from "react";
 import Link from "next/link";
-import Loader from "../Loader";
-import HomeComponent from "../HomeComponent";
-import VekoOilImage from "../../../../public/images/VEKO-products_logo.png";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
+import VekoOilImage from "../../../../../public/images/VEKO-products_logo.png";
 
 import "./specialLiquids.scss";
 

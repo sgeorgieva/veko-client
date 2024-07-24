@@ -1,4 +1,4 @@
-import UsedCarComponent from '@/app/components/UsedCarComponent';
+import UsedCarComponent from '@/app/components/ServicesComponent/UsedCarComponent';
 import { Metadata } from 'next';
 
 // import Image from "../../../public/images/portfolio.webp";

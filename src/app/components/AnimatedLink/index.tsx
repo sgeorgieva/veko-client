@@ -19,16 +19,16 @@ export default function AnimatedLink({
 }: any) {
   const { animatedRoute } = useAnimatedRouter();
 
-  // console.log('href', href);
-  // console.log('locale', locale);
-  // console.log('passHref', passHref);
-  
-
   return (
     <Link
-      href={href}
+      href={passHref && locale !== '' ? `${locale}${href}` : href}
       onClick={() => {
-        animatedRoute(href);
+        if (passHref && locale !== '') { 
+          animatedRoute(`${locale}${href}`);
+        } 
+        else if (!passHref && locale === '') {
+          animatedRoute(href);
+        }
       }}
       shallow={shallow}
       locale={locale}

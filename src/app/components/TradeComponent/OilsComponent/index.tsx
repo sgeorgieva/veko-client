@@ -2,17 +2,17 @@
 
 import { Suspense } from "react";
 import Link from "next/link";
-import Loader from "../../components/Loader";
-import HomeComponent from "../HomeComponent";
-import PristaOilImage from "../../../../public/images/prista-oil-com.png";
-import LukoilImage from "../../../../public/images/LUK_OIL_Logo.png";
-import ValvolineImage from "../../../../public/images/Valvoline_company_logo.png";
-import CyclonLpsImage from "../../../../public/images/cyclon-logo.png";
-import TexacoImage from "../../../../public/images/Texaco_logo.png";
-import MobanolImage from "../../../../public/images/mabanol-logo-1.png";
-import MobilImage from "../../../../public/images/mobil-logo.png";
-import ShellImage from "../../../../public/images/Shell-logo.png";
-import CastrolImage from "../../../../public/images/castrol-logo-300x300.png";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
+import PristaOilImage from "../../../../../public/images/prista-oil-com.png";
+import LukoilImage from "../../../../../public/images/LUK_OIL_Logo.png";
+import ValvolineImage from "../../../../../public/images/Valvoline_company_logo.png";
+import CyclonLpsImage from "../../../../../public/images/cyclon-logo.png";
+import TexacoImage from "../../../../../public/images/Texaco_logo.png";
+import MobanolImage from "../../../../../public/images/mabanol-logo-1.png";
+import MobilImage from "../../../../../public/images/mobil-logo.png";
+import ShellImage from "../../../../../public/images/Shell-logo.png";
+import CastrolImage from "../../../../../public/images/castrol-logo-300x300.png";
 
 import "./oilsComponent.scss";
 

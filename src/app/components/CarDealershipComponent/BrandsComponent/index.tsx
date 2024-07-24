@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import Loader from "../Loader";
-import HomeComponent from "../HomeComponent";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
 import Link from "next/link";
 
 import "./brandsComponent.scss";

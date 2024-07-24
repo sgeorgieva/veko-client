@@ -2,12 +2,12 @@
 
 import { Suspense } from "react";
 import Link from "next/link";
-import Loader from "../Loader";
-import HomeComponent from "../HomeComponent";
-import VekoOilImage from "../../../../public/images/VEKO-products_logo.png";
-import OsramImage from "../../../../public/images/Osram.png";
-import BaldwinFiltersImage from "../../../../public/images/baldwin-filters.png";
-import FleetguardImage from "../../../../public/images/fleetguard-300x236.png";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
+import VekoOilImage from "../../../../../public/images/VEKO-products_logo.png";
+import OsramImage from "../../../../../public/images/Osram.png";
+import BaldwinFiltersImage from "../../../../../public/images/baldwin-filters.png";
+import FleetguardImage from "../../../../../public/images/fleetguard-300x236.png";
 
 import "./autoConsumablesComponent.scss";
 

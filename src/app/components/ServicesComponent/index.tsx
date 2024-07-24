@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import HomeComponent from "../HomeComponent";
-import EcologyComponent from "../EcologyComponent";
-import UsedCarComponent from "../UsedCarComponent";
+import EcologyComponent from "./EcologyComponent";
+import UsedCarComponent from "./UsedCarComponent";
 import EcologyImage from "../../../../public/images/kia-ecology.png";
 import UsedCarImage from "../../../../public/images/autotrade.png";
 

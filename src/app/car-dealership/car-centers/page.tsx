@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import CarCentersComponent from '@/app/components/CarCentersComponent';
+import CarCentersComponent from '@/app/components/CarDealershipComponent/CarCentersComponent';
 
 // import Image from "../../../public/images/portfolio.webp";
 
