@@ -4,6 +4,8 @@ import {Icon } from 'gestalt';
 import Link from 'next/link';
 import AnimatedLink from '../AnimatedLink';
 import Logo from '../../../../public/images/veko-oil.png';
+import SgLogo from '../../../../public/images/sg-dark-logo.png';
+import SearchOpLogo from '../../../../public/images/searchoplogo.png';
 
 import './footer.scss';
 
@@ -55,9 +57,17 @@ export default function Footer({ classname }: { classname: string }) {
       <hr />
       <div className="d-flex align-items-center justify-content-between">
         <span className="pageFooter ms-5">&#169; {new Date().getFullYear()} Всички права запазени</span>
-        <Link href="https://santiyageorgieva.com" target='_blank' className="text-right me-5">
-          Дизайн | Разработка от Сантия Георгиева
-        </Link>
+        <div className="authors-brand-images text-end">
+          <span className="text-capitalize">Дизайн | Разработка
+            <Link href="https://santiyageorgieva.com" target="_blank" className="text-right">
+              <img className="w-3" src={SgLogo.src} alt="sg-logo"/>
+            </Link>
+          </span>
+          <span> & </span>
+          <Link href="https://search-op.com" target="_blank" className="text-right me-5">
+            <img className="w-5" src={SearchOpLogo.src} alt="SearchOp-logo" />
+          </Link>
+        </div>
       </div>
     </div>
   )

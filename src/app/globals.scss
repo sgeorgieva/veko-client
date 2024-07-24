@@ -167,16 +167,24 @@ a {
   a {
    &:hover {
      transform: scale(1.1);
-     -moz-transform: scale(1.1);
+     -moz-transform: scale(1.1);  
      -webkit-transform: scale(1.1);
      -o-transform: scale(1.1);
      -ms-transform: scale(1.1);
      -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=1.5, M12=0, M21=0, M22=1.5, SizingMethod='auto expand')";
      filter: progid:DXImageTransform.Microsoft.Matrix(M11=1.2, M12=0, M21=0, M22=1.2, SizingMethod='auto expand');
      
-     img {
-      filter: drop-shadow(2px 4px 6px black);
-     }
-   } 
+      img {
+        filter: drop-shadow(2px 4px 6px black);
+      }
+    } 
   }
+}
+
+.w-3 {
+  width: 3%;
+}
+
+.w-5 {
+  width: 5%;
 }
