@@ -84,7 +84,7 @@ export default function ContactComponent() {
                   />
                 </div>
               </div>
-              <div className="row my-4">
+              <div className="row my-5">
                 <div className="col-md-6">
                   <LocationsComponents
                     title='АВТОЦЕНТЪР "ВЕКО ОЙЛ" ЕООД'
