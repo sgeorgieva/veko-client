@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import HomeComponent from "../HomeComponent";
-import EcologyComponent from "../EcologyComponent";
-import UsedCarComponent from "../UsedCarComponent";
+import OilsComponent from "../OilsComponent";
+import AccumulatorsComponent from "../AccumulatorsComponent";
+import AutoConsumablesComponent from "../AutoConsumablesComponent";
+import SpecialLiquidsComponent from "../SpecialLiquidsComponent";
 import OilImage from "../../../../public/images/oil.png";
 import AutoConsumablesImage from "../../../../public/images/auto-consumables.png";
 import BatteryImage from "../../../../public/images/battery.png";
@@ -33,7 +35,7 @@ export default function TradeComponent() {
                 <Link
                   href="/trade/oils"
                   onClick={() => router.push("/trade/oils")}
-                  children={<EcologyComponent />}
+                  children={<OilsComponent />}
                   className="w-25 p-0"
                 >
                   <img src={OilImage.src} alt="ecology-image" />
@@ -42,28 +44,28 @@ export default function TradeComponent() {
                 <Link
                   href="/trade/accumulators"
                   onClick={() => router.push("/trade/accumulators")}
-                  children={<UsedCarComponent />}
+                  children={<AccumulatorsComponent />}
                   className="w-25 p-0 mx-5"
                 >
-                  <img src={BatteryImage.src} alt="used-car-image" />
+                  <img src={BatteryImage.src} alt="accumulators-image" />
                   <h5 className="fw-bold text-center text-uppercase pt-3">Акумулатори</h5>
                 </Link>
                 <Link
                   href="/trade/auto-consumables"
                   onClick={() => router.push("/trade/auto-consumables")}
-                  children={<UsedCarComponent />}
+                  children={<AutoConsumablesComponent />}
                   className="w-25 p-0"
                 >
-                  <img src={AutoConsumablesImage.src} alt="used-car-image" />
+                  <img src={AutoConsumablesImage.src} alt="auto-consumables-image" />
                   <h5 className="fw-bold text-center text-uppercase pt-3">Автоконсумативи</h5>
                 </Link>
                 <Link
                   href="/trade/speical-liquids"
                   onClick={() => router.push("/trade/speical-liquids")}
-                  children={<UsedCarComponent />}
+                  children={<SpecialLiquidsComponent />}
                   className="w-25 p-0 ms-5"
                 >
-                  <img src={LiquidsImage.src} alt="used-car-image" />
+                  <img src={LiquidsImage.src} alt="special-liquids-image" />
                   <h5 className="fw-bold text-center text-uppercase pt-3">Специални течности</h5>
                 </Link>
               </div>

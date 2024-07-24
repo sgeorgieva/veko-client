@@ -13,7 +13,7 @@ import Logo from '../../../../public/images/Logo_Veko.png';
 import './header.scss';
 import setLanguage from 'next-translate/setLanguage';
 
-export default function Header({ classname, isOpen, setIsOpen }) {
+export default function Header({ classname, isOpen, setIsOpen }: {  classname: string, isOpen: boolean, setIsOpen: object}) {
   const isMobile = detectVersion();
   const pathname = usePathname();
   const [sticky, setSticky] = useState("");
@@ -29,11 +29,11 @@ export default function Header({ classname, isOpen, setIsOpen }) {
     setHover(true);
   };
 
-  const handleMouseLeave = (event) => {
+  const handleMouseLeave = (e) => {
     setHover(false);
   };
 
-  const onSelect = ({ item }) => {
+  const onSelect = ({ item }: any) => {
     console.log('typeof window !== "undefined"', typeof window !== "undefined");
     
     if (typeof window !== "undefined") {
@@ -46,7 +46,6 @@ export default function Header({ classname, isOpen, setIsOpen }) {
         .catch((err) => console.error(err));
     }
   };
-
 
   useEffect(() => {
     window.addEventListener("scroll", isSticky);
@@ -128,12 +127,13 @@ export default function Header({ classname, isOpen, setIsOpen }) {
             >
               <AnimatedLink
                 isHover={isHover}
-                hasActiveClass={pathname == "/products" ? true : false}
+                hasActiveClass={pathname == "/car-dealership" ? true : false}
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
                 title={t('car-dealership-title')}
                 name={t('car-dealership-title')}
                 href="/car-dealership"
+                locale="car-dealership"
               >
                 { t('car-dealership-title') }
                 {isHover && name === t('common:car-dealership-title') ? (
@@ -142,18 +142,23 @@ export default function Header({ classname, isOpen, setIsOpen }) {
                       <ul className="d-block header-nested-links">
                         <li className="d-flex-inline">
                           <AnimatedLink  
-                            href="/car-dealership/brands"
+                            href="/brands"
                             pathname="/car-dealership/brands"
-                            hasTarget
+                            // passHref={true}
+                            // prefetch={false} 
+                            locale="car-dealership"
                           >
                             Марки
                           </AnimatedLink>
                         </li>
                         <li>
                           <AnimatedLink
-                            href="/car-dealership/car-centers"
+                            href="/car-centers"
                             pathname="/car-dealership/car-centers"
-                            hasTarget
+                            // passHref={true}
+                            // prefetch={false}
+                            shallow={true}
+                            locale="car-dealership"
                           >
                             Автоцентрове
                           </AnimatedLink>
@@ -178,22 +183,22 @@ export default function Header({ classname, isOpen, setIsOpen }) {
                     <div className="col">
                       <ul className="d-block header-nested-links">
                         <li className="d-flex-inline">
-                          <AnimatedLink href={pathname} hasTarget>
+                          <AnimatedLink href="/trade/oils" hasTarget>
                             Масла
                           </AnimatedLink>
                         </li>
                         <li>
-                          <AnimatedLink href={pathname} hasTarget>
+                          <AnimatedLink href="/trade/accumulators" hasTarget>
                             Акумулатори
                           </AnimatedLink>
                         </li>
                         <li>
-                          <AnimatedLink href={pathname} hasTarget>
+                          <AnimatedLink href="/trade/auto-consumables" hasTarget>
                             Автоконсумативи
                           </AnimatedLink>
                         </li>
                         <li>
-                          <AnimatedLink href={pathname} hasTarget>
+                          <AnimatedLink href="/trade/speical-liquids" hasTarget>
                             Специални течности
                           </AnimatedLink>
                         </li>
@@ -237,16 +242,21 @@ export default function Header({ classname, isOpen, setIsOpen }) {
                   </div>
                 ) : null}
               </AnimatedLink>
-              <AnimatedLink href={pathname} hasTarget>
-                VEKO® продукти
+              <AnimatedLink
+                title="Veko продукти"
+                href="/veko-products"                
+                hasActiveClass={pathname == "/veko-products" ? true : false}>
+                  VEKO® продукти
               </AnimatedLink>
               <AnimatedLink
+                title="За нас"
                 href="/about"
                 hasActiveClass={pathname == "/about" ? true : false}
               >
                 За нас
               </AnimatedLink>
               <AnimatedLink
+                title="Контакти"
                 href="/contact"
                 hasActiveClass={pathname == "/contact" ? true : false}
               >

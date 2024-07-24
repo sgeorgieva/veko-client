@@ -16,10 +16,10 @@ export default function Footer({ classname }: { classname: string }) {
     <div className={`footer ${classname === 'light-background' ? 'dark-text' : ''}`}>
       <div className="d-flex align-items-center justify-content-around">
         <div className="d-flex flex-column">
-          <AnimatedLink href="/car-dealership" hasActiveClass={pathname == '/products' ? true : false}>Автомобилно представителство</AnimatedLink>
+          <AnimatedLink href="/car-dealership" hasActiveClass={pathname == '/car-dealership' ? true : false}>Автомобилно представителство</AnimatedLink>
           <AnimatedLink href="/trade" hasActiveClass={pathname == '/about' ? true : false}>Търговия</AnimatedLink>
           <AnimatedLink href="/services" hasActiveClass={pathname == '/services' ? true : false}>Услуги</AnimatedLink>
-          <AnimatedLink  target="_blank" href="https://www.veko-products.com" hasActiveClass={pathname == '/products' ? true : false}>VEKO® продукти</AnimatedLink>
+          <AnimatedLink href="/veko-products" hasActiveClass={pathname == '/veko-products' ? true : false}>VEKO® продукти</AnimatedLink>
         </div>
         <div className="d-flex flex-column">
           <AnimatedLink href="/about" hasActiveClass={pathname == '/about' ? true : false}>За нас</AnimatedLink>

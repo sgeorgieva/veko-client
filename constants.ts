@@ -17,8 +17,8 @@ export const links = [
     name: 'services'
   },
   {
-    to: '/products',
-    name: 'products'
+    to: '/veko-products',
+    name: 'veko-products'
   },
   {
     to: '/about',

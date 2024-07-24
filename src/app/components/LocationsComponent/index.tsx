@@ -25,7 +25,6 @@ export default function LocationsComponents({title, message, statusMessage, comp
       justifyContent="center"
       width="100%"
     >
-       
       <ActivationCard
         link={{
           label: component,

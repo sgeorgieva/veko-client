@@ -91,7 +91,7 @@
           content: unset;
         }
       }
-      // border-bottom: 4px solid #0B669D;
+      border-bottom: 5px solid #0B669D;
       margin-bottom: 0px;
       font-weight: bold;
     }
@@ -99,7 +99,7 @@
   
   a:after {    
     background: none repeat scroll 0 0 transparent;
-    bottom: 0;
+    bottom: -1%;
     content: "";
     display: block;
     height: 5px;

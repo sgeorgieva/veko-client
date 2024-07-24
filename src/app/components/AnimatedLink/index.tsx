@@ -1,55 +1,39 @@
+import React from "react";
 import useAnimatedRouter from "@/app/hooks/useAnimatedRouter";
 import Link from "next/link";
-import React, { useEffect } from "react";
 
 import "./animatedLink.scss";
-import { useRouter, usePathname } from "next/navigation";
-
-type Props = {
-  href: string;
-  hasActiveClass: boolean;
-  children: React.ReactNode;
-};
 export default function AnimatedLink({
   href,
+  locale,
+  prefetch,
+  passHref,
   hasActiveClass,
   children,
-  hasTarget,
   isHover,
   handleMouseEnter,
   handleMouseLeave,
   title,
   name,
+  shallow
 }: any) {
   const { animatedRoute } = useAnimatedRouter();
-  const pathname = usePathname();
-  // const router = useRouter();
 
-  // console.log('pathname', pathname);
-  
-  // console.log('name', name);
-  // console.log('title', title);
-
-  // useEffect(() => {
-  //   if (pathname === "/services") {
-  //     router.push("/services/ecology");
-  //   } else if (pathname === "/services/used-car") {
-  //     router.push("/services/used-car");
-  //   }
-  // }, [pathname]);
-
-  console.log('title', title);
-  // console.log('name', name);
+  // console.log('href', href);
+  // console.log('locale', locale);
+  // console.log('passHref', passHref);
   
 
   return (
     <Link
-      href={hasTarget ? "https://www.veko-products.com" : pathname}
-      target={hasTarget ? "_blank" : ""}
+      href={href}
       onClick={() => {
         animatedRoute(href);
       }}
-      passHref
+      shallow={shallow}
+      locale={locale}
+      passHref={prefetch}
+      prefetch={passHref}
       className={`${hasActiveClass ? "active" : ""} ${
         href === "car-dealership" ? "pr-0" : ""
       }
