@@ -1,20 +1,24 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
+import dynamic from 'next/dynamic';
+import Loader from "../Loader";
 import { useRouter } from "next/navigation";
-import HomeComponent from "../HomeComponent";
-import BrandsComponent from "./BrandsComponent";
-import CarCentersComponent from "./CarCentersComponent";
 import BrandsImage from "../../../../public/images/brands.png";
 import UsedCarImage from "../../../../public/images/autocenters.png";
 
 import "./carDealershipComponent.scss";
 
+const BrandsComponent = dynamic(() => import('./BrandsComponent'), { suspense: true });
+const CarCentersComponent = dynamic(() => import('./CarCentersComponent'), { suspense: true });
+const HomeComponent = dynamic(() => import('../HomeComponent'), { suspense: true });
+
 export default function CarDealershipComponent() {
   const router = useRouter();
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <HomeComponent
         isHomePage={false}
         component={
@@ -51,6 +55,6 @@ export default function CarDealershipComponent() {
           </div>
         }
       />
-    </>
+    </Suspense>
   );
 }

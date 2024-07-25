@@ -1,20 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
+import { Suspense } from "react";
 import { useRouter } from "next/navigation";
-import HomeComponent from "../HomeComponent";
-import EcologyComponent from "./EcologyComponent";
-import UsedCarComponent from "./UsedCarComponent";
+import Loader from "../Loader";
 import EcologyImage from "../../../../public/images/kia-ecology.png";
 import UsedCarImage from "../../../../public/images/autotrade.png";
 
 import "./servicesComponent.scss";
 
+const EcologyComponent = dynamic(() => import('./EcologyComponent'), { suspense: true });
+const UsedCarComponent = dynamic(() => import('./UsedCarComponent'), { suspense: true });
+const HomeComponent = dynamic(() => import('../HomeComponent'), { suspense: true });
 export default function ServicesComponent() {
   const router = useRouter();
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <HomeComponent
         isHomePage={false}
         component={
@@ -51,6 +54,6 @@ export default function ServicesComponent() {
           </div>
         }
       />
-    </>
+    </Suspense>
   );
 }

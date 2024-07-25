@@ -1,24 +1,28 @@
 "use client";
 
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import HomeComponent from "../HomeComponent";
-import OilsComponent from "./OilsComponent";
-import AccumulatorsComponent from "./AccumulatorsComponent";
-import AutoConsumablesComponent from "./AutoConsumablesComponent";
-import SpecialLiquidsComponent from "./SpecialLiquidsComponent";
 import OilImage from "../../../../public/images/oil.png";
 import AutoConsumablesImage from "../../../../public/images/auto-consumables.png";
 import BatteryImage from "../../../../public/images/battery.png";
 import LiquidsImage from "../../../../public/images/liquids.png";
+import Loader from "../Loader";
 
 import "./TradeComponent.scss";
+
+const OilsComponent = dynamic(() => import('./OilsComponent'), { suspense: true });
+const AccumulatorsComponent = dynamic(() => import('./AccumulatorsComponent'), { suspense: true });
+const AutoConsumablesComponent = dynamic(() => import('./AutoConsumablesComponent'), { suspense: true });
+const SpecialLiquidsComponent = dynamic(() => import('./SpecialLiquidsComponent'), { suspense: true });
+const HomeComponent = dynamic(() => import('../HomeComponent'), { suspense: true });
 
 export default function TradeComponent() {
   const router = useRouter();
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <HomeComponent
         isHomePage={false}
         component={
@@ -57,8 +61,7 @@ export default function TradeComponent() {
                   <h5 className="fw-bold text-center text-uppercase pt-3">Автоконсумативи</h5>
                 </Link>
                 <Link
-                  href="/trade/speical-liquids"
-                  // onClick={() => router.push("/trade/speical-liquids")}
+                  href="/trade/special-liquids"
                   children={<SpecialLiquidsComponent />}
                   className="w-25 p-0 ms-5"
                 >
@@ -70,6 +73,6 @@ export default function TradeComponent() {
           </div>
         }
       />
-    </>
+    </Suspense>
   );
 }

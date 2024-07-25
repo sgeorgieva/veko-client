@@ -1,12 +1,15 @@
 "use client";
 
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Loader from "../../Loader";
-import HomeComponent from "../../HomeComponent";
 import VekoOilImage from "../../../../../public/images/VEKO-products_logo.png";
 
 import "./specialLiquids.scss";
+import HomeComponent from "../../HomeComponent";
+
+// const HomeComponent = dynamic(() => import('../../HomeComponent'), { suspense: true });
 
 export default function SpecialLiquidsComponent() {
   return (

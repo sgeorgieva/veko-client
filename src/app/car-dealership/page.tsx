@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     // 'http-equiv': 'Content-Security-Policy',
   },
   alternates: {
-    canonical: `${process.env.NODE_ENV !== 'production' ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/contact`,
+    canonical: `${process.env.NODE_ENV !== 'production' ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/car-dealership`,
   },
   other: {
     classification: 'business',
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
 
 export default function CarDealership() {
   return (
-    <Suspense fallback={<Loader />}>
+    // <Suspense fallback={<Loader />}>
       <CarDealershipComponent />
-    </Suspense>
+    // </Suspense>
   )
 }

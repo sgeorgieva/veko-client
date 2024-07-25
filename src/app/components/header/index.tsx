@@ -119,7 +119,7 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
             }`}
           />
         ) : (
-          <div className={`text-start ${
+          <main className={`text-start ${
             !isHover ? "col" : "p-0"
           }`}>
             <div
@@ -132,7 +132,7 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
                 href="/car-dealership"
-                hasActiveClass={pathname == "/car-dealership" ? true : false}
+                hasActiveClass={pathname.includes("/car-dealership") ? true : false}
               >
                 { t('car-dealership-title') }
                 {isHover && name === t('common:car-dealership-title') ? (
@@ -167,7 +167,7 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
                 name={name}
                 isHover={isHover}
                 href="/trade"
-                hasActiveClass={pathname == "/trade" ? true : false}
+                hasActiveClass={pathname.includes("/trade") ? true : false}
               >
                 Търговия
                 {isHover && name === "Търговия" ? (
@@ -190,7 +190,7 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
                           </AnimatedLink>
                         </li>
                         <li>
-                          <AnimatedLink href="/trade/speical-liquids" hasTarget>
+                          <AnimatedLink href="/trade/special-liquids" hasTarget>
                             Специални течности
                           </AnimatedLink>
                         </li>
@@ -206,7 +206,7 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
                 handleMouseLeave={handleMouseLeave}
                 name={name}
                 isHover={isHover}
-                hasActiveClass={pathname == "/services" ? true : false}
+                hasActiveClass={pathname.includes("/services") ? true : false}
               >
                 Услуги
                 {isHover && name === "Услуги" ? (
@@ -262,7 +262,7 @@ export default function Header({ classname, isOpen, setIsOpen }: {  classname: s
               className={isMobile ? "line-xs" : "line"}
               data-content="&nbsp;&nbsp;"
             />}
-          </div>
+          </main>
         )}
       </div>
     </div>
