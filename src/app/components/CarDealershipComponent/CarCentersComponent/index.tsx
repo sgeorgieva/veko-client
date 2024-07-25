@@ -4,10 +4,10 @@ import { Suspense, useState } from "react";
 import { BannerSlim, Box, Button, TextArea, TextField } from "gestalt";
 import { DatePicker } from "gestalt-datepicker";
 import { bg } from "date-fns/locale";
-import Loader from "../../Loader";
-import HomeComponent from "../../HomeComponent";
 
 import "./carCentersComponent.scss";
+import Loader from "../../Loader";
+import HomeComponent from "../../HomeComponent";
 
 export default function CarCentersComponent() {
   const [city, setCity] = useState("");
@@ -18,7 +18,7 @@ export default function CarCentersComponent() {
   const [year, setYear] = useState("");
   const [engine, setEngine] = useState("");
   const [message, setMessage] = useState("");
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [vinNumber, setVinNumber] = useState("");
 
   const [hasCityValidationError, setHasCityValidationError] = useState(false);
@@ -260,7 +260,7 @@ export default function CarCentersComponent() {
                     <Box marginBottom={6}>
                       <TextField
                         id="year"
-                        type="number"
+                        type="text"
                         name="year"
                         label="Година"
                         onChange={({ value }) => {

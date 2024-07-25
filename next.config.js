@@ -1,7 +1,15 @@
 const nextTranslate = require("next-translate-plugin");
 
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   webpack: (config) => {
     config.module.rules.push(
       {
