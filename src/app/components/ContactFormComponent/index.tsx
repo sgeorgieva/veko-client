@@ -88,36 +88,39 @@ export default function ContactFormComponent() {
     }
   }
 
-  // function onSubmit(data: any) {
-  //   validateForm();
+  function handleSubmit(e, data: any) {
+    e.preventDefault();
+    validateForm();
+    console.log('HERE IN handleSubmit');
 
-  //   if (!hasNameError && !hasEmailError && !hasMessageError) {
-  //     // Send form data to server
-  //     console.log('Form submitted', { name, email, message });
-  //   }
-  // }
+    if (!hasNameError && !hasEmailError && !hasMessageError) {
+      // Send form data to server
+      console.log('Form submitted', { name, email, message });
+    }
+  }
 
     // Import 'executeRecaptcha' using 'useReCaptcha' hook
-    const { executeRecaptcha } = useReCaptcha();
+    // const { executeRecaptcha } = useReCaptcha();
 
-    const handleSubmit = useCallback(
-      async (e) => {
-        e.preventDefault();
+    // const handleSubmit = useCallback(
+    
+    //   async (e) => {
+    //     e.preventDefault();
   
-        // Generate ReCaptcha token
-        const token = await executeRecaptcha("/contact");
+    //     // Generate ReCaptcha token
+    //     const token = await executeRecaptcha("/contact");
   
-        // Attach generated token to your API requests and validate it on the server
-        fetch("/api/form-submit", {
-          method: "POST",
-          body: {
-            data: { name, email, message },
-            token,
-          },
-        });
-      },
-      [executeRecaptcha,  name, email, message],
-    );
+    //     // Attach generated token to your API requests and validate it on the server
+    //     fetch("/api/form-submit", {
+    //       method: "POST",
+    //       body: {
+    //         data: { name, email, message },
+    //         token,
+    //       },
+    //     });
+    //   },
+    //   [executeRecaptcha,  name, email, message],
+    // );
 
   return (
     <form className="mb-5" onSubmit={handleSubmit}>
@@ -187,7 +190,7 @@ export default function ContactFormComponent() {
             errorMessage={
               !hasCityError || !hasCityValidationError
                 ? undefined
-                : "Името на града е невалиден"
+                : "Името на града е невалидно"
             }
           />
         </Box>

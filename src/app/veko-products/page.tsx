@@ -6,7 +6,7 @@ import VekoProductsComponent from '../components/VekoProductsComponent';
 // import Image from "../../../public/images/portfolio.webp";
 
 export const metadata: Metadata = {
-  title: 'VEKO Oil – Veko Products',
+  title: 'VEKO Oil – Veko® продукти',
   description: 'Frontend Engineer with customer focused entrepreneurial experience',
   keywords: 'Santiya Georgieva, portfolio, javascript, developer, react, jquery, html, css, figma, adobexd, contact',
   icons: {

@@ -1,18 +1,31 @@
 'use client'
 
-import { Flex, Spinner } from 'gestalt';
+import { useLoading } from '@/app/context/LoadingContext';
+import { Box, Layer, Spinner } from 'gestalt';
 
 export default function Loader() {
+  const { loading } = useLoading();
+
+  console.log('loading', loading);
+  
+  if (!loading) return null;
+
   return (
-    <Flex
-      alignItems="center"
-      height="100%"
-      justifyContent="center"
-      width="100%"
-    >
-      <Flex direction="column" gap={8} maxWidth={400}>
-        <Spinner accessibilityLabel="Example spinner" show />
-      </Flex>
-    </Flex>
+    <Layer>
+      <Box
+        position="fixed"
+        top
+        bottom
+        left
+        right
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        color="lightGray"
+        opacity={0.5}
+      >
+        <Spinner show />
+      </Box>
+    </Layer>
   );
 }

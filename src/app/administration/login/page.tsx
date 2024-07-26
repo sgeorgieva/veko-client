@@ -28,6 +28,9 @@ export default function Login({ isOpen }: any) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const zIndex = new CompositeZIndex([HEADER_ZINDEX]);
 
+  console.log('isOpen', isOpen);
+  
+
   const validateForm = () => {
     if (!username) {
       setHasUsernameError(true);

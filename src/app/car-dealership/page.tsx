@@ -6,7 +6,7 @@ import CarDealershipComponent from '../components/CarDealershipComponent';
 // import Image from "../../../public/images/portfolio.webp";
 
 export const metadata: Metadata = {
-  title: 'VEKO Oil – Services',
+  title: 'VEKO Oil – Автомобилно представителство',
   description: 'Frontend Engineer with customer focused entrepreneurial experience',
   keywords: 'Santiya Georgieva, portfolio, javascript, developer, react, jquery, html, css, figma, adobexd, contact',
   icons: {

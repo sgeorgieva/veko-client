@@ -20,11 +20,13 @@ export default function SearchComponent({ isHover, open, handleOpenLanguageMenu,
   const [isOpenLoginModal, setOpenLoginModal] = useState(false);
   const anchorRef = useRef(null);
 
-  const openLoginModal = () => {
+  const openLoginModal = (e: any) => {
     console.log('HERE');
-    setOpenLoginModal(!isOpenLoginModal)
+    e.preventDefault();
+    e.stopPropagation();
+    setOpenLoginModal(!isOpenLoginModal);
   }
-  // console.log('isOpenLoginModal', isOpenLoginModal);
+  console.log('isOpenLoginModal', isOpenLoginModal);
 
   return (
     <div className="search-wrapper">
@@ -69,7 +71,7 @@ export default function SearchComponent({ isHover, open, handleOpenLanguageMenu,
               <Dropdown
                 anchor={anchorRef.current}
                 id="subtext-dropdown-example"
-                onDismiss={() => setOpen(false)}
+                onDismiss={() => setOpenLoginModal(false)}
                 zIndex={new CompositeZIndex([PAGE_HEADER_ZINDEX])}
               >
                 <Dropdown.Section label="Езици">
