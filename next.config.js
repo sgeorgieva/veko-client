@@ -23,7 +23,7 @@ const nextConfig = {
           options: {
             publicPath: "/_next/static/media/",
             outputPath: "static/media/",
-            name: "[name].[hash].[ext]",
+            name: "[name].[hash][ext]",
             esModule: false,
           },
         },
