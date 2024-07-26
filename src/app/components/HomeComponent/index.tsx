@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Video } from "gestalt";
 import VekoCommersial from '../../../../public/video/VEKO_commercial.mp4';
 
+
 import './homeComponent.scss';
 
 export default function HomeComponent({ isHomePage, component } : any) {
@@ -54,6 +55,8 @@ export default function HomeComponent({ isHomePage, component } : any) {
             playing={playing}
             src={VekoCommersial}
             volume={volume}
+            type='video/mp4'
+            objectFit="contain"
           />
         </Box>
       </Box>
