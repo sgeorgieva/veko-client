@@ -17,7 +17,7 @@ import VekoLogoImage from "../../../../public/images/veko-oil-logo.png";
 
 import './login.scss';
 
-export default function Login({ isOpen }: any) {
+export default function Login({ isOpen, closeModal }: any) {
   const [showComponent, setShowComponent] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -58,8 +58,9 @@ export default function Login({ isOpen }: any) {
           <ModalAlert
             accessibilityModalLabel=""
             heading="Добре дошли в Veko"
-            onDismiss={() => {
+            onDismiss={() => {              
               setShowComponent(!showComponent);
+              closeModal();
             }}
             primaryAction={{
               accessibilityLabel: "",

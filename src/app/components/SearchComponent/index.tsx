@@ -12,21 +12,17 @@ import { useRef, useState } from "react";
 import Login from "../../../app/administration/login/page";
 
 import './searchComponent.scss';
-// import { useRouter } from "next/router";
 
 export default function SearchComponent({ isHover, open, handleOpenLanguageMenu, onSelect, selected }: any) {
   const [searchValue, setSearchValue] = useState("");
   const PAGE_HEADER_ZINDEX = new FixedZIndex(10);
+  const TOOLTIP__ZINDEX = new FixedZIndex(6);
   const [isOpenLoginModal, setOpenLoginModal] = useState(false);
   const anchorRef = useRef(null);
 
-  const openLoginModal = (e: any) => {
-    console.log('HERE');
-    e.preventDefault();
-    e.stopPropagation();
+  const toogleLoginModal = () => {
     setOpenLoginModal(!isOpenLoginModal);
-  }
-  console.log('isOpenLoginModal', isOpenLoginModal);
+  };
 
   return (
     <div className="search-wrapper">
@@ -45,6 +41,7 @@ export default function SearchComponent({ isHover, open, handleOpenLanguageMenu,
           <Link href="/">
             <IconButton
               accessibilityLabel="Home"
+              tooltip={{ text: 'Начало', idealDirection: 'down', zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])}}
               icon="home"
               size="sm"
               iconColor={`${isHover ? "darkGray" : "white"}`}
@@ -59,6 +56,7 @@ export default function SearchComponent({ isHover, open, handleOpenLanguageMenu,
                   accessibilityExpanded={open}
                   accessibilityHaspopup
                   accessibilityLabel="More Options"
+                  tooltip={{ text: 'Езици', idealDirection: 'down', zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])}}
                   icon="arrow-up-right"
                   iconColor={`${isHover ? "darkGray" : "white"}`}
                   onClick={() => handleOpenLanguageMenu((prevVal) => !prevVal)}
@@ -71,7 +69,7 @@ export default function SearchComponent({ isHover, open, handleOpenLanguageMenu,
               <Dropdown
                 anchor={anchorRef.current}
                 id="subtext-dropdown-example"
-                onDismiss={() => setOpenLoginModal(false)}
+                // onDismiss={toogleLoginModal}
                 zIndex={new CompositeZIndex([PAGE_HEADER_ZINDEX])}
               >
                 <Dropdown.Section label="Езици">
@@ -97,12 +95,12 @@ export default function SearchComponent({ isHover, open, handleOpenLanguageMenu,
             size="sm"
             icon="person"
             iconColor={`${isHover ? "darkGray" : "white"}`}
-            accessibilityHaspopup
-            accessibilityLabel="More Options"
-            onClick={openLoginModal}
+            accessibilityPopupRole="dialog"
+            onClick={toogleLoginModal}
+            tooltip={{ text: 'Вход', idealDirection: 'down', zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])}}
           />
         </Flex>
-        {isOpenLoginModal && <Login isOpen={isOpenLoginModal} />}
+        {isOpenLoginModal && <Login isOpen={isOpenLoginModal} closeModal={toogleLoginModal} />}
       </Box>
     </div>
   );
