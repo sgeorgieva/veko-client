@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Box, Video } from "gestalt";
+// @ts-ignore
 import VekoCommersial from '../../../../public/video/VEKO_commercial.mp4';
 
 
