@@ -159,8 +159,6 @@ export default function CarCentersComponent() {
     console.log("here in validate form");
   };
 
-  console.log('hasTimeValidationError', hasTimeValidationError);
-
   return (
     <Suspense fallback={<Loader />}>
       <HomeComponent

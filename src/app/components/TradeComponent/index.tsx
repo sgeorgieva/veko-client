@@ -10,7 +10,7 @@ import BatteryImage from "../../../../public/images/battery.png";
 import LiquidsImage from "../../../../public/images/liquids.png";
 import Loader from "../Loader";
 
-import "./TradeComponent.scss";
+import "./tradeComponent.scss";
 
 const OilsComponent = dynamic(() => import('./OilsComponent'), { suspense: true });
 const AccumulatorsComponent = dynamic(() => import('./AccumulatorsComponent'), { suspense: true });
