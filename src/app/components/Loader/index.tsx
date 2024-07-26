@@ -1,6 +1,6 @@
 'use client'
 
-import { useLoading } from '@/app/context/LoadingContext';
+import { useLoading } from '../../../app/context/LoadingContext';
 import { Box, Layer, Spinner } from 'gestalt';
 
 export default function Loader() {

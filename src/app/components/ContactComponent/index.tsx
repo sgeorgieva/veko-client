@@ -6,7 +6,7 @@ import HomeComponent from "../HomeComponent";
 import ContactFormComponent from "../ContactFormComponent";
 import LocationsComponents from "../LocationsComponent";
 import { MapComponent } from "../MapComponent";
-import { MapProvider } from "@/app/providers/map-provider";
+import { MapProvider } from "../../../app/providers/map-provider";
 
 import "./contactComponent.scss";
 

@@ -9,7 +9,7 @@ import {
 } from "gestalt";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import Login from "@/app/administration/login/page";
+import Login from "../../../app/administration/login/page";
 
 import './searchComponent.scss';
 // import { useRouter } from "next/router";

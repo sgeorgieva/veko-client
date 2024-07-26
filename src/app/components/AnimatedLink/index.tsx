@@ -1,5 +1,5 @@
 import React from "react";
-import useAnimatedRouter from "@/app/hooks/useAnimatedRouter";
+import useAnimatedRouter from "../../../app/hooks/useAnimatedRouter";
 import Link from "next/link";
 
 import "./animatedLink.scss";
