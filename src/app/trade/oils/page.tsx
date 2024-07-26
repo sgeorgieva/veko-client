@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import OilsComponent from '@/app/components/TradeComponent/OilsComponent';
+import OilsComponent from '../../../app/components/TradeComponent/OilsComponent';
 
 // import Image from "../../../public/images/portfolio.webp";
 

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import SpecialLiquidsComponent from '@/app/components/TradeComponent/SpecialLiquidsComponent';
+import SpecialLiquidsComponent from '../../../app/components/TradeComponent/SpecialLiquidsComponent';
 
 // import Image from "../../../public/images/portfolio.webp";
 

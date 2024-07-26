@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import AccumulatorsComponent from '@/app/components/TradeComponent/AccumulatorsComponent';
+import AccumulatorsComponent from '../../../app/components/TradeComponent/AccumulatorsComponent';
 
 // import Image from "../../../public/images/portfolio.webp";
 
