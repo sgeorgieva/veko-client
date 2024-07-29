@@ -1,11 +1,17 @@
 .used-car-wrapper {
   position: relative;
 
-  .XiG {
+  .title-contact > div {
     position: absolute;
-    top: -50%;
+    top: 0;
     right: 0;
     height: 10vh;
-    width: 30%;
+    width: 15%;
   }
 }
+
+.used-car-wrapper-mobile {
+  .title-contact > div {
+    width: 40%;
+  }
+} 

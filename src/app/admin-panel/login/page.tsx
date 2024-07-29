@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -11,25 +11,28 @@ import {
   Flex,
   Layer,
   ModalAlert,
-  TextField 
+  TextField,
 } from "gestalt";
+import { useRouter } from "next/navigation";
 import VekoLogoImage from "../../../../public/images/veko-oil-logo.png";
 
-import './login.scss';
+import "./login.scss";
 
-export default function Login({ isOpen, closeModal }: any) {
+export default function Login({
+  closeModal,
+  setIslogin,
+  setOpenLoginMenu,
+}: any) {
   const [showComponent, setShowComponent] = useState(true);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [hasUsernameError, setHasUsernameError] = useState(false);
   const [hasPasswordError, setPasswordError] = useState(false);
   const [isValidForm, setIsValidForm] = useState(true);
   const [messageValidation, setMessageValidation] = useState("");
   const HEADER_ZINDEX = new FixedZIndex(10);
   const zIndex = new CompositeZIndex([HEADER_ZINDEX]);
-
-  console.log('isOpen', isOpen);
-  
+  const router = useRouter();
 
   const validateForm = () => {
     if (!username) {
@@ -43,12 +46,16 @@ export default function Login({ isOpen, closeModal }: any) {
       setPasswordError(false);
     }
     setIsValidForm(false);
-    setMessageValidation("Моля, попълнете празните полета"); 
-  }
+    setMessageValidation("Моля, попълнете празните полета");
+  };
 
   const handleLogin = () => {
     validateForm();
-    console.log('here in login');
+    closeModal();
+    setIslogin(true);
+    setOpenLoginMenu(false);
+    router.push("/admin-panel");
+    localStorage.setItem("isLoged", true);
   };
 
   return (
@@ -58,22 +65,29 @@ export default function Login({ isOpen, closeModal }: any) {
           <ModalAlert
             accessibilityModalLabel=""
             heading="Добре дошли в Veko"
-            onDismiss={() => {              
+            onDismiss={() => {
               setShowComponent(!showComponent);
               closeModal();
             }}
             primaryAction={{
               accessibilityLabel: "",
               label: "Вход",
-              onClick: () => {handleLogin()},
+              onClick: () => {
+                handleLogin();
+              },
               role: "button",
             }}
           >
             <>
               <Flex alignItems="center" justifyContent="center">
-                <Image width={35} height={35} src={VekoLogoImage} alt="veko-oil-image-logo" />
+                <Image
+                  width={35}
+                  height={35}
+                  src={VekoLogoImage}
+                  alt="veko-oil-image-logo"
+                />
               </Flex>
-              {!isValidForm && 
+              {!isValidForm && (
                 <Flex alignItems="center" justifyContent="center">
                   <Box width="100%" padding={0} marginTop={3} marginBottom={3}>
                     <BannerSlim
@@ -84,7 +98,7 @@ export default function Login({ isOpen, closeModal }: any) {
                     />
                   </Box>
                 </Flex>
-              }
+              )}
               <Box marginBottom={6}>
                 <TextField
                   id="username"
@@ -113,9 +127,7 @@ export default function Login({ isOpen, closeModal }: any) {
                   type="password"
                   value={password}
                   errorMessage={
-                    !hasPasswordError
-                      ? undefined
-                      : "Паролата е невалидна"
+                    !hasPasswordError ? undefined : "Паролата е невалидна"
                   }
                 />
               </Box>

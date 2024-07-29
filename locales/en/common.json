@@ -1,3 +1,5 @@
 {
-  "car-dealership-title": "car dealership"
+  "common": {
+    "car-dealership-title": "car dealership"
+  }
 }

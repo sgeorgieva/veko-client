@@ -1,12 +1,21 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { BannerSlim, Box, Button, Label, TextArea, TextField } from "gestalt";
-import { DatePicker } from "gestalt-datepicker";
-import { TimePicker } from "antd";
+import { Suspense, useEffect, useState } from "react";
+import {
+  BannerSlim,
+  Box,
+  Button,
+  Label,
+  SelectList,
+  TextArea,
+  TextField,
+} from "gestalt";
+import { TimePicker, DatePicker } from "antd";
+import locale from "antd/es/locale/bg_BG.js";
 import { bg } from "date-fns/locale";
 import dayjs from "dayjs";
 import HomeComponent from "../../HomeComponent";
+import DatePickerComponent from "../../DatePicker";
 import Loader from "../../Loader";
 
 import "./carCentersComponent.scss";
@@ -14,10 +23,11 @@ const generateDatesWithoutSundays = (start, end) => {
   const dates = [];
   let currentDate = new Date(start);
   while (currentDate <= end) {
-      if (currentDate.getDay() !== 0) { // 0 is Sunday
-          dates.push(new Date(currentDate));
-      }
-      currentDate.setDate(currentDate.getDate() + 1);
+    if (currentDate.getDay() !== 0) {
+      // 0 is Sunday
+      dates.push(new Date(currentDate));
+    }
+    currentDate.setDate(currentDate.getDate() + 1);
   }
   return dates;
 };
@@ -59,8 +69,15 @@ export default function CarCentersComponent() {
   const end = new Date(start.getFullYear(), start.getMonth() + 12, 0); // Next month
   const availableDates = generateDatesWithoutSundays(start, end);
   const [currentHours, setCurrentHours] = useState();
+  const [isMobile, setIsMobile] = useState(false);
 
-  const validateForm = () => {  
+  useEffect(() => {
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      setIsMobile(true);
+    }
+  }, []);
+
+  const validateForm = () => {
     // Validate city
     if (!city) {
       setHasCityValidationError(true);
@@ -142,7 +159,7 @@ export default function CarCentersComponent() {
 
     // console.log('time', time);
     // console.log('hasTimeValidationError', hasTimeValidationError);
-    
+
     // Validate vin number
     if (!vinNumber) {
       setIsValidForm(false);
@@ -181,9 +198,17 @@ export default function CarCentersComponent() {
               </div>
               <div className="description-contact pageContent">
                 <div className="row mb-3">
-                  <h5>
-                    Запази своя час за обслужване, като попълниш следната форма:
-                  </h5>
+                  {isMobile ? (
+                    <h6>
+                      Запази своя час за обслужване, като попълниш следната
+                      форма:
+                    </h6>
+                  ) : (
+                    <h5>
+                      Запази своя час за обслужване, като попълниш следната
+                      форма:
+                    </h5>
+                  )}
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -196,6 +221,7 @@ export default function CarCentersComponent() {
                           setCity(value);
                         }}
                         type="text"
+                        size={isMobile ? "md" : "lg"}
                         value={city}
                         errorMessage={
                           !hasCityValidationError
@@ -217,6 +243,7 @@ export default function CarCentersComponent() {
                           setNames(value);
                         }}
                         type="text"
+                        size={isMobile ? "md" : "lg"}
                         value={names}
                         errorMessage={
                           !hasNamesValidationError
@@ -236,6 +263,7 @@ export default function CarCentersComponent() {
                           setEmail(value);
                         }}
                         type="email"
+                        size={isMobile ? "md" : "lg"}
                         value={email}
                         errorMessage={
                           !hasEmailValidationError
@@ -254,6 +282,7 @@ export default function CarCentersComponent() {
                         onChange={({ value }) => {
                           setPhone(value);
                         }}
+                        size={isMobile ? "md" : "lg"}
                         type="text"
                         value={phone}
                         errorMessage={
@@ -272,6 +301,7 @@ export default function CarCentersComponent() {
                         id="model"
                         name="model"
                         label="Модел"
+                        size={isMobile ? "md" : "lg"}
                         onChange={({ value }) => {
                           setModel(value);
                         }}
@@ -287,40 +317,41 @@ export default function CarCentersComponent() {
                   </div>
                   <div className="col-md-4">
                     <Box marginBottom={6}>
-                      <TextField
-                        id="year"
-                        type="text"
-                        name="year"
-                        label="Година"
+                      <Label htmlFor="year">Година</Label>
+                      <DatePicker
                         onChange={({ value }) => {
                           setYear(value);
                         }}
+                        picker="month"
                         value={year}
-                        errorMessage={
-                          !hasYearValidationError
-                            ? undefined
-                            : "Моля, въведете година"
-                        }
+                        width="100%"
+                        placeholder=" "
+                        size={isMobile ? "middle" : "large"}
                       />
                     </Box>
                   </div>
                   <div className="col-md-4">
                     <Box marginBottom={6}>
-                      <TextField
-                        id="engine"
-                        name="engine"
-                        label="Вид двигател"
-                        onChange={({ value }) => {
-                          setEngine(value);
-                        }}
-                        type="text"
-                        value={engine}
-                        errorMessage={
-                          !hasEngineValidationError
-                            ? undefined
-                            : "Моля, въведете вид двигател"
-                        }
-                      />
+                      <SelectList
+                        id="selectlistexample1"
+                        label="Двигател"
+                        onChange={() => {}}
+                        size={isMobile ? "md" : "lg"}
+                      >
+                        {[
+                          { label: "Бензин", value: "gasoline" },
+                          { label: "Дизел", value: "diesel" },
+                          { label: "Хибрид", value: "hybrid" },
+                          { label: "Газ", value: "gas" },
+                          { label: "Електрически", value: "electric" },
+                        ].map(({ label, value }) => (
+                          <SelectList.Option
+                            key={label}
+                            label={label}
+                            value={value}
+                          />
+                        ))}
+                      </SelectList>
                     </Box>
                   </div>
                 </div>
@@ -344,68 +375,88 @@ export default function CarCentersComponent() {
                   <div className="col-md-4">
                     <div className="row align-items-center">
                       <div className="col-md-8">
-                        <DatePicker
-                          selected={startDate}
-                          onChange={(date) => setStartDate(date)}
-                          includeDates={availableDates}
+                        <DatePickerComponent
+                          startDate={startDate}
+                          availableDates={availableDates}
+                          hasDateValidationError={hasDateValidationError}
+                          setStartDate={setStartDate}
+                          bg={bg}
                           label="Дата"
-                          placeholderText={`${new Date()}`}
-                          localeData={bg}
-                          idealDirection="down"
-                          minDate={new Date()}
-                          id="example-errorMessage"
-                          errorMessage={
-                            !hasDateValidationError
-                              ? undefined
-                              : "Моля, изберете дата"
-                            }
-                          />
+                        />
                       </div>
                       <div className="col-md-4">
                         <Label htmlFor="time">Час</Label>
                         <TimePicker
-                          className={hasTimeValidationError ? 'error-input' : ''}
-                          status={hasTimeValidationError ? 'error' : 'success'}
+                          className={
+                            hasTimeValidationError ? "error-input" : ""
+                          }
+                          status={hasTimeValidationError ? "error" : "success"}
                           disabledHours={(hour) => {
-                            console.log('hour', hour);
+                            console.log("hour", hour);
                             if (startDate && startDate?.value.getDay() === 6) {
-                              console.log('here hour 1');
-                              
-                              return [0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-                            } else if (startDate && startDate?.value.getDay() === 6 && hour === 14) {
-                              console.log('here hour 2');
+                              console.log("here hour 1");
+
+                              return [
+                                0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 17, 18, 19,
+                                20, 21, 22, 23,
+                              ];
+                            } else if (
+                              startDate &&
+                              startDate?.value.getDay() === 6 &&
+                              hour === 14
+                            ) {
+                              console.log("here hour 2");
                               setCurrentHours(hour);
                               return [0];
-                            } 
-                            else {
-                              console.log('here hour 3');
+                            } else {
+                              console.log("here hour 3");
                               setCurrentHours(hour);
-                              return [0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23]
+                              return [
+                                0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23,
+                              ];
                             }
                           }}
                           minuteStep={15}
                           secondStep={10}
-                          disabledMinutes={ 
-                            (time) => {
-                              console.log('currentHours', currentHours);
-                              
-                              if (startDate && startDate?.value.getDay() !== 6 && time === 17) {
-                                // console.log('here', startDate?.value.getDay());
-                                return [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59];
-                              } else if (startDate && startDate?.value.getDay() !== 6 && time == '08') {
-                                console.log('here2', startDate?.value.getDay());
-                                return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-                              } else if (startDate && startDate?.value.getDay() === 6 && currentHours === 14) {
-                                console.log('here3');
-                                
-                                return [15, 30, 45];
-                                // console.log('here3', startDate?.value.getDay());
-                                // return [9, 10, 11, 12, 13, 14];
-                              } else {
-                                return [];
-                              }
+                          disabledMinutes={(time) => {
+                            console.log("currentHours", currentHours);
+
+                            if (
+                              startDate &&
+                              startDate?.value.getDay() !== 6 &&
+                              time === 17
+                            ) {
+                              // console.log('here', startDate?.value.getDay());
+                              return [
+                                31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+                                43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+                                55, 56, 57, 58, 59,
+                              ];
+                            } else if (
+                              startDate &&
+                              startDate?.value.getDay() !== 6 &&
+                              time == "08"
+                            ) {
+                              console.log("here2", startDate?.value.getDay());
+                              return [
+                                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+                                26, 27, 28, 29,
+                              ];
+                            } else if (
+                              startDate &&
+                              startDate?.value.getDay() === 6 &&
+                              currentHours === 14
+                            ) {
+                              console.log("here3");
+
+                              return [15, 30, 45];
+                              // console.log('here3', startDate?.value.getDay());
+                              // return [9, 10, 11, 12, 13, 14];
+                            } else {
+                              return [];
                             }
-                          }
+                          }}
                           placeholder="00:00"
                           value={time}
                           onChange={({ value }) => setTime(value)}
@@ -413,24 +464,37 @@ export default function CarCentersComponent() {
                           format={format}
                           size="large"
                         />
-                        {hasTimeValidationError && 
+                        {hasTimeValidationError && (
                           <div className="hjj zI7 iyn Hsu">
                             <div className="tBJ dyH iFc dR0 sOY zDA IZT swG">
-                              <span className="MFi" id="example-errorMessage-error">
+                              <span
+                                className="MFi"
+                                id="example-errorMessage-error"
+                              >
                                 <div role="alert" className="zI7 iyn Hsu">
                                   <div className="KS5 hs0 un8 tkf A6h">
                                     <div className="xuA">
-                                      <svg aria-hidden="true" aria-label="" className="X7a gUZ U9O kVc" height="16" role="img" viewBox="0 0 24 24" width="16">
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label=""
+                                        className="X7a gUZ U9O kVc"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 24 24"
+                                        width="16"
+                                      >
                                         <path d="M23.6 18.5 14.63 2.53a3 3 0 0 0-5.24 0L.4 18.5A3.02 3.02 0 0 0 3 23h18a3 3 0 0 0 2.6-4.5m-7.54-1.06a1.5 1.5 0 0 1 0 2.12 1.5 1.5 0 0 1-2.12 0L12 17.62l-1.95 1.94a1.5 1.5 0 0 1-2.12 0 1.5 1.5 0 0 1 0-2.12l1.94-1.94-1.94-1.94a1.5 1.5 0 0 1 0-2.12 1.5 1.5 0 0 1 2.12 0L12 13.38l1.94-1.94a1.5 1.5 0 0 1 2.12 0 1.5 1.5 0 0 1 0 2.12l-1.94 1.94z"></path>
                                       </svg>
                                     </div>
-                                    <div className="xuA">Моля, изберете час</div>
+                                    <div className="xuA">
+                                      Моля, изберете час
+                                    </div>
                                   </div>
                                 </div>
                               </span>
                             </div>
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                   </div>
@@ -445,6 +509,7 @@ export default function CarCentersComponent() {
                             setVinNumber(value);
                           }}
                           type="text"
+                          size={isMobile ? "md" : "lg"}
                           value={vinNumber}
                           helperText="Това е идентификационният номер на вашият автомобил."
                           errorMessage={
@@ -463,7 +528,7 @@ export default function CarCentersComponent() {
                       type="button"
                       text="Продължи"
                       color="blue"
-                      size="lg"
+                      size={isMobile ? "md" : "lg"}
                       onClick={handleSubmit}
                     />
                   </div>

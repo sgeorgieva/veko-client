@@ -27,5 +27,13 @@ export const links = [
   {
     to: '/contact',
     name: 'contact'
+  },
+  {
+    to: '/admin-panel',
+    name: 'admin-panel'
+  },
+  {
+    to: '/admin-panel/news',
+    name: 'admin-panel-news'
   }
 ];

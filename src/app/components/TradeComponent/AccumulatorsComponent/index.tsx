@@ -22,7 +22,7 @@ export default function AccumulatorsComponent() {
             </div>
             <hr />
             <h5>Официален ДИСТРИБУТОР на:</h5>
-            <div className="row d-flex align-items-baseline py-4 flex-nowrap">
+            <div className="row d-flex align-items-baseline py-4 flex-nowrap text-center">
               <Link
                 href="https://www.monbat.com/monbat/"
                 className="w-25"

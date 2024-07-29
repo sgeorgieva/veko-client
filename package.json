@@ -16,6 +16,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "date-fns": "^3.6.0",
+    "file-loader": "^6.2.0",
     "gestalt": "latest",
     "gestalt-charts": "latest",
     "gestalt-datepicker": "latest",
@@ -25,7 +26,6 @@
     "next-i18next": "^15.3.0",
     "next-recaptcha-v3": "^1.4.1",
     "next-translate": "^2.6.2",
-    "next-translate-plugin": "^2.6.2",
     "react": "^18",
     "react-cookie-consent": "^9.0.0",
     "react-device-detect": "^2.2.3",
@@ -33,8 +33,7 @@
     "react-hook-form": "^7.52.1",
     "sass": "^1.77.6",
     "sharp": "^0.33.4",
-    "use-view-transitions": "^1.0.16",
-    "file-loader": "^6.2.0"
+    "use-view-transitions": "^1.0.16"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -43,6 +42,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "file-loader": "^6.2.0",
+    "next-translate-plugin": "^2.6.2",
     "svg-inline-loader": "^0.8.2",
     "typescript": "^5"
   }

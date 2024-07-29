@@ -54,6 +54,13 @@
   }
 }
 
+.footer-mobile {
+  section {
+    font-size: 12px !important;
+    padding: 6px 0 !important;
+  }
+}
+
 @media only screen and (max-device-width: 768px) {
   .footer {
     font-size: 10px;

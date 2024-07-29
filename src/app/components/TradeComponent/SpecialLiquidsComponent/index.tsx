@@ -23,7 +23,7 @@ export default function SpecialLiquidsComponent() {
             </div>
             <hr />
             <h5>Официален ДИСТРИБУТОР на:</h5>
-            <div className="row d-flex align-items-baseline py-4 flex-nowrap">
+            <div className="row d-flex align-items-baseline py-4 flex-nowrap text-center">
               <Link
                 href="https://veko-shop.com/"
                 className="w-25"

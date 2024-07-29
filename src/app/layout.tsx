@@ -1,21 +1,21 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react';
-import CookieConsent from 'react-cookie-consent';
-import { GoogleAnalytics } from '@next/third-parties/google';
-import localFont from 'next/font/local'
-import { usePathname } from 'next/navigation';
-import { ReCaptchaProvider } from 'next-recaptcha-v3';
-import { LoadingProvider } from './context/LoadingContext';
-import Header from './components/header';
-import Footer from './components/footer';
+import { useEffect, useState } from "react";
+import CookieConsent from "react-cookie-consent";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import localFont from "next/font/local";
+import { usePathname } from "next/navigation";
+import { ReCaptchaProvider } from "next-recaptcha-v3";
+import { LoadingProvider } from "./context/LoadingContext";
+import Header from "./components/header";
+import Footer from "./components/footer";
 
 import "./globals.scss";
-import Loader from './components/Loader';
+import Loader from "./components/Loader";
 
-const sfProFont = localFont({ 
-  src: './sf-pro-display-medium.woff2',
-  variable: '--font-sf-pro-display-medium',
+const sfProFont = localFont({
+  src: "./sf-pro-display-medium.woff2",
+  variable: "--font-sf-pro-display-medium",
   // display: 'swap',
 });
 
@@ -24,8 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname(); 
-  const [className, setClassName] = useState('image-background');
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -41,18 +39,34 @@ export default function RootLayout({
       <ReCaptchaProvider reCaptchaKey="6Le2XAoqAAAAABcR1RYwjuilen0Q8OvlkxhTGyLr">
         <html lang="en" className={sfProFont.className}>
           <head>
-            <script src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`} async defer></script>
+            <script
+              src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+              async
+              defer
+            ></script>
           </head>
           <body className={sfProFont.className}>
-            <Header className={sfProFont.className} isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Header
+              className={sfProFont.className}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+            />
             <main className={sfProFont.className}>{children}</main>
-            <Footer className={sfProFont.className} />
+            <Footer isMobile={isMobile} className={sfProFont.className} />
             <CookieConsent
               ariaAcceptLabel="testCookieConsent"
-              buttonWrapperClasses={`${isMobile ? "button-mobile-cookie-wrapper" : "button-cookie-wrapper"}`}
+              buttonWrapperClasses={`${
+                isMobile
+                  ? "button-mobile-cookie-wrapper"
+                  : "button-cookie-wrapper"
+              }`}
               buttonClasses={`${isMobile ? "button-cookie" : ""}`}
               contentClasses={`${isMobile ? "cookie-content" : ""}`}
-              containerClasses={`${isMobile ? "cookie-container-mobile" : "cookie-container-wrapper"}`}
+              containerClasses={`${
+                isMobile
+                  ? "cookie-container-mobile"
+                  : "cookie-container-wrapper"
+              }`}
               location="bottom"
               buttonText="Приемам"
               cookieName="veko-oil-cookie"
@@ -79,8 +93,8 @@ export default function RootLayout({
               declineButtonText="ОТКАЗВАМ"
             >
               <p className="mb-0">
-                ПРАВА НА ПОТРЕБИТЕЛИТЕ ПО ОБЩИЯ РЕГЛАМЕНТ
-                ЗА ЗАЩИТА НА ЛИЧНИТЕ ДАННИ (GDPR) И ИЗПОЛЗВАНЕ НА COOKIES/БИСКВИТКИ.
+                ПРАВА НА ПОТРЕБИТЕЛИТЕ ПО ОБЩИЯ РЕГЛАМЕНТ ЗА ЗАЩИТА НА ЛИЧНИТЕ
+                ДАННИ (GDPR) И ИЗПОЛЗВАНЕ НА COOKIES/БИСКВИТКИ.
               </p>
             </CookieConsent>
           </body>

@@ -1,3 +1,5 @@
 {
-  "car-dealership-title": "автомобилно представителство"
+  "common": {
+    "car-dealership-title": "автомобилно представителство"
+  }
 }

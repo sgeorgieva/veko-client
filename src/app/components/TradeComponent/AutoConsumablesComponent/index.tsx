@@ -23,7 +23,7 @@ export default function AutoConsumablesComponent() {
             </div>
             <hr />
             <h5>Официален ДИСТРИБУТОР на:</h5>
-            <div className="row d-flex align-items-baseline py-4 flex-nowrap">
+            <div className="row d-flex align-items-baseline py-4 flex-nowrap text-center">
               <Link
                 href="https://veko-shop.com/"
                 className="w-25"
@@ -43,7 +43,10 @@ export default function AutoConsumablesComponent() {
                 className="w-25"
                 target="_blank"
               >
-                <img src={BaldwinFiltersImage.src} alt="baldwin-filters-image" />
+                <img
+                  src={BaldwinFiltersImage.src}
+                  alt="baldwin-filters-image"
+                />
               </Link>
               <Link
                 href="https://www.fleetguard-filtrum.com/"

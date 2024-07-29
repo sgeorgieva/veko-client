@@ -35,4 +35,12 @@ div[name="trap-focus"] {
       }
     }
   }
+  
+  .HOt > .xuA {
+    &:nth-of-type(2) {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
 }

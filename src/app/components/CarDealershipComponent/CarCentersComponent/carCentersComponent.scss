@@ -1,4 +1,4 @@
-label[for="time"] {
+label[for="time"], label[for="year"] {
   font-size: 12px !important;
   padding-bottom: 5px !important;  
 }
@@ -6,6 +6,7 @@ label[for="time"] {
 .ant-picker {
   border-radius: 12px !important;
   border: 2px solid #cdcdcd !important;
+  width: 100%;
 
   .ant-picker-suffix {
     color: #111111;

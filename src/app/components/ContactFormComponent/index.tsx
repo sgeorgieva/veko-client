@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useReCaptcha } from 'next-recaptcha-v3';
-import { BannerSlim, Box, Button, Flex, TextArea, TextField } from 'gestalt';
+import { useReCaptcha } from "next-recaptcha-v3";
+import { BannerSlim, Box, Button, Flex, TextArea, TextField } from "gestalt";
 
-import './contactFormComponent.scss';
+import "./contactFormComponent.scss";
 
 export default function ContactFormComponent() {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [city, setCity] = useState('');
-  const [message, setMesage] = useState('');
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [message, setMesage] = useState("");
   const [hasNameError, setHasNameError] = useState(false);
   const [hasPhoneError, setHasPhoneError] = useState(false);
   const [hasEmailError, setHasEmailError] = useState(false);
@@ -22,15 +22,22 @@ export default function ContactFormComponent() {
   const [hasEmailValidationError, setHasEmailValidationError] = useState(false);
   const [hasPhoneValidationError, setHasPhoneValidationError] = useState(false);
   const [hasCityValidationError, setHasCityValidationError] = useState(false);
-  const [hasMessageValidationError, setHasMessageValidationError] = useState(false);
-
-  const [messageValidation, setMessageValidation] = useState('');
+  const [hasMessageValidationError, setHasMessageValidationError] =
+    useState(false);
+  const [messageValidation, setMessageValidation] = useState("");
   const [isValidForm, setIsValidForm] = useState(true);
   const {
     // handleSubmit,
     formState: { isSubmitting },
   } = useForm();
   const [successMessage, setSuccessMessage] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      setIsMobile(true);
+    }
+  }, []);
 
   const validateForm = () => {
     if (!name) {
@@ -63,11 +70,17 @@ export default function ContactFormComponent() {
       setHasMessageError(false);
     }
 
-    setHasNameValidationError(name.trim() === '' || message.length < 3 && message.length > 32);
-    setHasPhoneValidationError(phone.trim() === '' || message.length < 10);
-    setHasCityValidationError(city.trim() === '' || message.length < 3 && message.length > 32);
+    setHasNameValidationError(
+      name.trim() === "" || (message.length < 3 && message.length > 32)
+    );
+    setHasPhoneValidationError(phone.trim() === "" || message.length < 10);
+    setHasCityValidationError(
+      city.trim() === "" || (message.length < 3 && message.length > 32)
+    );
     setHasEmailValidationError(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/));
-    setHasMessageValidationError(message.trim() === '' || (message.length < 10 && message.length > 3000));
+    setHasMessageValidationError(
+      message.trim() === "" || (message.length < 10 && message.length > 3000)
+    );
 
     if (
       hasNameError ||
@@ -76,7 +89,7 @@ export default function ContactFormComponent() {
       hasCityError ||
       hasPhoneError ||
       hasNameValidationError ||
-      hasEmailValidationError || 
+      hasEmailValidationError ||
       hasPhoneValidationError ||
       hasCityValidationError ||
       hasMessageValidationError
@@ -86,44 +99,44 @@ export default function ContactFormComponent() {
     } else {
       setIsValidForm(true);
     }
-  }
+  };
 
-  function handleSubmit(e, data: any) {
+  function handleSubmit(e: any) {
     e.preventDefault();
     validateForm();
-    console.log('HERE IN handleSubmit');
+    console.log("HERE IN handleSubmit");
 
     if (!hasNameError && !hasEmailError && !hasMessageError) {
       // Send form data to server
-      console.log('Form submitted', { name, email, message });
+      console.log("Form submitted", { name, email, message });
     }
   }
 
-    // Import 'executeRecaptcha' using 'useReCaptcha' hook
-    // const { executeRecaptcha } = useReCaptcha();
+  // Import 'executeRecaptcha' using 'useReCaptcha' hook
+  // const { executeRecaptcha } = useReCaptcha();
 
-    // const handleSubmit = useCallback(
-    
-    //   async (e) => {
-    //     e.preventDefault();
-  
-    //     // Generate ReCaptcha token
-    //     const token = await executeRecaptcha("/contact");
-  
-    //     // Attach generated token to your API requests and validate it on the server
-    //     fetch("/api/form-submit", {
-    //       method: "POST",
-    //       body: {
-    //         data: { name, email, message },
-    //         token,
-    //       },
-    //     });
-    //   },
-    //   [executeRecaptcha,  name, email, message],
-    // );
+  // const handleSubmit = useCallback(
+
+  //   async (e) => {
+  //     e.preventDefault();
+
+  //     // Generate ReCaptcha token
+  //     const token = await executeRecaptcha("/contact");
+
+  //     // Attach generated token to your API requests and validate it on the server
+  //     fetch("/api/form-submit", {
+  //       method: "POST",
+  //       body: {
+  //         data: { name, email, message },
+  //         token,
+  //       },
+  //     });
+  //   },
+  //   [executeRecaptcha,  name, email, message],
+  // );
 
   return (
-    <form className="mb-5" onSubmit={handleSubmit}>
+    <form className={`${isMobile ? "" : "mb-5"}`} onSubmit={handleSubmit}>
       <Flex
         alignItems="baseline"
         gap={4}
@@ -143,8 +156,9 @@ export default function ContactFormComponent() {
             />
           </Box>
         )}
-        <Box width={550}>
+        <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
+            size={`${isMobile ? "sm" : "lg"}`}
             name="name"
             id="name"
             label="Име"
@@ -160,9 +174,10 @@ export default function ContactFormComponent() {
             }
           />
         </Box>
-        <Box width={550}>
+        <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
             name="phone"
+            size={`${isMobile ? "sm" : "lg"}`}
             id="phone"
             label="Телефон"
             onChange={({ value }) => {
@@ -177,10 +192,11 @@ export default function ContactFormComponent() {
             }
           />
         </Box>
-        <Box width={550}>
+        <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
             id="city"
             name="city"
+            size={`${isMobile ? "sm" : "lg"}`}
             label="Град"
             onChange={({ value }) => {
               setCity(value);
@@ -194,10 +210,11 @@ export default function ContactFormComponent() {
             }
           />
         </Box>
-        <Box width={550}>
+        <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
             autoComplete="email"
             id="email"
+            size={`${isMobile ? "sm" : "lg"}`}
             label="Имейл"
             onChange={({ value }) => {
               setEmail(value);
@@ -211,7 +228,7 @@ export default function ContactFormComponent() {
             }
           />
         </Box>
-        <Box width={550}>
+        <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextArea
             id="message"
             label="Съобщение"
@@ -224,7 +241,6 @@ export default function ContactFormComponent() {
             }
           />
         </Box>
-        {/* <ReCaptchaComponent /> */}
         <div className="text-end">
           <Flex
             alignItems="end"
@@ -232,15 +248,15 @@ export default function ContactFormComponent() {
             justifyContent="end"
             alignContent="end"
           >
-            <Box width={550} right={true}>
+            <Box maxWidth={`${isMobile ? "100" : "550"}`} right={true}>
               <Button
-                fullWidth
+                fullWidth={isMobile ? false : true}
                 type="submit"
                 color="blue"
                 accessibilityLabel="Submit"
-                size="lg"
+                size={`${isMobile ? "sm" : "lg"}`}
                 text={`${isSubmitting ? "Изпращане" : "Изпрати"}`}
-                // onClick={(e) => handleSubmit(e)}
+                onClick={(e) => handleSubmit(e)}
               />{" "}
               {successMessage && <p>{successMessage}</p>}
             </Box>

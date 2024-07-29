@@ -28,7 +28,7 @@ export default function OilsComponent() {
             </div>
             <hr />
             <h5>Официален ДИСТРИБУТОР на:</h5>
-            <div className="row d-flex align-items-baseline py-4 flex-nowrap">
+            <div className="row d-flex align-items-baseline py-4 flex-nowrap text-center">
               <Link
                 href="https://www.prista-oil.com/"
                 className="w-25"
@@ -58,8 +58,8 @@ export default function OilsComponent() {
                 <img src={CyclonLpsImage.src} alt="cyclon-image" />
               </Link>
             </div>
-            <div className="row d-flex align-items-baseline py-4 flex-nowrap">
-            <Link
+            <div className="row d-flex align-items-baseline py-4 flex-nowrap text-center">
+              <Link
                 href="https://www.texacolubricants.com/"
                 className="w-25"
                 target="_blank"
@@ -88,14 +88,14 @@ export default function OilsComponent() {
                 <img src={ShellImage.src} alt="shell-image" />
               </Link>
             </div>
-            <div className="row d-flex align-items-baseline py-4 flex-nowrap">
+            <div className="row d-flex align-items-baseline py-4 flex-nowrap text-center">
               <Link
-                  href="https://www.castrol.com/"
-                  className="w-25"
-                  target="_blank"
-                >
-                  <img src={CastrolImage.src} alt="castrol-image" />
-                </Link>
+                href="https://www.castrol.com/"
+                className="w-25"
+                target="_blank"
+              >
+                <img src={CastrolImage.src} alt="castrol-image" />
+              </Link>
             </div>
           </div>
         }
