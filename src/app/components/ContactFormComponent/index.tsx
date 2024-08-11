@@ -1,14 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useReCaptcha } from "next-recaptcha-v3";
 import { BannerSlim, Box, Button, Flex, TextArea, TextField } from "gestalt";
 
 import "./contactFormComponent.scss";
+import { endpoints, linkUrl } from "../../../../utils/functions";
+import axios from "axios";
 
 export default function ContactFormComponent() {
-  const [name, setName] = useState("");
+  const [names, setNames] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
@@ -26,10 +27,6 @@ export default function ContactFormComponent() {
     useState(false);
   const [messageValidation, setMessageValidation] = useState("");
   const [isValidForm, setIsValidForm] = useState(true);
-  const {
-    // handleSubmit,
-    formState: { isSubmitting },
-  } = useForm();
   const [successMessage, setSuccessMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
@@ -40,7 +37,7 @@ export default function ContactFormComponent() {
   }, []);
 
   const validateForm = () => {
-    if (!name) {
+    if (!names) {
       setHasNameError(true);
     } else {
       setHasNameError(false);
@@ -71,7 +68,7 @@ export default function ContactFormComponent() {
     }
 
     setHasNameValidationError(
-      name.trim() === "" || (message.length < 3 && message.length > 32)
+      names.trim() === "" || (message.length < 3 && message.length > 32)
     );
     setHasPhoneValidationError(phone.trim() === "" || message.length < 10);
     setHasCityValidationError(
@@ -106,34 +103,49 @@ export default function ContactFormComponent() {
     validateForm();
     console.log("HERE IN handleSubmit");
 
-    if (!hasNameError && !hasEmailError && !hasMessageError) {
+    if (
+      !hasNameError &&
+      !hasEmailError &&
+      !hasMessageError &&
+      !hasCityError &&
+      !hasPhoneError &&
+      !hasNameValidationError &&
+      !hasEmailValidationError &&
+      !hasPhoneValidationError &&
+      !hasCityValidationError &&
+      !hasMessageValidationError
+    ) {
       // Send form data to server
-      console.log("Form submitted", { name, email, message });
+      console.log("Form submitted", { names, email, message });
+      const response = axios
+        .post(`${linkUrl()}${endpoints.contact}`, {
+          names: names,
+          phone: phone,
+          email: email,
+          city: city,
+          message: message,
+        })
+        .then((data) => {
+          data.status === 200 && setIsValidForm(true);
+          setMesage(data?.data.message);
+        })
+        .catch((error) => {
+          console.log("err", error);
+
+          if (error.response.status.startsWith("4")) {
+            console.log("heres");
+
+            setIsValidForm(false);
+            setMessageValidation("Моля, попълнете празните полета");
+          } else {
+            setIsValidForm(true);
+            setMessageValidation(
+              "Има проблем с връзката със сървъра. Моля, опитайте пак."
+            );
+          }
+        });
     }
   }
-
-  // Import 'executeRecaptcha' using 'useReCaptcha' hook
-  // const { executeRecaptcha } = useReCaptcha();
-
-  // const handleSubmit = useCallback(
-
-  //   async (e) => {
-  //     e.preventDefault();
-
-  //     // Generate ReCaptcha token
-  //     const token = await executeRecaptcha("/contact");
-
-  //     // Attach generated token to your API requests and validate it on the server
-  //     fetch("/api/form-submit", {
-  //       method: "POST",
-  //       body: {
-  //         data: { name, email, message },
-  //         token,
-  //       },
-  //     });
-  //   },
-  //   [executeRecaptcha,  name, email, message],
-  // );
 
   return (
     <form className={`${isMobile ? "" : "mb-5"}`} onSubmit={handleSubmit}>
@@ -159,14 +171,14 @@ export default function ContactFormComponent() {
         <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
             size={`${isMobile ? "sm" : "lg"}`}
-            name="name"
-            id="name"
+            names="names"
+            id="names"
             label="Име"
             onChange={({ value }) => {
-              setName(value);
+              setNames(value);
             }}
             type="text"
-            value={name}
+            value={names}
             errorMessage={
               !hasNameError || !hasNameValidationError
                 ? undefined
@@ -176,7 +188,7 @@ export default function ContactFormComponent() {
         </Box>
         <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
-            name="phone"
+            names="phone"
             size={`${isMobile ? "sm" : "lg"}`}
             id="phone"
             label="Телефон"
@@ -195,7 +207,7 @@ export default function ContactFormComponent() {
         <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
             id="city"
-            name="city"
+            names="city"
             size={`${isMobile ? "sm" : "lg"}`}
             label="Град"
             onChange={({ value }) => {
@@ -255,7 +267,7 @@ export default function ContactFormComponent() {
                 color="blue"
                 accessibilityLabel="Submit"
                 size={`${isMobile ? "sm" : "lg"}`}
-                text={`${isSubmitting ? "Изпращане" : "Изпрати"}`}
+                text="Изпрати"
                 onClick={(e) => handleSubmit(e)}
               />{" "}
               {successMessage && <p>{successMessage}</p>}

@@ -183,7 +183,12 @@ export default function CarCentersComponent() {
         component={
           <>
             {!isValidForm && (
-              <Box alignItems="center" display="flex" height="100%" padding={8}>
+              <Box
+                alignItems="center"
+                display="flex"
+                height="100%"
+                paddingY={8}
+              >
                 <BannerSlim
                   iconAccessibilityLabel="Information"
                   message={messageValidation}

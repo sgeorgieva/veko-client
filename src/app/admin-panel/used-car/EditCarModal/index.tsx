@@ -22,20 +22,28 @@ export default function EditCarModal({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const handleCloseOnOutsideClick = () => {
+    setIsEditCarModalOpen(false);
+  };
+
   return (
-    <Box padding={6} overflow="hidden">
+    <Box padding={6}>
       {isEditCarModalOpen && (
         <Layer zIndex={new FixedZIndex(11)}>
           <OverlayPanel
-            size={isMobile ? "md" : "lg"}
-            accessibilityDismissButtonLabel="Close edit Pin overlay panel"
-            accessibilityLabel="Edit your Pin details"
+            size={isMobile ? "sm" : "lg"}
+            accessibilityDismissButtonLabel="Close edit News overlay panel"
+            accessibilityLabel="Edit news"
+            closeOnOutsideClick={() => handleCloseOnOutsideClick}
             footer={
-              <Flex overflow="hidden">
+              <Flex>
                 <Flex.Item flex="grow">
                   <Button
                     color="red"
-                    onClick={() => setIsDeleteCarModalOpen(true)}
+                    onClick={() => {
+                      setIsDeleteCarModalOpen(true);
+                      setIsEditCarModalOpen(false);
+                    }}
                     size={isMobile ? "sm" : "lg"}
                     text="Изтрий"
                   />
@@ -56,18 +64,22 @@ export default function EditCarModal({
                 </Flex>
               </Flex>
             }
-            heading="Редактиране на автомобил Audi A3 2.0"
             onDismiss={() => setIsEditCarModalOpen(false)}
+            heading={isMobile ? "" : "Редактиране на автомобил Audi A3 2.0"}
           >
+            {isMobile && (
+              <h3 className="fw-bold text-center pb-3">
+                Редактиране на автомобил Audi A3 2.0
+              </h3>
+            )}
             <Box
-              overflow="hidden"
               display="flex"
               height={400}
               id="popover-overlaypanel"
               paddingX={8}
             >
               <Flex gap={{ row: 8, column: 0 }} width="100%">
-                <Box paddingX={2} rounding={4} width={200} overflow="hidden">
+                <Box paddingX={2} rounding={4} width={200}>
                   <Mask rounding={4}>
                     <Image
                       alt="Tropic greens: The taste of Petrol and Porcelain | Interior design, Vintage Sets and Unique Pieces agave"

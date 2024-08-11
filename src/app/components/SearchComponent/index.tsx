@@ -15,7 +15,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/navigation";
-import { locales } from "../../../../i18n";
 import Login from "../../../app/admin-panel/login/page";
 
 import "./searchComponent.scss";
@@ -23,7 +22,6 @@ import "./searchComponent.scss";
 export default function SearchComponent({
   isHover,
   open,
-  handleOpenLanguageMenu,
   onSelect,
   selected,
 }: any) {
@@ -34,10 +32,14 @@ export default function SearchComponent({
   const anchorRef = useRef(null);
   const [openLoginMenu, setOpenLoginMenu] = useState(false);
   const anchorSecondRef = useRef(null);
-  const [isLogin, setIslogin] = useState(
-    Boolean(localStorage.getItem("isLogged")) ?? false
-  );
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      setIsMobile(true);
+    }
+  }, []);
 
   const toggleLoginModal = () => {
     setOpenLoginModal(!isOpenLoginModal);
@@ -55,32 +57,11 @@ export default function SearchComponent({
   }
 
   const handleLogout = () => {
-    setIslogin(false);
-    localStorage.removeItem("isLoged");
+    console.log("here in logout");
+
+    localStorage.removeItem("jwt");
     router.push("/");
   };
-
-  let langs = [];
-  // console.log("lang", lang);
-  // console.log("locales", locales);
-
-  for (let l of locales) {
-    if (l !== lang) {
-      langs.push(
-        <Dropdown.Item
-          key={l}
-          // onClick={async () => await setLanguage(l)}
-          onSelect={onSelect}
-          option={{ value: l == "bg" ? "Български" : "Английски", label: l }}
-          selected={selected}
-        >
-          <Link href="/" locale={lang} key={l}>
-            {t(`${l}`)}
-          </Link>
-        </Dropdown.Item>
-      );
-    }
-  }
 
   return (
     <div className="search-wrapper">
@@ -125,9 +106,7 @@ export default function SearchComponent({
                   }}
                   icon="arrow-up-right"
                   iconColor={`${isHover ? "darkGray" : "white"}`}
-                  onClick={() => {
-                    handleOpenLanguageMenu((prevVal) => !prevVal);
-                  }}
+                  onClick={onSelect}
                   selected={open}
                   size="sm"
                 />
@@ -160,7 +139,7 @@ export default function SearchComponent({
               </Dropdown>
             )}
           </>
-          {!isLogin ? (
+          {!localStorage.getItem("jwt") ? (
             <IconButton
               type="button"
               size="sm"
@@ -258,8 +237,8 @@ export default function SearchComponent({
         </Flex>
         {isOpenLoginModal && (
           <Login
+            isMobile={isMobile}
             closeModal={toggleLoginModal}
-            setIslogin={setIslogin}
             setOpenLoginMenu={setOpenLoginMenu}
           />
         )}

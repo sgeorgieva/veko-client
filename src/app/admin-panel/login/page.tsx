@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   BannerSlim,
   Box,
+  Button,
   Checkbox,
   CompositeZIndex,
   FixedZIndex,
@@ -14,6 +15,8 @@ import {
   TextField,
 } from "gestalt";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { linkUrl, endpoints } from "../../../../utils/functions";
 import VekoLogoImage from "../../../../public/images/veko-oil-logo.png";
 
 import "./login.scss";
@@ -22,6 +25,7 @@ export default function Login({
   closeModal,
   setIslogin,
   setOpenLoginMenu,
+  isMobile,
 }: any) {
   const [showComponent, setShowComponent] = useState(true);
   const [username, setUsername] = useState("");
@@ -45,17 +49,56 @@ export default function Login({
     } else {
       setPasswordError(false);
     }
+
     setIsValidForm(false);
     setMessageValidation("Моля, попълнете празните полета");
   };
 
   const handleLogin = () => {
     validateForm();
-    closeModal();
-    setIslogin(true);
-    setOpenLoginMenu(false);
-    router.push("/admin-panel");
-    localStorage.setItem("isLoged", true);
+    login();
+  };
+
+  const login = async () => {
+    try {
+      const response = axios.post(`${linkUrl()}${endpoints.login}`, {
+        username: username,
+        password: password,
+      });
+      // const response = await fetch(`${linkUrl()}${endpoints.login}`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     username: username,
+      //     password: password,
+      //   }),
+      // });
+      const data = await response;
+
+      console.log("data", data);
+
+      if (data.statusText === "fail" || data.statusText === "error") {
+        throw Error(data.message);
+      } else {
+        // store.dispatch(login(data));
+        console.log("data", data);
+        // setError(false);
+        // setMessage(t(data?.statusText));
+        localStorage.setItem("jwt", data?.token);
+        closeModal();
+        setIslogin(true);
+        setOpenLoginMenu(false);
+        router.push("/admin-panel");
+        // sessionStorage.setItem("jwt", data?.accessToken);
+      }
+    } catch (error) {
+      console.log("error", error);
+      // setMessage(`${t(error?.message)}`);
+      // setError(true);
+      // throw Error(error);
+    }
   };
 
   return (
@@ -63,19 +106,12 @@ export default function Login({
       {showComponent ? (
         <Layer zIndex={zIndex}>
           <ModalAlert
+            paddingB={0}
             accessibilityModalLabel=""
             heading="Добре дошли в Veko"
             onDismiss={() => {
               setShowComponent(!showComponent);
               closeModal();
-            }}
-            primaryAction={{
-              accessibilityLabel: "",
-              label: "Вход",
-              onClick: () => {
-                handleLogin();
-              },
-              role: "button",
             }}
           >
             <>
@@ -89,7 +125,7 @@ export default function Login({
               </Flex>
               {!isValidForm && (
                 <Flex alignItems="center" justifyContent="center">
-                  <Box width="100%" padding={0} marginTop={3} marginBottom={3}>
+                  <Box width="100%" paddingY={3} marginTop={0} marginBottom={0}>
                     <BannerSlim
                       type="error"
                       iconAccessibilityLabel="Information"
@@ -109,6 +145,7 @@ export default function Login({
                   }}
                   type="text"
                   value={username}
+                  size={isMobile ? "sm" : "lg"}
                   errorMessage={
                     !hasUsernameError
                       ? undefined
@@ -118,6 +155,7 @@ export default function Login({
               </Box>
               <Box marginBottom={6}>
                 <TextField
+                  size={isMobile ? "sm" : "lg"}
                   id="password"
                   name="password"
                   label="Парола"
@@ -139,6 +177,17 @@ export default function Login({
                 name="languages"
                 onChange={() => {}}
               />
+              <Box padding={0} marginTop={3} marginBottom={0}>
+                <Button
+                  fullWidth
+                  type="submit"
+                  color="blue"
+                  accessibilityLabel="Submit"
+                  size={`${isMobile ? "sm" : "lg"}`}
+                  text="Вход"
+                  onClick={(e) => handleLogin()}
+                />{" "}
+              </Box>
             </>
           </ModalAlert>
         </Layer>

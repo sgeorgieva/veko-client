@@ -65,7 +65,7 @@ html {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: 'Avenir Next Cyr' !important;
+  // font-family: 'Avenir Next Cyr' !important;
 }
 
 html,
@@ -119,11 +119,25 @@ a {
   font-size: 14px;
 }
 
-// @media (prefers-color-scheme: light) {
-//   html {
-//     color-scheme: light;
-//   }
-// }
+label[for="time"], label[for="year"] {
+  font-size: 12px !important;
+  padding-bottom: 5px !important;  
+}
+
+.ant-picker {
+  border-radius: 12px !important;
+  border: 2px solid #cdcdcd !important;
+  width: 100%;
+
+  .ant-picker-suffix {
+    color: #111111;
+  }
+}
+
+.error-input {
+  border-color: #c00 !important;
+}
+
 .cookie-container-wrapper {
   > div {
     &:first-of-type {

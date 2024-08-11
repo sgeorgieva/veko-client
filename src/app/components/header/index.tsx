@@ -11,7 +11,6 @@ import detectVersion from "../../../../utils/functions";
 import Logo from "../../../../public/images/Logo_Veko.png";
 
 import "./header.scss";
-import setLanguage from "next-translate/setLanguage";
 
 export default function Header({
   classname,
@@ -43,19 +42,12 @@ export default function Header({
     setHover(false);
   };
 
-  const changeLanguage = async (newLang) => {
-    console.log(`Changing language to ${newLang}`);
-    await setLanguage(newLang).then(() => {
-      router.push(pathname, undefined, { locale: newLang });
-    });
-  };
-
   const onSelect = ({ item }: any) => {
-    if (typeof window !== "undefined") {
-      changeLanguage(item.label.toLowerCase());
-      setSelected(item);
-      setOpen((prevVal) => !prevVal);
-    }
+    // if (typeof window !== "undefined") {
+    //   // changeLanguage(item.label.toLowerCase());
+    // }
+    setSelected(item);
+    setOpen((prevVal) => !prevVal);
   };
 
   useEffect(() => {
@@ -106,7 +98,6 @@ export default function Header({
         <div className="col-md-4">
           <SearchComponent
             open={open}
-            handleOpenLanguageMenu={setOpen}
             selected={selected}
             onSelect={onSelect}
             isHover={isHover}
@@ -124,6 +115,30 @@ export default function Header({
               pathname === "/projects" ? "mb-ps" : ""
             }`}
           >
+            <AnimatedLink href="#" class="navlink">
+              {" "}
+              Home{" "}
+            </AnimatedLink>
+            <AnimatedLink href="#" class="navlink">
+              {" "}
+              About{" "}
+            </AnimatedLink>
+            <AnimatedLink href="#" class="navlink">
+              {" "}
+              Products{" "}
+            </AnimatedLink>
+            <AnimatedLink href="#" class="navlink">
+              {" "}
+              Privacy{" "}
+            </AnimatedLink>
+            <AnimatedLink href="#" class="navlink">
+              {" "}
+              FAQ{" "}
+            </AnimatedLink>
+            <AnimatedLink href="#" class="navlink">
+              {" "}
+              Contact{" "}
+            </AnimatedLink>
             <Image
               priority
               src={Logo}
@@ -138,15 +153,15 @@ export default function Header({
             >
               <AnimatedLink
                 isHover={isHover}
-                title={t("common:car-dealership-title")}
-                name={t("common:car-dealership-title")}
+                title={"Автомобилно представителство"}
+                name={"Автомобилно представителство"}
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
                 href="/car-dealership"
                 hasActiveClass={pathname.includes("/car-dealership")}
               >
-                {t("common:car-dealership-title")}
-                {isHover && name === t("common:car-dealership-title") ? (
+                Автомобилно представителство
+                {isHover && name === "Автомобилно представителство" ? (
                   <div className="row">
                     <div className="col">
                       <ul className="d-block header-nested-links">

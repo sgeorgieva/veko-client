@@ -12,3 +12,9 @@
   height: 30vh;
   background-position: top left;
 }
+
+.pdf-link {
+  &:hover {
+    font-size: 1.2rem;
+  }
+}

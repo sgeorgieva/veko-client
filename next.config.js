@@ -1,7 +1,11 @@
-const nextTranslate = require("next-translate-plugin");
+const path = require("path");
+const dotenv = require("dotenv");
+
+dotenv.config({ path: path.join(__dirname, "./.env") });
 
 const nextConfig = {
   // reactStrictMode: true,
+  // output: "export",
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
@@ -33,4 +37,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextTranslate(nextConfig);
+module.exports = nextConfig;

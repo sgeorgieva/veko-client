@@ -1,5 +1,7 @@
 import { Fragment, useState } from "react";
 import {
+  BannerCallout,
+  BannerOverlay,
   Box,
   Button,
   Checkbox,
@@ -10,10 +12,12 @@ import {
   Layer,
   ModalAlert,
   SelectList,
+  Text,
   TextArea,
   TextField,
 } from "gestalt";
 import { DatePicker } from "antd";
+import UploadImagesComponet from "../../../../app/components/UploadImagesComponent";
 
 import "./addCarModal.scss";
 
@@ -24,8 +28,15 @@ export default function AddCarModal({
 }: any) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const modalZIndex = new CompositeZIndex([HEADER_ZINDEX]);
-  const [description, setDescription] = useState("");
   const [year, setYear] = useState("");
+  const [description, setDescription] = useState("");
+  const [typeEngine, setTypeEngine] = useState("");
+  const [power, setPower] = useState("");
+  const [euroEmission, setEuroEmission] = useState("");
+  const [transmission, setTransmission] = useState("");
+  const [category, setCategory] = useState("");
+  const [mileage, setМileage] = useState("");
+  const [color, setColor] = useState("");
   const [autoStabilityControlCheck, setAutoStabilityControlCheck] =
     useState(false);
   const [antiblockSystemCheck, setAntiBlockSystemCheck] = useState(false);
@@ -39,7 +50,8 @@ export default function AddCarModal({
   const [protectionCheck, setProtectionCheck] = useState(false);
   const [immobilizerCheck, setImmobilizerCheck] = useState(false);
   const [centralLockingCheck, setCentralLockingCheck] = useState(false);
-  const [comfortCheck, setComfortCheck] = useState(false);
+  const [bluetoothHandsfreeSystemCheck, setBluetoothHandsfreeSystemCheck] =
+    useState(false);
   const [audioConsumablesCheck, setAudioConsumablesCheck] = useState(false);
   const [boardComputerCheck, setBoardComputerCheck] = useState(false);
   const [lightSensorCheck, setLightSensorCheck] = useState(false);
@@ -69,7 +81,7 @@ export default function AddCarModal({
       setProtectionCheck(true);
       setImmobilizerCheck(true);
       setCentralLockingCheck(true);
-      setComfortCheck(true);
+      setBluetoothHandsfreeSystemCheck(true);
       setAudioConsumablesCheck(true);
       setBoardComputerCheck(true);
       setLightSensorCheck(true);
@@ -95,7 +107,7 @@ export default function AddCarModal({
       setProtectionCheck(false);
       setImmobilizerCheck(false);
       setCentralLockingCheck(false);
-      setComfortCheck(false);
+      setBluetoothHandsfreeSystemCheck(false);
       setAudioConsumablesCheck(false);
       setBoardComputerCheck(false);
       setLightSensorCheck(false);
@@ -127,23 +139,16 @@ export default function AddCarModal({
         <Layer zIndex={modalZIndex}>
           <ModalAlert
             accessibilityModalLabel="Create new board"
-            primaryAction={{
-              accessibilityLabel: "cancel item",
-              label: "Отказ",
-              onClick: () => handleCancelAddingCar(),
-              role: "button",
-            }}
-            secondaryAction={{
-              accessibilityLabel: "add item",
-              label: "Добави",
-              onClick: () => handleAddCar(),
-              role: "button",
-            }}
-            heading="Добавяне на автомобил в автооказион"
+            heading={isMobile ? "" : "Добавяне на автомобил в автооказион"}
             onDismiss={() => handleCancelAddingCar()}
             type="default"
           >
             <Fragment>
+              {isMobile && (
+                <h3 className="fw-bold text-center pb-3">
+                  Добавяне на автомобил в автооказион
+                </h3>
+              )}
               <div className="row">
                 <div className="col-md-4">
                   <Box marginBottom={2}>
@@ -154,7 +159,7 @@ export default function AddCarModal({
                       }}
                       picker="month"
                       value={year}
-                      size="large"
+                      size={isMobile ? "small" : "medium"}
                       width="100%"
                       placeholder=" "
                     />
@@ -165,8 +170,9 @@ export default function AddCarModal({
                     <SelectList
                       id="typeEngine"
                       label="Тип двигател"
-                      onChange={() => {}}
-                      size="lg"
+                      onChange={() => setTypeEngine(typeEngine)}
+                      size={isMobile ? "md" : "lg"}
+                      value={typeEngine}
                     >
                       {[
                         { label: "Бензин", value: "gasoline" },
@@ -189,9 +195,11 @@ export default function AddCarModal({
                     <TextField
                       id="power"
                       label="Мощност"
-                      onChange={() => {}}
+                      onChange={() => setPower(power)}
                       placeholder=""
                       type="text"
+                      value={power}
+                      size={isMobile ? "sm" : "lg"}
                     />
                   </Box>
                 </div>
@@ -202,8 +210,9 @@ export default function AddCarModal({
                     <SelectList
                       id="euroEmission"
                       label="Евростандарт"
-                      onChange={() => {}}
-                      size="lg"
+                      onChange={() => setEuroEmission(euroEmission)}
+                      size={isMobile ? "md" : "lg"}
+                      value={euroEmission}
                     >
                       {[
                         { label: "Евро 1", value: "euro1" },
@@ -227,8 +236,9 @@ export default function AddCarModal({
                     <SelectList
                       id="transmission"
                       label="Скоростна кутия"
-                      onChange={() => {}}
-                      size="lg"
+                      onChange={() => setTransmission(transmission)}
+                      size={isMobile ? "md" : "lg"}
+                      value={transmission}
                     >
                       {[
                         { label: "Ръчна", value: "manual" },
@@ -248,8 +258,9 @@ export default function AddCarModal({
                     <SelectList
                       id="category"
                       label="Категория"
-                      onChange={() => {}}
-                      size="lg"
+                      onChange={() => setCategory(category)}
+                      size={isMobile ? "md" : "lg"}
+                      value={category}
                     >
                       {[
                         { label: "Кабриолет", value: "convertible" },
@@ -285,7 +296,7 @@ export default function AddCarModal({
                     <Box width="100%">
                       <TextArea
                         id="description"
-                        label="Допълнителни описание"
+                        label="Описание"
                         onChange={(e) => {
                           setDescription(e.value);
                         }}
@@ -300,9 +311,11 @@ export default function AddCarModal({
                     <TextField
                       id="mileage"
                       label="Пробег"
-                      onChange={() => {}}
+                      onChange={() => setМileage(mileage)}
                       placeholder=""
                       type="text"
+                      value={mileage}
+                      size={isMobile ? "sm" : "lg"}
                     />
                   </Box>
                 </div>
@@ -311,18 +324,19 @@ export default function AddCarModal({
                     <TextField
                       id="color"
                       label="Цвят"
-                      onChange={() => {}}
+                      onChange={() => setColor(color)}
                       placeholder=""
                       type="text"
+                      size={isMobile ? "sm" : "lg"}
                     />
                   </Box>
                 </div>
               </div>
-              <div className="row pt-3">
-                <div className="col-md-6">
+              <div className="row pt-3 align-items-baseline">
+                <div className="col-md-6 flex-1">
                   <h6 className="fw-bold mb-0">Безопасност</h6>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 flex-1">
                   <Flex
                     alignItems="center"
                     gap={4}
@@ -338,6 +352,7 @@ export default function AddCarModal({
                         handleAllCheckboxses(checked);
                         setAllCheckboxsesCheck(checked);
                       }}
+                      size={isMobile ? "sm" : "md"}
                     />
                   </Flex>
                 </div>
@@ -357,6 +372,7 @@ export default function AddCarModal({
                     onChange={({ checked }) =>
                       setAutoStabilityControlCheck(checked)
                     }
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -371,6 +387,7 @@ export default function AddCarModal({
                     id="antiblockSystemCheck"
                     label="Антиблокираща система"
                     onChange={({ checked }) => setAntiBlockSystemCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -385,6 +402,7 @@ export default function AddCarModal({
                     id="backAirPillowsCheck"
                     label="Въздушни възглавници - Задни"
                     onChange={({ checked }) => setBackAirPillowsCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -399,6 +417,7 @@ export default function AddCarModal({
                     id="frontAirPillowsCheck"
                     label="Въздушни възглавници - Предни"
                     onChange={({ checked }) => setFrontAirPillowsCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -415,6 +434,7 @@ export default function AddCarModal({
                     onChange={({ checked }) =>
                       setLateralAirPillowsCheck(checked)
                     }
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -429,6 +449,7 @@ export default function AddCarModal({
                     id="checkbox"
                     label="Парктроник"
                     onChange={({ checked }) => setParktronicCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
               </div>
@@ -446,6 +467,7 @@ export default function AddCarModal({
                     id="doorsCheck"
                     label="2(3) Врати"
                     onChange={({ checked }) => setDoorsCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -460,6 +482,7 @@ export default function AddCarModal({
                     id="alloyWheelsCheck"
                     label="Лети джанти"
                     onChange={({ checked }) => setAlloyWheelsCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -476,6 +499,7 @@ export default function AddCarModal({
                     onChange={({ checked }) =>
                       setHalogenHeadlightsCheck(checked)
                     }
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -490,6 +514,7 @@ export default function AddCarModal({
                     id="protection"
                     label="Защита"
                     onChange={({ checked }) => setProtectionCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -504,6 +529,7 @@ export default function AddCarModal({
                     id="immobilizerCheck"
                     label="Имобилайзер"
                     onChange={({ checked }) => setImmobilizerCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -518,6 +544,7 @@ export default function AddCarModal({
                     id="centralLockingCheck"
                     label="Централно заключване"
                     onChange={({ checked }) => setCentralLockingCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
               </div>
@@ -531,10 +558,13 @@ export default function AddCarModal({
                   width="100%"
                 >
                   <Checkbox
-                    checked={comfortCheck}
-                    id="comfortCheck"
+                    id="bluetoothHandsfreeSystemCheck"
+                    checked={bluetoothHandsfreeSystemCheck}
                     label="Bluetooth \ handsfree система"
-                    onChange={({ checked }) => setComfortCheck(checked)}
+                    onChange={({ checked }) =>
+                      setBluetoothHandsfreeSystemCheck(checked)
+                    }
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -551,6 +581,7 @@ export default function AddCarModal({
                     onChange={({ checked }) =>
                       setAudioConsumablesCheck(checked)
                     }
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -565,6 +596,7 @@ export default function AddCarModal({
                     id="boardComputerCheck"
                     label="Бордкомпютър"
                     onChange={({ checked }) => setBoardComputerCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -579,6 +611,7 @@ export default function AddCarModal({
                     id="lightSensorCheck"
                     label="Датчик за светлина"
                     onChange={({ checked }) => setLightSensorCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -593,6 +626,7 @@ export default function AddCarModal({
                     id="electricMirrorsCheck"
                     label="Ел. Огледала"
                     onChange={({ checked }) => setElectricMirrorsCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -607,6 +641,7 @@ export default function AddCarModal({
                     id="electricGlassCheck"
                     label="Ел. Стъкла"
                     onChange={({ checked }) => setElectricGlassCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -621,6 +656,7 @@ export default function AddCarModal({
                     id="climatronicCheck"
                     label="Климатроник"
                     onChange={({ checked }) => setClimatronicCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -637,6 +673,7 @@ export default function AddCarModal({
                     onChange={({ checked }) =>
                       setSteeringWheelAdjustmentCheck(checked)
                     }
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -651,6 +688,7 @@ export default function AddCarModal({
                     id="rainSensorCheck"
                     label="Сензор за дъжд"
                     onChange={({ checked }) => setRainSensorCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -665,6 +703,7 @@ export default function AddCarModal({
                     id="powerSteeringCheck"
                     label="Серво усилвател на волана"
                     onChange={({ checked }) => setPowerSteeringCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -679,6 +718,7 @@ export default function AddCarModal({
                     id="autopilotCheck"
                     label="Система за контрол на скоростта (автопилот)"
                     onChange={({ checked }) => setAutopilotCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
@@ -693,6 +733,7 @@ export default function AddCarModal({
                     id="stereoCheck"
                     label="Стерео уредба"
                     onChange={({ checked }) => setStereoCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
               </div>
@@ -710,8 +751,37 @@ export default function AddCarModal({
                     id="newImportationCheck"
                     label="Нов внос"
                     onChange={({ checked }) => setNewImportationCheck(checked)}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
+              </div>
+              <div className="row py-3">
+                <h6 className="fw-bold">Снимки</h6>
+                <Text weight="bold">
+                  <UploadImagesComponet />
+                </Text>
+              </div>
+              <div className="row mt-3 pb-4">
+                <Box padding={0} marginTop={3} marginBottom={3}>
+                  <Button
+                    fullWidth
+                    type="submit"
+                    color="blue"
+                    accessibilityLabel="Submit"
+                    size={`${isMobile ? "sm" : "lg"}`}
+                    text="Добави"
+                    onClick={(e) => handleAddCar()}
+                  />{" "}
+                </Box>
+                <Button
+                  fullWidth
+                  type="button"
+                  color="gray"
+                  accessibilityLabel="button"
+                  size={`${isMobile ? "sm" : "lg"}`}
+                  text="Отказ"
+                  onClick={(e) => handleCancelAddingCar()}
+                />{" "}
               </div>
             </Fragment>
           </ModalAlert>

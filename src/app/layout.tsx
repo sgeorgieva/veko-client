@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import CookieConsent from "react-cookie-consent";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import localFont from "next/font/local";
-import { usePathname } from "next/navigation";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { LoadingProvider } from "./context/LoadingContext";
 import Header from "./components/header";
 import Footer from "./components/footer";
+import Loader from "./components/Loader";
 
 import "./globals.scss";
-import Loader from "./components/Loader";
 
 const sfProFont = localFont({
   src: "./sf-pro-display-medium.woff2",
@@ -46,57 +45,61 @@ export default function RootLayout({
             ></script>
           </head>
           <body className={sfProFont.className}>
-            <Header
-              className={sfProFont.className}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-            />
+            <header>
+              <Header
+                className={sfProFont.className}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+              />
+            </header>
             <main className={sfProFont.className}>{children}</main>
-            <Footer isMobile={isMobile} className={sfProFont.className} />
-            <CookieConsent
-              ariaAcceptLabel="testCookieConsent"
-              buttonWrapperClasses={`${
-                isMobile
-                  ? "button-mobile-cookie-wrapper"
-                  : "button-cookie-wrapper"
-              }`}
-              buttonClasses={`${isMobile ? "button-cookie" : ""}`}
-              contentClasses={`${isMobile ? "cookie-content" : ""}`}
-              containerClasses={`${
-                isMobile
-                  ? "cookie-container-mobile"
-                  : "cookie-container-wrapper"
-              }`}
-              location="bottom"
-              buttonText="Приемам"
-              cookieName="veko-oil-cookie"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                background: "#2B373B",
-                textAlign: "left",
-                padding: "10px 15px",
-                opacity: ".95",
-                position: "fixed",
-              }}
-              buttonStyle={{
-                background: "#fff",
-                color: "#4e503b",
-                fontSize: "13px",
-                fontWeight: "600",
-                textTransform: "uppercase",
-                margin: 0,
-              }}
-              declineButtonClasses="decline-cookie-button"
-              expires={150}
-              enableDeclineButton
-              declineButtonText="ОТКАЗВАМ"
-            >
-              <p className="mb-0">
-                ПРАВА НА ПОТРЕБИТЕЛИТЕ ПО ОБЩИЯ РЕГЛАМЕНТ ЗА ЗАЩИТА НА ЛИЧНИТЕ
-                ДАННИ (GDPR) И ИЗПОЛЗВАНЕ НА COOKIES/БИСКВИТКИ.
-              </p>
-            </CookieConsent>
+            <footer>
+              <Footer isMobile={isMobile} className={sfProFont.className} />
+              <CookieConsent
+                ariaAcceptLabel="testCookieConsent"
+                buttonWrapperClasses={`${
+                  isMobile
+                    ? "button-mobile-cookie-wrapper"
+                    : "button-cookie-wrapper"
+                }`}
+                buttonClasses={`${isMobile ? "button-cookie" : ""}`}
+                contentClasses={`${isMobile ? "cookie-content" : ""}`}
+                containerClasses={`${
+                  isMobile
+                    ? "cookie-container-mobile"
+                    : "cookie-container-wrapper"
+                }`}
+                location="bottom"
+                buttonText="Приемам"
+                cookieName="veko-oil-cookie"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  background: "#2B373B",
+                  textAlign: "left",
+                  padding: "10px 15px",
+                  opacity: ".95",
+                  position: "fixed",
+                }}
+                buttonStyle={{
+                  background: "#fff",
+                  color: "#4e503b",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  textTransform: "uppercase",
+                  margin: 0,
+                }}
+                declineButtonClasses="decline-cookie-button"
+                expires={150}
+                enableDeclineButton
+                declineButtonText="ОТКАЗВАМ"
+              >
+                <p className="mb-0">
+                  ПРАВА НА ПОТРЕБИТЕЛИТЕ ПО ОБЩИЯ РЕГЛАМЕНТ ЗА ЗАЩИТА НА ЛИЧНИТЕ
+                  ДАННИ (GDPR) И ИЗПОЛЗВАНЕ НА COOKIES/БИСКВИТКИ.
+                </p>
+              </CookieConsent>
+            </footer>
           </body>
           <GoogleAnalytics gaId="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" />
         </html>

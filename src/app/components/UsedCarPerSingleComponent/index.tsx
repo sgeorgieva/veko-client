@@ -1,19 +1,27 @@
+import { useState } from "react";
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
 import AudiCarImage from "../../../../public/images/audi-car.png";
 
 import "./usedCarPerSingleComponent.scss";
-
+import UsedCarDescription from "./usedCarDescription";
 export default function UsedCarPerSingleComponent({
   isEdit,
   isMobile,
   setIsEditCarModalOpen,
   setIsDeleteCarModalOpen,
 }: any) {
+  const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
+
+  const handleSingleCar = () => {
+    setIsHandleSingleClicked(true);
+    return <UsedCarDescription />;
+  };
+
   return (
     <Flex alignItems="center" height="100%" justifyContent="start" width="100%">
       <Box column={12} maxWidth={236} padding={2}>
         {!isEdit ? (
-          <Link href="/services/used-car/1">
+          <Link onClick={handleSingleCar} href="/services/used-car/1">
             <WashAnimated
               image={
                 <Avatar

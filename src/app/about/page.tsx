@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     // 'http-equiv': 'Content-Security-Policy',
   },
   alternates: {
-    canonical: `${process.env.NODE_ENV !== 'production' ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/contact`,
+    canonical: `${process.env.NODE_ENV !== 'production' ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/about`,
   },
   other: {
     classification: 'business',

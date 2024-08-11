@@ -15,15 +15,16 @@ div[name="trap-focus"] {
   .JJV {
     overflow-y: hidden !important;
   }
-  .XiG {
-    &:nth-of-type(3) {
-      .xuA {
-        width: 100% !important;
-      }
+  &:nth-of-type(3) {
+    .xuA {
+      width: 100% !important;
+    }
+    &:last-of-type {
+      display: none !important;
     }
   }
   h1 {
-    font-family: 'Avenir Next Cyr';
+    // font-family: 'Avenir Next Cyr';
     font-size: 32px;
     text-align: center !important;
   }
@@ -35,12 +36,12 @@ div[name="trap-focus"] {
       }
     }
   }
-  
-  .HOt > .xuA {
-    &:nth-of-type(2) {
-      position: absolute;
-      top: 0;
-      right: 0;
+  .QDA.XbT.XiG.fBv.ujU.zI7.iyn.Hsu {
+    padding-top: 0;
+  }
+  .XiG.xuU.zI7.iyn.Hsu {
+    &:last-child {
+      display: none;
     }
   }
 }

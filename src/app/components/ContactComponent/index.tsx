@@ -31,10 +31,10 @@ export default function ContactComponent() {
               </h1>
             </div>
             <div className="row">
-              <div className="col-md-8">
+              <div className="col-md-7">
                 <ContactFormComponent />
               </div>
-              <div className="col-md-4">
+              <div className="col-md-5">
                 <div className="contact-image" />
               </div>
             </div>

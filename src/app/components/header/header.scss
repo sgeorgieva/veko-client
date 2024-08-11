@@ -99,7 +99,7 @@
   
   a:after {    
     background: none repeat scroll 0 0 transparent;
-    bottom: -7%;
+    bottom: 0;
     content: "";
     display: block;
     height: 5px;
@@ -147,7 +147,7 @@
     position: absolute;
     width: auto;
     height: auto;
-    top: 50%;
+    top: 0;
     left: 50%;
     transform: translate(-50%, 300%);
     z-index: 1;
@@ -155,6 +155,48 @@
 }
 
 .mobile-header-links {
+  display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	margin: 0;
+	padding: 0;
+
+  .navlink {
+    /* Additional styling */
+    color: #323232;
+    font-family: Roboto;
+    font-weight: bold;
+    position: relative;
+    outline: none !important;
+    text-transform: uppercase;
+    transition: 0.2s;
+  }
+  
+  .navlink::after {
+    content: "";
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    transition: 0.2s;
+  }
+  
+  .navlink:hover,
+  .navlink:focus {
+    color: #4c2be2;
+  }
+  
+  .navlink:hover::after,
+  .navlink:focus::after {
+    background-color: #4c2be2;
+    width: 100%;
+  }
+
   padding-left: 0 !important;
 
   .container-fluid {

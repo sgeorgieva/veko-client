@@ -95,9 +95,9 @@ export default function EcologyComponent() {
                     <span className="ms-2">
                       Копие от Разрешителното може да видите&nbsp;
                       <a
-                        className="fw-bold"
+                        className="fw-bold pdf-link"
                         href="https://veko-oil.eu/image/data/Dokumenti/Razreshitelno Veko oil 2014.pdf"
-                        target="_blanck"
+                        target="_blank"
                       >
                         тук
                       </a>

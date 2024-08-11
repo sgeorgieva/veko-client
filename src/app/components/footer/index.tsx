@@ -58,7 +58,7 @@ export default function Footer({ isMobile }: { isMobile: boolean }) {
           >
             Контакти
           </AnimatedLink>
-          <div className="social-icons">
+          <div className={isMobile ? "text-end" : ""}>
             <Link
               target="_blank"
               href="https://www.facebook.com/AutocenterVEKO"
@@ -115,14 +115,14 @@ export default function Footer({ isMobile }: { isMobile: boolean }) {
               <img className="w-3" src={SgLogo.src} alt="sg-logo" />
             </Link>
           </span>
-          <span> & </span>
+          {/* <span> & </span>
           <Link
             href="https://search-op.com"
             target="_blank"
             className={`${isMobile ? "text-center" : "text-right me-5"}`}
           >
             <img className="w-5" src={SearchOpLogo.src} alt="SearchOp-logo" />
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

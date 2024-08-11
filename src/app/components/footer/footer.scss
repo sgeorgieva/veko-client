@@ -64,6 +64,10 @@
 @media only screen and (max-device-width: 768px) {
   .footer {
     font-size: 10px;
+    
+    a {
+      font-size: 12px;
+    }
   }
 
   .light-background {

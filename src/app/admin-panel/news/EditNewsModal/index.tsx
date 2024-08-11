@@ -53,10 +53,15 @@ export default function EditNewsModal({
                 </Flex>
               </Flex>
             }
-            heading="Редактиране на новина №1"
+            heading={isMobile ? "" : "Редактиране на новина №1"}
             onDismiss={() => setIsEditNewsModalOpen(false)}
             size="lg"
           >
+            {isMobile && (
+              <h3 className="fw-bold text-center pb-3">
+                Редактиране на новина №1
+              </h3>
+            )}
             <Box
               display="flex"
               height={400}

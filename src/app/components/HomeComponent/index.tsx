@@ -73,7 +73,7 @@ export default function HomeComponent({ isHomePage, component }: any) {
         {isHomePage ? (
           <div className="row">
             <div className="col-sm-12 col-md-7">
-              <p>
+              <p className="line-height">
                 Основната дейност на &ldquo;ВЕКО ОЙЛ&ldquo; ЕООД е свързана с
                 продажбата на автомобили, сервизни услуги и резервни части за
                 2-те представлявани марки Subaru и KIA. Ние предлагаме на
@@ -81,14 +81,18 @@ export default function HomeComponent({ isHomePage, component }: any) {
                 автомобила:
               </p>
               <ul className="ms-1">
-                <li>
+                <li className="mb-1">
                   гъвкави схеми за финансов и оперативен лизинг и застраховки;
                 </li>
-                <li>оценка на употребявани автомобили;</li>
-                <li>продажба на употребявани автомобили;</li>
-                <li>пълно сервизно обслужване (full service);</li>
-                <li>гаранционно обслужване;</li>
-                <li>индивидуални схеми за следгаранционно обслужване.</li>
+                <li className="mb-1">оценка на употребявани автомобили;</li>
+                <li className="mb-1">продажба на употребявани автомобили;</li>
+                <li className="mb-1">
+                  пълно сервизно обслужване (full service);
+                </li>
+                <li className="mb-1">гаранционно обслужване;</li>
+                <li className="mb-1">
+                  индивидуални схеми за следгаранционно обслужване.
+                </li>
               </ul>
             </div>
             <div className="col-sm-12 col-md-5 pb-3">

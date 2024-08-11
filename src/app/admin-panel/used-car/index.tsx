@@ -50,6 +50,7 @@ export default function AdminPanelUsedCarComponent({
       )}
       {isDeleteCarModalOpen && (
         <DeleteCarModal
+          isMobile={isMobile}
           isDeleteCarModalOpen={isDeleteCarModalOpen}
           setIsDeleteCarModalOpen={setIsDeleteCarModalOpen}
         />
