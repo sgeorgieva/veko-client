@@ -1,7 +1,5 @@
 import { Fragment, useState } from "react";
 import {
-  BannerCallout,
-  BannerOverlay,
   Box,
   Button,
   Checkbox,

@@ -15,11 +15,10 @@ import Loader from "../components/Loader";
 import HomeComponent from "../components/HomeComponent";
 import AdminPanelUsedCarComponent from "./used-car";
 import AdminPanelNewsComponent from "./news";
+import AddCarModal from "./used-car/AddCarModal";
+import AddNewsModal from "./news/AddNewsModal";
 
 import "./adminPanel.scss";
-import AddCarModal from "./used-car/AddCarModal";
-import { act } from "react-dom/test-utils";
-import AddNewsModal from "./news/AddNewsModal";
 export default function AdminPanel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAddCarModalOpen, setIsAddCarOpen] = useState(false);

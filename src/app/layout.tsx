@@ -6,6 +6,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import localFont from "next/font/local";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { LoadingProvider } from "./context/LoadingContext";
+import Message from "./components/MessageComponent";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Loader from "./components/Loader";
@@ -100,6 +101,7 @@ export default function RootLayout({
                 </p>
               </CookieConsent>
             </footer>
+            {/* {isLoginIn && <Message />} */}
           </body>
           <GoogleAnalytics gaId="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" />
         </html>

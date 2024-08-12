@@ -50,11 +50,22 @@ export default function SearchComponent({
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+
+    if (anchorSecondRef.current !== null) {
+      console.log("anchorSecondRef", anchorSecondRef);
+      router.push("/admin-panel");
+    }
+  }, [anchorSecondRef]);
 
   if (!isClient) {
     return null;
   }
+
+  // useEffect(() => {
+  //   if (anchorSecondRef.current !== null) {
+  //     router.push("/admin-panel");
+  //   }
+  // }, []);
 
   const handleLogout = () => {
     console.log("here in logout");
@@ -194,6 +205,7 @@ export default function SearchComponent({
                     showDismissButton={false}
                     __overflow="hidden"
                     onDismiss={handleLogout}
+                    onKeyDown={() => router.push("/admin-panel")}
                   >
                     <Box
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}

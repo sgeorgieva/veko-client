@@ -23,11 +23,12 @@ import "./login.scss";
 
 export default function Login({
   closeModal,
-  setIslogin,
+  // setIslogin,
   setOpenLoginMenu,
   isMobile,
 }: any) {
   const [showComponent, setShowComponent] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [hasUsernameError, setHasUsernameError] = useState(false);
@@ -65,16 +66,6 @@ export default function Login({
         username: username,
         password: password,
       });
-      // const response = await fetch(`${linkUrl()}${endpoints.login}`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     username: username,
-      //     password: password,
-      //   }),
-      // });
       const data = await response;
 
       console.log("data", data);
@@ -88,7 +79,7 @@ export default function Login({
         // setMessage(t(data?.statusText));
         localStorage.setItem("jwt", data?.token);
         closeModal();
-        setIslogin(true);
+        setIsLogin(true);
         setOpenLoginMenu(false);
         router.push("/admin-panel");
         // sessionStorage.setItem("jwt", data?.accessToken);

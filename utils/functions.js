@@ -25,10 +25,11 @@ export const endpoints = {
   login: "login", //POST
   contact: "contact", //POST
   posts: "posts", //GET
-  postId: "posts/{{postsId}}", //GET
-  createPost: "posts/create", //CREATE
-  updatePost: "posts/{{postsId}}", // PUT /updata
+  postId: "posts/{{postsId}}", // GET
+  createPost: "posts/create", // POST
+  updatePost: "posts/{{postsId}}", // POST /updata
   deletePost: "posts/{{postsId}}", // DELETE
+  autocenters: "auto-centers/create", //POST
 };
 
 // module.exports = {
