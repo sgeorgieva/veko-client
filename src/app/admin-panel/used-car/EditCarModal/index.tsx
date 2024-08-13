@@ -16,7 +16,7 @@ import {
   Text,
 } from "gestalt";
 import { DatePicker } from "antd";
-import UploadImagesComponet from "../../../../app/components/UploadImagesComponent";
+import UploadImagesComponent from "../../../../app/components/UploadImagesComponent";
 
 import "./editCarModal.scss";
 export default function EditCarModal({
@@ -124,6 +124,16 @@ export default function EditCarModal({
     setIsEditCarModalOpen(false);
   };
 
+  const handleAddCar = () => {
+    // Add car logic here
+    setIsEditCarModalOpen(!isEditCarModalOpen);
+    setAllCheckboxsesCheck(false);
+  };
+
+  const handleCancelAddingCar = () => {
+    setIsEditCarModalOpen(!setIsEditCarModalOpen);
+  };
+
   return (
     <Box padding={6}>
       {isEditCarModalOpen && (
@@ -170,13 +180,7 @@ export default function EditCarModal({
                 Редактиране на автомобил Audi A3 2.0
               </h3>
             )}
-            <Box
-              display="flex"
-              height={400}
-              id="popover-overlaypanel"
-              paddingX={8}
-            >
-              {/* <Flex gap={{ row: 8, column: 0 }} width="100%"> */}
+            <Box height={400} id="popover-overlaypanel" paddingX={8}>
               <Box paddingX={2} rounding={4} width={200}>
                 <Mask rounding={4}>
                   <Image
@@ -188,189 +192,160 @@ export default function EditCarModal({
                   />
                 </Mask>
               </Box>
-              <div className="row">
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <Label htmlFor="year">Година</Label>
-                    <DatePicker
-                      onChange={({ value }) => {
-                        setYear(value);
-                      }}
-                      picker="month"
-                      value={year}
-                      size={isMobile ? "small" : "medium"}
-                      width="100%"
-                      placeholder=" "
+              <Box marginBottom={2}>
+                <Label htmlFor="year">Година</Label>
+                <DatePicker
+                  onChange={({ value }) => {
+                    setYear(value);
+                  }}
+                  picker="month"
+                  value={year}
+                  size={isMobile ? "small" : "medium"}
+                  width="100%"
+                  placeholder=" "
+                />
+              </Box>
+              <Box marginBottom={2}>
+                <SelectList
+                  id="typeEngine"
+                  label="Тип двигател"
+                  onChange={() => setTypeEngine(typeEngine)}
+                  size={isMobile ? "md" : "lg"}
+                  value={typeEngine}
+                >
+                  {[
+                    { label: "Бензин", value: "gasoline" },
+                    { label: "Дизел", value: "diesel" },
+                    { label: "Хибрид", value: "hybrid" },
+                    { label: "Газ", value: "gas" },
+                    { label: "Електрически", value: "electric" },
+                  ].map(({ label, value }) => (
+                    <SelectList.Option
+                      key={label}
+                      label={label}
+                      value={value}
                     />
-                  </Box>
-                </div>
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <SelectList
-                      id="typeEngine"
-                      label="Тип двигател"
-                      onChange={() => setTypeEngine(typeEngine)}
-                      size={isMobile ? "md" : "lg"}
-                      value={typeEngine}
-                    >
-                      {[
-                        { label: "Бензин", value: "gasoline" },
-                        { label: "Дизел", value: "diesel" },
-                        { label: "Хибрид", value: "hybrid" },
-                        { label: "Газ", value: "gas" },
-                        { label: "Електрически", value: "electric" },
-                      ].map(({ label, value }) => (
-                        <SelectList.Option
-                          key={label}
-                          label={label}
-                          value={value}
-                        />
-                      ))}
-                    </SelectList>
-                  </Box>
-                </div>
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <TextField
-                      id="power"
-                      label="Мощност"
-                      onChange={() => setPower(power)}
-                      placeholder=""
-                      type="text"
-                      value={power}
-                      size={isMobile ? "sm" : "lg"}
+                  ))}
+                </SelectList>
+              </Box>
+              <Box marginBottom={2}>
+                <TextField
+                  id="power"
+                  label="Мощност"
+                  onChange={() => setPower(power)}
+                  placeholder=""
+                  type="text"
+                  value={power}
+                  size={isMobile ? "sm" : "lg"}
+                />
+              </Box>
+              <Box marginBottom={2}>
+                <SelectList
+                  id="euroEmission"
+                  label="Евростандарт"
+                  onChange={() => setEuroEmission(euroEmission)}
+                  size={isMobile ? "md" : "lg"}
+                  value={euroEmission}
+                >
+                  {[
+                    { label: "Евро 1", value: "euro1" },
+                    { label: "Евро 2", value: "euro2" },
+                    { label: "Евро 3", value: "euro3" },
+                    { label: "Евро 4", value: "euro4" },
+                    { label: "Евро 5", value: "euro5" },
+                    { label: "Евро 6", value: "euro6" },
+                  ].map(({ label, value }) => (
+                    <SelectList.Option
+                      key={label}
+                      label={label}
+                      value={value}
                     />
-                  </Box>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <SelectList
-                      id="euroEmission"
-                      label="Евростандарт"
-                      onChange={() => setEuroEmission(euroEmission)}
-                      size={isMobile ? "md" : "lg"}
-                      value={euroEmission}
-                    >
-                      {[
-                        { label: "Евро 1", value: "euro1" },
-                        { label: "Евро 2", value: "euro2" },
-                        { label: "Евро 3", value: "euro3" },
-                        { label: "Евро 4", value: "euro4" },
-                        { label: "Евро 5", value: "euro5" },
-                        { label: "Евро 6", value: "euro6" },
-                      ].map(({ label, value }) => (
-                        <SelectList.Option
-                          key={label}
-                          label={label}
-                          value={value}
-                        />
-                      ))}
-                    </SelectList>
-                  </Box>
-                </div>
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <SelectList
-                      id="transmission"
-                      label="Скоростна кутия"
-                      onChange={() => setTransmission(transmission)}
-                      size={isMobile ? "md" : "lg"}
-                      value={transmission}
-                    >
-                      {[
-                        { label: "Ръчна", value: "manual" },
-                        { label: "Автоматична", value: "automatic" },
-                      ].map(({ label, value }) => (
-                        <SelectList.Option
-                          key={label}
-                          label={label}
-                          value={value}
-                        />
-                      ))}
-                    </SelectList>
-                  </Box>
-                </div>
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <SelectList
-                      id="category"
-                      label="Категория"
-                      onChange={() => setCategory(category)}
-                      size={isMobile ? "md" : "lg"}
-                      value={category}
-                    >
-                      {[
-                        { label: "Кабриолет", value: "convertible" },
-                        { label: "Купе", value: "coupe" },
-                        { label: "Кросувър", value: "crossover" },
-                        { label: "Хибрид", value: "hybrid" },
-                        { label: "Луксозен", value: "luxury" },
-                        { label: "Седан", value: "sedan" },
-                        { label: "Спортен", value: "sports car" },
-                        { label: "СУВ", value: "SUV" },
-                        { label: "Товарен автомобил/Пикап", value: "truck" },
-                        { label: "Ван/Миниван", value: "van/minivan" },
-                        { label: "Хетчбек", value: "hatchback" },
-                      ].map(({ label, value }) => (
-                        <SelectList.Option
-                          key={label}
-                          label={label}
-                          value={value}
-                        />
-                      ))}
-                    </SelectList>
-                  </Box>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <Box
-                    alignItems="start"
-                    display="flex"
-                    height="100%"
-                    justifyContent="start"
-                  >
-                    <Box width="100%">
-                      <TextArea
-                        id="description"
-                        label="Описание"
-                        onChange={(e) => {
-                          setDescription(e.value);
-                        }}
-                        placeholder=""
-                        value={description}
-                      />
-                    </Box>
-                  </Box>
-                </div>
-                <div className="col-md-3">
-                  <Box marginBottom={2}>
-                    <TextField
-                      id="mileage"
-                      label="Пробег"
-                      onChange={() => setМileage(mileage)}
-                      placeholder=""
-                      type="text"
-                      value={mileage}
-                      size={isMobile ? "sm" : "lg"}
+                  ))}
+                </SelectList>
+              </Box>
+              <Box marginBottom={2}>
+                <SelectList
+                  id="transmission"
+                  label="Скоростна кутия"
+                  onChange={() => setTransmission(transmission)}
+                  size={isMobile ? "md" : "lg"}
+                  value={transmission}
+                >
+                  {[
+                    { label: "Ръчна", value: "manual" },
+                    { label: "Автоматична", value: "automatic" },
+                  ].map(({ label, value }) => (
+                    <SelectList.Option
+                      key={label}
+                      label={label}
+                      value={value}
                     />
-                  </Box>
-                </div>
-                <div className="col-md-3">
-                  <Box marginBottom={2}>
-                    <TextField
-                      id="color"
-                      label="Цвят"
-                      onChange={() => setColor(color)}
-                      placeholder=""
-                      type="text"
-                      size={isMobile ? "sm" : "lg"}
+                  ))}
+                </SelectList>
+              </Box>
+              <Box marginBottom={2}>
+                <SelectList
+                  id="category"
+                  label="Категория"
+                  onChange={() => setCategory(category)}
+                  size={isMobile ? "md" : "lg"}
+                  value={category}
+                >
+                  {[
+                    { label: "Кабриолет", value: "convertible" },
+                    { label: "Купе", value: "coupe" },
+                    { label: "Кросувър", value: "crossover" },
+                    { label: "Хибрид", value: "hybrid" },
+                    { label: "Луксозен", value: "luxury" },
+                    { label: "Седан", value: "sedan" },
+                    { label: "Спортен", value: "sports car" },
+                    { label: "СУВ", value: "SUV" },
+                    { label: "Товарен автомобил/Пикап", value: "truck" },
+                    { label: "Ван/Миниван", value: "van/minivan" },
+                    { label: "Хетчбек", value: "hatchback" },
+                  ].map(({ label, value }) => (
+                    <SelectList.Option
+                      key={label}
+                      label={label}
+                      value={value}
                     />
-                  </Box>
-                </div>
-              </div>
+                  ))}
+                </SelectList>
+              </Box>
+              <Box alignItems="start" justifyContent="start">
+                <Box width="100%">
+                  <TextArea
+                    id="description"
+                    label="Описание"
+                    onChange={(e) => {
+                      setDescription(e.value);
+                    }}
+                    placeholder=""
+                    value={description}
+                  />
+                </Box>
+              </Box>
+              <Box marginBottom={2}>
+                <TextField
+                  id="mileage"
+                  label="Пробег"
+                  onChange={() => setМileage(mileage)}
+                  placeholder=""
+                  type="text"
+                  value={mileage}
+                  size={isMobile ? "sm" : "lg"}
+                />
+              </Box>
+              <Box marginBottom={2}>
+                <TextField
+                  id="color"
+                  label="Цвят"
+                  onChange={() => setColor(color)}
+                  placeholder=""
+                  type="text"
+                  size={isMobile ? "sm" : "lg"}
+                />
+              </Box>
               <div className="row pt-3 align-items-baseline">
                 <div className="col-md-6 flex-1">
                   <h6 className="fw-bold mb-0">Безопасност</h6>
@@ -797,7 +772,7 @@ export default function EditCarModal({
               <div className="row py-3">
                 <h6 className="fw-bold">Снимки</h6>
                 <Text weight="bold">
-                  <UploadImagesComponet />
+                  <UploadImagesComponent />
                 </Text>
               </div>
               <div className="row mt-3 pb-4">
@@ -809,7 +784,7 @@ export default function EditCarModal({
                     accessibilityLabel="Submit"
                     size={`${isMobile ? "sm" : "lg"}`}
                     text="Добави"
-                    // onClick={(e) => handleAddCar()}
+                    onClick={(e) => handleAddCar()}
                   />{" "}
                 </Box>
                 <Button
@@ -819,10 +794,9 @@ export default function EditCarModal({
                   accessibilityLabel="button"
                   size={`${isMobile ? "sm" : "lg"}`}
                   text="Отказ"
-                  // onClick={(e) => handleCancelAddingCar()}
+                  onClick={(e) => handleCancelAddingCar()}
                 />{" "}
               </div>
-              {/* </Flex> */}
             </Box>
           </OverlayPanel>
         </Layer>

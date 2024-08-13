@@ -20,6 +20,7 @@ import { linkUrl, endpoints } from "../../../../utils/functions";
 import VekoLogoImage from "../../../../public/images/veko-oil-logo.png";
 
 import "./login.scss";
+import { headers } from "next/headers";
 
 export default function Login({
   closeModal,
@@ -63,6 +64,9 @@ export default function Login({
   const login = async () => {
     try {
       const response = axios.post(`${linkUrl()}${endpoints.login}`, {
+        // headers: {
+        //   Bearer: localStorage.getItem("jwt"),
+        // },
         username: username,
         password: password,
       });
@@ -70,14 +74,17 @@ export default function Login({
 
       console.log("data", data);
 
-      if (data.statusText === "fail" || data.statusText === "error") {
+      if (
+        data?.data?.statusText === "fail" ||
+        data?.data?.statusText === "error"
+      ) {
         throw Error(data.message);
       } else {
         // store.dispatch(login(data));
         console.log("data", data);
         // setError(false);
         // setMessage(t(data?.statusText));
-        localStorage.setItem("jwt", data?.token);
+        localStorage.setItem("jwt", data?.data?.token);
         closeModal();
         setIsLogin(true);
         setOpenLoginMenu(false);

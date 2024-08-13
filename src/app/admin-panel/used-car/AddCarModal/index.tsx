@@ -15,7 +15,9 @@ import {
   TextField,
 } from "gestalt";
 import { DatePicker } from "antd";
+import axios from "axios";
 import UploadImagesComponet from "../../../../app/components/UploadImagesComponent";
+import { linkUrl, endpoints } from "../../../../../utils/functions";
 
 import "./addCarModal.scss";
 
@@ -26,6 +28,7 @@ export default function AddCarModal({
 }: any) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const modalZIndex = new CompositeZIndex([HEADER_ZINDEX]);
+  const [items, setItems] = useState([]);
   const [year, setYear] = useState("");
   const [description, setDescription] = useState("");
   const [typeEngine, setTypeEngine] = useState("");
@@ -125,10 +128,126 @@ export default function AddCarModal({
     // Add car logic here
     setIsAddCarOpen(!isAddCarModalOpen);
     setAllCheckboxsesCheck(false);
+    const values = [
+      {
+        year: year,
+        description: description,
+        typeEngine: typeEngine,
+        power: power,
+        euroEmission: euroEmission,
+        transmission: transmission,
+        category: category,
+        mileage: mileage,
+        color: color,
+        autoStabilityControlCheck: autoStabilityControlCheck,
+        antiblockSystemCheck: antiblockSystemCheck,
+        backAirPillowsCheck: backAirPillowsCheck,
+        frontAirPillowsCheck: frontAirPillowsCheck,
+        lateralAirPillowsCheck: lateralAirPillowsCheck,
+        parktronicCheck: parktronicCheck,
+        doorsCheck: doorsCheck,
+        alloyWheelsCheck: alloyWheelsCheck,
+        halogenHeadlightsCheck: halogenHeadlightsCheck,
+        protectionCheck: protectionCheck,
+        immobilizerCheck: immobilizerCheck,
+        bluetoothHandsfreeSystemCheck: bluetoothHandsfreeSystemCheck,
+        audioConsumablesCheck: audioConsumablesCheck,
+        boardComputerCheck: boardComputerCheck,
+        lightSensorCheck: lightSensorCheck,
+        electricMirrorsCheck: electricMirrorsCheck,
+        electricGlassCheck: electricGlassCheck,
+        climatronicCheck: climatronicCheck,
+        steeringWheelAdjustmentCheck: steeringWheelAdjustmentCheck,
+        rainSensorCheck: rainSensorCheck,
+        powerSteeringCheck: powerSteeringCheck,
+        autopilotCheck: autopilotCheck,
+        newImportationCheck: newImportationCheck,
+        stereoCheck: stereoCheck,
+      },
+    ];
+
+    const newItems = values.map((value) => ({
+      year: value.year,
+      description: value.description,
+      typeEngine: value.typeEngine,
+      power: value.power,
+      euroEmission: value.euroEmission,
+      transmission: value.transmission,
+      category: value.category,
+      mileage: value.mileage,
+      color: value.color,
+      autoStabilityControlCheck: value.autoStabilityControlCheck,
+      antiblockSystemCheck: value.antiblockSystemCheck,
+      backAirPillowsCheck: value.backAirPillowsCheck,
+      frontAirPillowsCheck: value.frontAirPillowsCheck,
+      lateralAirPillowsCheck: value.lateralAirPillowsCheck,
+      parktronicCheck: value.parktronicCheck,
+      doorsCheck: value.doorsCheck,
+      alloyWheelsCheck: value.alloyWheelsCheck,
+      halogenHeadlightsCheck: value.halogenHeadlightsCheck,
+      protectionCheck: value.protectionCheck,
+      immobilizerCheck: value.immobilizerCheck,
+      bluetoothHandsfreeSystemCheck: value.bluetoothHandsfreeSystemCheck,
+      audioConsumablesCheck: value.audioConsumablesCheck,
+      boardComputerCheck: value.boardComputerCheck,
+      lightSensorCheck: value.lightSensorCheck,
+      electricMirrorsCheck: value.electricMirrorsCheck,
+      electricGlassCheck: value.electricGlassCheck,
+      climatronicCheck: value.climatronicCheck,
+      steeringWheelAdjustmentCheck: value.steeringWheelAdjustmentCheck,
+      rainSensorCheck: value.rainSensorCheck,
+      powerSteeringCheck: value.powerSteeringCheck,
+      autopilotCheck: value.autopilotCheck,
+      newImportationCheck: value.newImportationCheck,
+      stereoCheck: value.stereoCheck,
+    }));
+
+    const updateElementAtIndex = (index, newElement) => {
+      const newArray = [...stateArray];
+      newArray[index] = newElement;
+      setItems(newArray);
+      // setStateArray(newArray);
+    };
+
+    fetchAddCar();
   };
 
   const handleCancelAddingCar = () => {
     setIsAddCarOpen(!isAddCarModalOpen);
+  };
+
+  console.log("items", items);
+
+  const fetchAddCar = async () => {
+    // Add car data to the server here
+    console.log("here", items);
+
+    try {
+      const response = axios.post(`${linkUrl()}${endpoints.createCar}`, {
+        headers: {
+          Bearer: localStorage.getItem("jwt"),
+        },
+        items,
+      });
+      const data = await response;
+
+      console.log("data", data);
+
+      if (data.statusText === "fail" || data.statusText === "error") {
+        throw Error(data.message);
+      } else {
+        // store.dispatch(login(data));
+        console.log("data", data);
+        // setError(false);
+        // setMessage(t(data?.statusText));
+        setIsAddCarOpen(!isAddCarModalOpen);
+      }
+    } catch (error) {
+      console.log("error", error);
+      // setMessage(`${t(error?.message)}`);
+      // setError(true);
+      // throw Error(error);
+    }
   };
 
   return (
@@ -170,7 +289,6 @@ export default function AddCarModal({
                       label="Тип двигател"
                       onChange={() => setTypeEngine(typeEngine)}
                       size={isMobile ? "md" : "lg"}
-                      value={typeEngine}
                     >
                       {[
                         { label: "Бензин", value: "gasoline" },
@@ -196,7 +314,7 @@ export default function AddCarModal({
                       onChange={() => setPower(power)}
                       placeholder=""
                       type="text"
-                      value={power}
+                      // value={power}
                       size={isMobile ? "sm" : "lg"}
                     />
                   </Box>
@@ -210,7 +328,6 @@ export default function AddCarModal({
                       label="Евростандарт"
                       onChange={() => setEuroEmission(euroEmission)}
                       size={isMobile ? "md" : "lg"}
-                      value={euroEmission}
                     >
                       {[
                         { label: "Евро 1", value: "euro1" },
@@ -236,7 +353,6 @@ export default function AddCarModal({
                       label="Скоростна кутия"
                       onChange={() => setTransmission(transmission)}
                       size={isMobile ? "md" : "lg"}
-                      value={transmission}
                     >
                       {[
                         { label: "Ръчна", value: "manual" },
@@ -258,7 +374,6 @@ export default function AddCarModal({
                       label="Категория"
                       onChange={() => setCategory(category)}
                       size={isMobile ? "md" : "lg"}
-                      value={category}
                     >
                       {[
                         { label: "Кабриолет", value: "convertible" },
@@ -311,8 +426,8 @@ export default function AddCarModal({
                       label="Пробег"
                       onChange={() => setМileage(mileage)}
                       placeholder=""
-                      type="text"
-                      value={mileage}
+                      type="number"
+                      // value={mileage}
                       size={isMobile ? "sm" : "lg"}
                     />
                   </Box>

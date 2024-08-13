@@ -29,6 +29,11 @@ export const endpoints = {
   createPost: "posts/create", // POST
   updatePost: "posts/{{postsId}}", // POST /updata
   deletePost: "posts/{{postsId}}", // DELETE
+  cars: "used-cars", // GET
+  carId: "used-cars/{{carId}}", // GET
+  createCar: "used-cars/cars", // POST
+  updateCar: "used-cars/edit/{{carId}}", // PUT
+  deleteCar: "used-cars/{{carId}}", // DELETE
   autocenters: "auto-centers/create", //POST
 };
 
