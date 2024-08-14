@@ -136,8 +136,9 @@
 }
 
 .header-mobile {
+  height: 13vh !important;
   .col-md-8 {
-    margin-bottom: 35px;
+    margin-bottom: 47px;
     span {
       font-size: 12px;
       padding: 7px 14px;
@@ -152,6 +153,14 @@
     transform: translate(-50%, 300%);
     z-index: 1;
   }
+  
+  &.header-mobile-menu {
+    height: 100vh !important;
+
+    * {
+      overflow: hidden !important;
+    }
+  }
 }
 
 .mobile-header-links {
@@ -163,6 +172,13 @@
 	width: 100vw;
 	margin: 0;
 	padding: 0;
+
+  section {
+    padding-top: 15px;
+    a {
+      text-transform: uppercase;
+    }
+  }
 
   .navlink {
     /* Additional styling */
@@ -397,5 +413,104 @@
     .navbar-toggler {
       right: -1%;
     }
+  }
+}
+
+.menuToggle input:checked~ul {
+  transform: none;
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0.2% !important;
+  right: 3%;
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
+
+  input {
+    display: flex;
+    width: 23px;
+    height: 18px;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 2;
+
+    a {
+      text-wrap: wrap;
+    }
+  }
+
+  span {
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    height: 2px;
+    margin-bottom: 5px;
+    position: relative;
+    transform-origin: 16.65px 2px;
+    transition: transform .5s cubic-bezier(.77, .2, .05, 1), background .5s cubic-bezier(.77, .2, .05, 1), opacity .55s ease;
+    width: 25px;
+    z-index: 1;
+  }
+}
+
+.close-icon {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 4%;
+  right: 3%;
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
+
+  &.close {
+    top: 0.5% !important;
+  }
+
+  input {
+    display: flex;
+    width: 40px;
+    height: 32px;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 2;
+
+    a {
+      text-wrap: wrap;
+    }
+
+    &[type=checkbox]~span {
+      opacity: 1;
+      transform: rotate(45deg) translate(-3px, -1px);
+      background: #36383F;
+    }
+
+    &[type=checkbox]~span:nth-last-child(2) {
+      transform: rotate(-45deg) translateY(-1px);
+    }
+
+    &[type=checkbox]~span:nth-last-child(3) {
+      opacity: 0;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  span {
+    background: #36383f;
+    border-radius: 12px;
+    display: flex;
+    height: 2px;
+    margin-bottom: 5px;
+    position: relative;
+    transform-origin: 16.65px 2px;
+    transition: transform .5s cubic-bezier(.77, .2, .05, 1), background .5s cubic-bezier(.77, .2, .05, 1), opacity .55s ease;
+    width: 27px;
+    z-index: 1;
   }
 }
