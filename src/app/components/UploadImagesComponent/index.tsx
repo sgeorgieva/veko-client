@@ -4,14 +4,12 @@ import ImageUploading, { ImageListType } from "react-images-uploading";
 
 import "./uploadImagesComponent.scss";
 
-export default function UploadImagesComponet() {
-  const [images, setImages] = React.useState([]);
-  const maxNumber = 69;
+export default function UploadImagesComponet({ images, setImages }) {
+  const maxNumber = 3;
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
-    console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
 

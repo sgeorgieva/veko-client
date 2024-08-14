@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,10 +14,16 @@ import {
   TextArea,
   TextField,
 } from "gestalt";
-import { DatePicker } from "antd";
 import axios from "axios";
+import DatePicker from "react-datepicker";
 import UploadImagesComponet from "../../../../app/components/UploadImagesComponent";
-import { linkUrl, endpoints } from "../../../../../utils/functions";
+import {
+  linkUrl,
+  endpoints,
+  renderMonthContent,
+} from "../../../../../utils/functions";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 import "./addCarModal.scss";
 
@@ -25,17 +31,20 @@ export default function AddCarModal({
   isAddCarModalOpen,
   setIsAddCarOpen,
   isMobile,
+  fetchCarsData,
 }: any) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const modalZIndex = new CompositeZIndex([HEADER_ZINDEX]);
-  const [items, setItems] = useState([]);
+  let newItems = null;
+  const [images, setImages] = useState([]);
   const [year, setYear] = useState("");
+  const [model, setModel] = useState("");
   const [description, setDescription] = useState("");
-  const [typeEngine, setTypeEngine] = useState("");
+  const [typeEngine, setTypeEngine] = useState("gasoline");
   const [power, setPower] = useState("");
-  const [euroEmission, setEuroEmission] = useState("");
-  const [transmission, setTransmission] = useState("");
-  const [category, setCategory] = useState("");
+  const [euroEmission, setEuroEmission] = useState("euro1");
+  const [transmission, setTransmission] = useState("manual");
+  const [category, setCategory] = useState("convertible");
   const [mileage, setМileage] = useState("");
   const [color, setColor] = useState("");
   const [autoStabilityControlCheck, setAutoStabilityControlCheck] =
@@ -131,6 +140,7 @@ export default function AddCarModal({
     const values = [
       {
         year: year,
+        model: model,
         description: description,
         typeEngine: typeEngine,
         power: power,
@@ -166,8 +176,9 @@ export default function AddCarModal({
       },
     ];
 
-    const newItems = values.map((value) => ({
+    newItems = values.map((value) => ({
       year: value.year,
+      model: value.model,
       description: value.description,
       typeEngine: value.typeEngine,
       power: value.power,
@@ -176,78 +187,119 @@ export default function AddCarModal({
       category: value.category,
       mileage: value.mileage,
       color: value.color,
-      autoStabilityControlCheck: value.autoStabilityControlCheck,
-      antiblockSystemCheck: value.antiblockSystemCheck,
-      backAirPillowsCheck: value.backAirPillowsCheck,
-      frontAirPillowsCheck: value.frontAirPillowsCheck,
-      lateralAirPillowsCheck: value.lateralAirPillowsCheck,
-      parktronicCheck: value.parktronicCheck,
-      doorsCheck: value.doorsCheck,
-      alloyWheelsCheck: value.alloyWheelsCheck,
-      halogenHeadlightsCheck: value.halogenHeadlightsCheck,
-      protectionCheck: value.protectionCheck,
-      immobilizerCheck: value.immobilizerCheck,
-      bluetoothHandsfreeSystemCheck: value.bluetoothHandsfreeSystemCheck,
-      audioConsumablesCheck: value.audioConsumablesCheck,
-      boardComputerCheck: value.boardComputerCheck,
-      lightSensorCheck: value.lightSensorCheck,
-      electricMirrorsCheck: value.electricMirrorsCheck,
-      electricGlassCheck: value.electricGlassCheck,
-      climatronicCheck: value.climatronicCheck,
-      steeringWheelAdjustmentCheck: value.steeringWheelAdjustmentCheck,
-      rainSensorCheck: value.rainSensorCheck,
-      powerSteeringCheck: value.powerSteeringCheck,
-      autopilotCheck: value.autopilotCheck,
-      newImportationCheck: value.newImportationCheck,
-      stereoCheck: value.stereoCheck,
+      attributes: {
+        autoStabilityControlCheck: value.autoStabilityControlCheck,
+        antiblockSystemCheck: value.antiblockSystemCheck,
+        backAirPillowsCheck: value.backAirPillowsCheck,
+        frontAirPillowsCheck: value.frontAirPillowsCheck,
+        lateralAirPillowsCheck: value.lateralAirPillowsCheck,
+        parktronicCheck: value.parktronicCheck,
+        doorsCheck: value.doorsCheck,
+        alloyWheelsCheck: value.alloyWheelsCheck,
+        halogenHeadlightsCheck: value.halogenHeadlightsCheck,
+        protectionCheck: value.protectionCheck,
+        immobilizerCheck: value.immobilizerCheck,
+        bluetoothHandsfreeSystemCheck: value.bluetoothHandsfreeSystemCheck,
+        audioConsumablesCheck: value.audioConsumablesCheck,
+        boardComputerCheck: value.boardComputerCheck,
+        lightSensorCheck: value.lightSensorCheck,
+        electricMirrorsCheck: value.electricMirrorsCheck,
+        electricGlassCheck: value.electricGlassCheck,
+        climatronicCheck: value.climatronicCheck,
+        steeringWheelAdjustmentCheck: value.steeringWheelAdjustmentCheck,
+        rainSensorCheck: value.rainSensorCheck,
+        powerSteeringCheck: value.powerSteeringCheck,
+        autopilotCheck: value.autopilotCheck,
+        newImportationCheck: value.newImportationCheck,
+        stereoCheck: value.stereoCheck,
+      },
+      images: images,
     }));
 
-    const updateElementAtIndex = (index, newElement) => {
-      const newArray = [...stateArray];
-      newArray[index] = newElement;
-      setItems(newArray);
-      // setStateArray(newArray);
-    };
-
-    fetchAddCar();
+    if (images[0].file !== undefined) {
+      fetchAddCar();
+    }
   };
 
   const handleCancelAddingCar = () => {
     setIsAddCarOpen(!isAddCarModalOpen);
   };
 
-  console.log("items", items);
+  // console.log("items", items);
 
   const fetchAddCar = async () => {
     // Add car data to the server here
-    console.log("here", items);
+    console.log("here in fetchAddCar newItems", newItems[0].model);
+
+    const formData = new FormData();
+    formData.append("year", newItems[0].year);
+    formData.append("model", newItems[0].model);
+    formData.append("typeEngine", newItems[0].typeEngine);
+    formData.append("power", newItems[0].power);
+    formData.append("euroEmission", newItems[0].euroEmission);
+    formData.append("transmission", newItems[0].transmission);
+    formData.append("category", newItems[0].category);
+    formData.append("description", newItems[0].description);
+    formData.append("mileage", newItems[0].mileage);
+    formData.append("color", newItems[0].color);
+    images.map((image) => formData.append("images[]", image.file));
+    formData.append("attributes", JSON.stringify(newItems[0].attributes));
 
     try {
-      const response = axios.post(`${linkUrl()}${endpoints.createCar}`, {
-        headers: {
-          Bearer: localStorage.getItem("jwt"),
-        },
-        items,
-      });
-      const data = await response;
-
-      console.log("data", data);
-
-      if (data.statusText === "fail" || data.statusText === "error") {
-        throw Error(data.message);
-      } else {
-        // store.dispatch(login(data));
-        console.log("data", data);
-        // setError(false);
-        // setMessage(t(data?.statusText));
-        setIsAddCarOpen(!isAddCarModalOpen);
+      const response = await axios.post(
+        `${linkUrl()}${endpoints.createCar}`,
+        formData,
+        {
+          headers: {
+            Accept: "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsAddCarOpen(false);
+        fetchCarsData();
       }
     } catch (error) {
-      console.log("error", error);
-      // setMessage(`${t(error?.message)}`);
-      // setError(true);
-      // throw Error(error);
+      console.error(error);
+      setIsAddCarOpen(false);
     }
+  };
+
+  const handleYearChange = (value) => {
+    setYear(value);
+  };
+
+  const handleModelChange = (event) => {
+    setModel(event.value);
+  };
+
+  const handlePowerChange = (event) => {
+    setPower(event.value);
+  };
+
+  const handleTypeEngine = (event) => {
+    setTypeEngine(event.value);
+  };
+
+  const handleEuroEmission = (event) => {
+    setEuroEmission(event.value);
+  };
+
+  const handleTransmission = (event) => {
+    setTransmission(event.value);
+  };
+
+  const handleМileage = (event) => {
+    setМileage(event.value);
+  };
+
+  const handleCategory = (event) => {
+    setCategory(event.value);
+  };
+
+  const handleColor = (event) => {
+    setColor(event.value);
   };
 
   return (
@@ -271,14 +323,29 @@ export default function AddCarModal({
                   <Box marginBottom={2}>
                     <Label htmlFor="year">Година</Label>
                     <DatePicker
-                      onChange={({ value }) => {
-                        setYear(value);
+                      onChange={(value) => {
+                        handleYearChange(value);
                       }}
-                      picker="month"
-                      value={year}
-                      size={isMobile ? "small" : "medium"}
-                      width="100%"
-                      placeholder=" "
+                      selected={year}
+                      renderMonthContent={renderMonthContent}
+                      showMonthYearPicker
+                      dateFormat="MM/yyyy"
+                    />
+                  </Box>
+                </div>
+                <div className="col-md-4">
+                  <Box marginBottom={2}>
+                    <TextField
+                      id="model"
+                      label="Модел"
+                      onChange={(event) => {
+                        handleModelChange(event);
+                      }}
+                      placeholder=""
+                      type="text"
+                      name="model"
+                      value={model}
+                      size={isMobile ? "sm" : "lg"}
                     />
                   </Box>
                 </div>
@@ -287,8 +354,11 @@ export default function AddCarModal({
                     <SelectList
                       id="typeEngine"
                       label="Тип двигател"
-                      onChange={() => setTypeEngine(typeEngine)}
+                      onChange={(event, value) =>
+                        handleTypeEngine(event, value)
+                      }
                       size={isMobile ? "md" : "lg"}
+                      value={typeEngine}
                     >
                       {[
                         { label: "Бензин", value: "gasoline" },
@@ -306,74 +376,86 @@ export default function AddCarModal({
                     </SelectList>
                   </Box>
                 </div>
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <TextField
-                      id="power"
-                      label="Мощност"
-                      onChange={() => setPower(power)}
-                      placeholder=""
-                      type="text"
-                      // value={power}
-                      size={isMobile ? "sm" : "lg"}
-                    />
-                  </Box>
+                <div className="row">
+                  <div className="col-md-4">
+                    <Box marginBottom={2}>
+                      <TextField
+                        id="power"
+                        label="Мощност"
+                        onChange={(event, value) =>
+                          handlePowerChange(event, value)
+                        }
+                        placeholder=""
+                        type="number"
+                        name="power"
+                        value={power}
+                        size={isMobile ? "sm" : "lg"}
+                      />
+                    </Box>
+                  </div>
+                  <div className="col-md-4">
+                    <Box marginBottom={2}>
+                      <SelectList
+                        id="euroEmission"
+                        label="Евростандарт"
+                        onChange={(event, value) =>
+                          handleEuroEmission(event, value)
+                        }
+                        size={isMobile ? "md" : "lg"}
+                        value={euroEmission}
+                      >
+                        {[
+                          { label: "Евро 1", value: "euro1" },
+                          { label: "Евро 2", value: "euro2" },
+                          { label: "Евро 3", value: "euro3" },
+                          { label: "Евро 4", value: "euro4" },
+                          { label: "Евро 5", value: "euro5" },
+                          { label: "Евро 6", value: "euro6" },
+                        ].map(({ label, value }) => (
+                          <SelectList.Option
+                            key={label}
+                            label={label}
+                            value={value}
+                          />
+                        ))}
+                      </SelectList>
+                    </Box>
+                  </div>
+                  <div className="col-md-4">
+                    <Box marginBottom={2}>
+                      <SelectList
+                        id="transmission"
+                        label="Скоростна кутия"
+                        onChange={(event, value) =>
+                          handleTransmission(event, value)
+                        }
+                        size={isMobile ? "md" : "lg"}
+                        value={transmission}
+                      >
+                        {[
+                          { label: "Ръчна", value: "manual" },
+                          { label: "Автоматична", value: "automatic" },
+                        ].map(({ label, value }) => (
+                          <SelectList.Option
+                            key={label}
+                            label={label}
+                            value={value}
+                          />
+                        ))}
+                      </SelectList>
+                    </Box>
+                  </div>
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-4">
                   <Box marginBottom={2}>
                     <SelectList
-                      id="euroEmission"
-                      label="Евростандарт"
-                      onChange={() => setEuroEmission(euroEmission)}
-                      size={isMobile ? "md" : "lg"}
-                    >
-                      {[
-                        { label: "Евро 1", value: "euro1" },
-                        { label: "Евро 2", value: "euro2" },
-                        { label: "Евро 3", value: "euro3" },
-                        { label: "Евро 4", value: "euro4" },
-                        { label: "Евро 5", value: "euro5" },
-                        { label: "Евро 6", value: "euro6" },
-                      ].map(({ label, value }) => (
-                        <SelectList.Option
-                          key={label}
-                          label={label}
-                          value={value}
-                        />
-                      ))}
-                    </SelectList>
-                  </Box>
-                </div>
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <SelectList
-                      id="transmission"
-                      label="Скоростна кутия"
-                      onChange={() => setTransmission(transmission)}
-                      size={isMobile ? "md" : "lg"}
-                    >
-                      {[
-                        { label: "Ръчна", value: "manual" },
-                        { label: "Автоматична", value: "automatic" },
-                      ].map(({ label, value }) => (
-                        <SelectList.Option
-                          key={label}
-                          label={label}
-                          value={value}
-                        />
-                      ))}
-                    </SelectList>
-                  </Box>
-                </div>
-                <div className="col-md-4">
-                  <Box marginBottom={2}>
-                    <SelectList
                       id="category"
                       label="Категория"
-                      onChange={() => setCategory(category)}
+                      onChange={(event, value) => handleCategory(event, value)}
                       size={isMobile ? "md" : "lg"}
+                      value={category}
                     >
                       {[
                         { label: "Кабриолет", value: "convertible" },
@@ -397,9 +479,35 @@ export default function AddCarModal({
                     </SelectList>
                   </Box>
                 </div>
+                <div className="col-md-4">
+                  <Box marginBottom={2}>
+                    <TextField
+                      id="mileage"
+                      name="mileage"
+                      label="Пробег"
+                      onChange={(event, value) => handleМileage(event, value)}
+                      placeholder=""
+                      type="number"
+                      value={mileage}
+                      size={isMobile ? "sm" : "lg"}
+                    />
+                  </Box>
+                </div>
+                <div className="col-md-4">
+                  <Box marginBottom={2}>
+                    <TextField
+                      id="color"
+                      label="Цвят"
+                      onChange={(event, value) => handleColor(event, value)}
+                      placeholder=""
+                      type="text"
+                      size={isMobile ? "sm" : "lg"}
+                    />
+                  </Box>
+                </div>
               </div>
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <Box
                     alignItems="start"
                     display="flex"
@@ -409,6 +517,7 @@ export default function AddCarModal({
                     <Box width="100%">
                       <TextArea
                         id="description"
+                        name="description"
                         label="Описание"
                         onChange={(e) => {
                           setDescription(e.value);
@@ -417,31 +526,6 @@ export default function AddCarModal({
                         value={description}
                       />
                     </Box>
-                  </Box>
-                </div>
-                <div className="col-md-3">
-                  <Box marginBottom={2}>
-                    <TextField
-                      id="mileage"
-                      label="Пробег"
-                      onChange={() => setМileage(mileage)}
-                      placeholder=""
-                      type="number"
-                      // value={mileage}
-                      size={isMobile ? "sm" : "lg"}
-                    />
-                  </Box>
-                </div>
-                <div className="col-md-3">
-                  <Box marginBottom={2}>
-                    <TextField
-                      id="color"
-                      label="Цвят"
-                      onChange={() => setColor(color)}
-                      placeholder=""
-                      type="text"
-                      size={isMobile ? "sm" : "lg"}
-                    />
                   </Box>
                 </div>
               </div>
@@ -871,7 +955,7 @@ export default function AddCarModal({
               <div className="row py-3">
                 <h6 className="fw-bold">Снимки</h6>
                 <Text weight="bold">
-                  <UploadImagesComponet />
+                  <UploadImagesComponet images={images} setImages={setImages} />
                 </Text>
               </div>
               <div className="row mt-3 pb-4">

@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
-import AudiCarImage from "../../../../public/images/audi-car.png";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
+import { endpoints, linkUrl } from "../../../../utils/functions";
+import UsedCarDescription from "./UsedCarDescription";
 
 import "./usedCarPerSingleComponent.scss";
-import UsedCarDescription from "./usedCarDescription";
 export default function UsedCarPerSingleComponent({
   isEdit,
   isMobile,
-  setIsEditCarModalOpen,
-  setIsDeleteCarModalOpen,
+  model,
+  image,
+  handleEditCarData,
+  handleDeleteCar,
+  setCarInfo,
+  carInfo,
+  id,
 }: any) {
   const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
 
@@ -17,16 +24,40 @@ export default function UsedCarPerSingleComponent({
     return <UsedCarDescription />;
   };
 
+  const fetchSingleCar = async () => {
+    console.log("here");
+    handleEditCarData();
+
+    try {
+      const response = await axios.get(`${linkUrl()}${endpoints.carId}${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+        },
+      });
+      if (response.status === 200) {
+        setCarInfo(response.data.record);
+        // handleEditCarData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <Flex alignItems="center" height="100%" justifyContent="start" width="100%">
+    <Flex
+      alignItems="center"
+      height="100%"
+      justifyContent="center"
+      width="100%"
+    >
       <Box column={12} maxWidth={236} padding={2}>
         {!isEdit ? (
           <Link onClick={handleSingleCar} href="/services/used-car/1">
             <WashAnimated
               image={
                 <Avatar
-                  name="Audi A3 2.0"
-                  src={AudiCarImage.src}
+                  name={model}
+                  src={image}
                   verified={true}
                   className="car-image"
                 />
@@ -35,7 +66,7 @@ export default function UsedCarPerSingleComponent({
               <Flex direction="column" justifyContent="center">
                 <Text align="center" weight="bold">
                   <Box paddingX={3} paddingY={2}>
-                    Audi A3 2.0
+                    {model}
                   </Box>
                 </Text>
               </Flex>
@@ -47,7 +78,7 @@ export default function UsedCarPerSingleComponent({
               <Avatar
                 size="fit"
                 name="Audi A3 2.0"
-                src={AudiCarImage.src}
+                src={image}
                 verified={true}
               />
             }
@@ -55,7 +86,7 @@ export default function UsedCarPerSingleComponent({
             <Flex direction="column" justifyContent="center">
               <Text align="center" weight="bold">
                 <Box paddingX={3} paddingY={2}>
-                  Audi A3 2.0
+                  {model}
                 </Box>
               </Text>
               <Button
@@ -63,16 +94,16 @@ export default function UsedCarPerSingleComponent({
                 color="gray"
                 text="Редактирай"
                 size={isMobile ? "sm" : "lg"}
-                onClick={() => setIsEditCarModalOpen(true)}
+                onClick={fetchSingleCar}
               />
               <Box marginTop={3}>
                 <Button
-                  accessibilityLabel="edit car"
+                  accessibilityLabel="delete car"
                   color="red"
                   text="Изтрий"
                   size={isMobile ? "sm" : "lg"}
                   fullWidth
-                  onClick={setIsDeleteCarModalOpen}
+                  onClick={handleDeleteCar}
                 />
               </Box>
             </Flex>

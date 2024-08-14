@@ -15,8 +15,16 @@ import {
   Label,
   Text,
 } from "gestalt";
-import { DatePicker } from "antd";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import {
+  endpoints,
+  linkUrl,
+  renderMonthContent,
+} from "../../../../../utils/functions";
 import UploadImagesComponent from "../../../../app/components/UploadImagesComponent";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 import "./editCarModal.scss";
 export default function EditCarModal({
@@ -24,44 +32,95 @@ export default function EditCarModal({
   setIsEditCarModalOpen,
   setIsDeleteCarModalOpen,
   isMobile,
+  fetchCarsData,
+  id,
+  carInfo,
 }: any) {
+  let newItems = null;
+  const [images, setImages] = useState([]);
   const [year, setYear] = useState("");
-  const [description, setDescription] = useState("");
-  const [typeEngine, setTypeEngine] = useState("");
-  const [power, setPower] = useState("");
-  const [euroEmission, setEuroEmission] = useState("");
-  const [transmission, setTransmission] = useState("");
-  const [category, setCategory] = useState("");
-  const [mileage, setМileage] = useState("");
-  const [color, setColor] = useState("");
-  const [autoStabilityControlCheck, setAutoStabilityControlCheck] =
-    useState(false);
-  const [antiblockSystemCheck, setAntiBlockSystemCheck] = useState(false);
-  const [backAirPillowsCheck, setBackAirPillowsCheck] = useState(false);
-  const [frontAirPillowsCheck, setFrontAirPillowsCheck] = useState(false);
-  const [lateralAirPillowsCheck, setLateralAirPillowsCheck] = useState(false);
-  const [parktronicCheck, setParktronicCheck] = useState(false);
-  const [doorsCheck, setDoorsCheck] = useState(false);
-  const [alloyWheelsCheck, setAlloyWheelsCheck] = useState(false);
-  const [halogenHeadlightsCheck, setHalogenHeadlightsCheck] = useState(false);
-  const [protectionCheck, setProtectionCheck] = useState(false);
-  const [immobilizerCheck, setImmobilizerCheck] = useState(false);
-  const [centralLockingCheck, setCentralLockingCheck] = useState(false);
+  const [model, setModel] = useState(carInfo?.model);
+  const [description, setDescription] = useState(carInfo?.description);
+  const [typeEngine, setTypeEngine] = useState(carInfo?.typeEngine);
+  const [power, setPower] = useState(carInfo?.power);
+  const [euroEmission, setEuroEmission] = useState(carInfo?.euroEmission);
+  const [transmission, setTransmission] = useState(carInfo?.transmission);
+  const [category, setCategory] = useState(carInfo?.category);
+  const [mileage, setМileage] = useState(carInfo?.mileage);
+  const [color, setColor] = useState(carInfo?.color);
+  const [autoStabilityControlCheck, setAutoStabilityControlCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.autoStabilityControlCheck
+  );
+  const [antiblockSystemCheck, setAntiBlockSystemCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.antiblockSystemCheck
+  );
+  const [backAirPillowsCheck, setBackAirPillowsCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.backAirPillowsCheck
+  );
+  const [frontAirPillowsCheck, setFrontAirPillowsCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.frontAirPillowsCheck
+  );
+  const [lateralAirPillowsCheck, setLateralAirPillowsCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.lateralAirPillowsCheck
+  );
+  const [parktronicCheck, setParktronicCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.parktronicCheck
+  );
+  const [doorsCheck, setDoorsCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.doorsCheck
+  );
+  const [alloyWheelsCheck, setAlloyWheelsCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.alloyWheelsCheck
+  );
+  const [halogenHeadlightsCheck, setHalogenHeadlightsCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.halogenHeadlightsCheck
+  );
+  const [protectionCheck, setProtectionCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.protectionCheck
+  );
+  const [immobilizerCheck, setImmobilizerCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.immobilizerCheck
+  );
+  const [centralLockingCheck, setCentralLockingCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.centralLockingCheck
+  );
   const [bluetoothHandsfreeSystemCheck, setBluetoothHandsfreeSystemCheck] =
-    useState(false);
-  const [audioConsumablesCheck, setAudioConsumablesCheck] = useState(false);
-  const [boardComputerCheck, setBoardComputerCheck] = useState(false);
-  const [lightSensorCheck, setLightSensorCheck] = useState(false);
-  const [electricMirrorsCheck, setElectricMirrorsCheck] = useState(false);
-  const [electricGlassCheck, setElectricGlassCheck] = useState(false);
-  const [climatronicCheck, setClimatronicCheck] = useState(false);
+    useState(JSON.parse(carInfo?.attributes)?.bluetoothHandsfreeSystemCheck);
+  const [audioConsumablesCheck, setAudioConsumablesCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.audioConsumablesCheck
+  );
+  const [boardComputerCheck, setBoardComputerCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.boardComputerCheck
+  );
+  const [lightSensorCheck, setLightSensorCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.lightSensorCheck
+  );
+  const [electricMirrorsCheck, setElectricMirrorsCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.electricMirrorsCheck
+  );
+  const [electricGlassCheck, setElectricGlassCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.electricGlassCheck
+  );
+  const [climatronicCheck, setClimatronicCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.climatronicCheck
+  );
   const [steeringWheelAdjustmentCheck, setSteeringWheelAdjustmentCheck] =
-    useState(false);
-  const [rainSensorCheck, setRainSensorCheck] = useState(false);
-  const [powerSteeringCheck, setPowerSteeringCheck] = useState(false);
-  const [autopilotCheck, setAutopilotCheck] = useState(false);
-  const [newImportationCheck, setNewImportationCheck] = useState(false);
-  const [stereoCheck, setStereoCheck] = useState(false);
+    useState(JSON.parse(carInfo?.attributes)?.steeringWheelAdjustmentCheck);
+  const [rainSensorCheck, setRainSensorCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.rainSensorCheck
+  );
+  const [powerSteeringCheck, setPowerSteeringCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.powerSteeringCheck
+  );
+  const [autopilotCheck, setAutopilotCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.autopilotCheck
+  );
+  const [newImportationCheck, setNewImportationCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.newImportationCheck
+  );
+  const [stereoCheck, setStereoCheck] = useState(
+    JSON.parse(carInfo?.attributes)?.stereoCheck
+  );
   const [allCheckBoxesCheck, setAllCheckboxsesCheck] = useState(false);
 
   const handleAllCheckboxses = (checked: boolean) => {
@@ -120,18 +179,170 @@ export default function EditCarModal({
     }
   };
 
+  const fetchEditCar = async (id: number) => {
+    const values = [
+      {
+        year: year,
+        model: model,
+        description: description,
+        typeEngine: typeEngine,
+        power: power,
+        euroEmission: euroEmission,
+        transmission: transmission,
+        category: category,
+        mileage: mileage,
+        color: color,
+        autoStabilityControlCheck: autoStabilityControlCheck,
+        antiblockSystemCheck: antiblockSystemCheck,
+        backAirPillowsCheck: backAirPillowsCheck,
+        frontAirPillowsCheck: frontAirPillowsCheck,
+        lateralAirPillowsCheck: lateralAirPillowsCheck,
+        parktronicCheck: parktronicCheck,
+        doorsCheck: doorsCheck,
+        alloyWheelsCheck: alloyWheelsCheck,
+        halogenHeadlightsCheck: halogenHeadlightsCheck,
+        protectionCheck: protectionCheck,
+        immobilizerCheck: immobilizerCheck,
+        bluetoothHandsfreeSystemCheck: bluetoothHandsfreeSystemCheck,
+        audioConsumablesCheck: audioConsumablesCheck,
+        boardComputerCheck: boardComputerCheck,
+        lightSensorCheck: lightSensorCheck,
+        electricMirrorsCheck: electricMirrorsCheck,
+        electricGlassCheck: electricGlassCheck,
+        climatronicCheck: climatronicCheck,
+        steeringWheelAdjustmentCheck: steeringWheelAdjustmentCheck,
+        rainSensorCheck: rainSensorCheck,
+        powerSteeringCheck: powerSteeringCheck,
+        autopilotCheck: autopilotCheck,
+        newImportationCheck: newImportationCheck,
+        stereoCheck: stereoCheck,
+      },
+    ];
+
+    newItems = values.map((value) => ({
+      year: value.year,
+      model: value.model,
+      description: value.description,
+      typeEngine: value.typeEngine,
+      power: value.power,
+      euroEmission: value.euroEmission,
+      transmission: value.transmission,
+      category: value.category,
+      mileage: value.mileage,
+      color: value.color,
+      attributes: {
+        autoStabilityControlCheck: value.autoStabilityControlCheck,
+        antiblockSystemCheck: value.antiblockSystemCheck,
+        backAirPillowsCheck: value.backAirPillowsCheck,
+        frontAirPillowsCheck: value.frontAirPillowsCheck,
+        lateralAirPillowsCheck: value.lateralAirPillowsCheck,
+        parktronicCheck: value.parktronicCheck,
+        doorsCheck: value.doorsCheck,
+        alloyWheelsCheck: value.alloyWheelsCheck,
+        halogenHeadlightsCheck: value.halogenHeadlightsCheck,
+        protectionCheck: value.protectionCheck,
+        immobilizerCheck: value.immobilizerCheck,
+        bluetoothHandsfreeSystemCheck: value.bluetoothHandsfreeSystemCheck,
+        audioConsumablesCheck: value.audioConsumablesCheck,
+        boardComputerCheck: value.boardComputerCheck,
+        lightSensorCheck: value.lightSensorCheck,
+        electricMirrorsCheck: value.electricMirrorsCheck,
+        electricGlassCheck: value.electricGlassCheck,
+        climatronicCheck: value.climatronicCheck,
+        steeringWheelAdjustmentCheck: value.steeringWheelAdjustmentCheck,
+        rainSensorCheck: value.rainSensorCheck,
+        powerSteeringCheck: value.powerSteeringCheck,
+        autopilotCheck: value.autopilotCheck,
+        newImportationCheck: value.newImportationCheck,
+        stereoCheck: value.stereoCheck,
+      },
+      images: images,
+    }));
+
+    const formData = new FormData();
+    formData.append("year", newItems[0].year);
+    formData.append("model", newItems[0].model);
+    formData.append("typeEngine", newItems[0].typeEngine);
+    formData.append("power", newItems[0].power);
+    formData.append("euroEmission", newItems[0].euroEmission);
+    formData.append("transmission", newItems[0].transmission);
+    formData.append("category", newItems[0].category);
+    formData.append("description", newItems[0].description);
+    formData.append("mileage", newItems[0].mileage);
+    formData.append("color", newItems[0].color);
+    images.map((image) => formData.append("images[]", image.file));
+    formData.append("attributes", JSON.stringify(newItems[0].attributes));
+
+    console.log("id", id);
+    try {
+      const response = await axios.post(
+        `${linkUrl()}${endpoints.updateCar}${id}`,
+        formData,
+        {
+          headers: {
+            Accept: "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsEditCarModalOpen(false);
+        fetchCarsData();
+      }
+    } catch (error) {
+      console.error(error);
+      setIsEditCarModalOpen(false);
+    }
+  };
+
   const handleCloseOnOutsideClick = () => {
     setIsEditCarModalOpen(false);
   };
 
-  const handleAddCar = () => {
-    // Add car logic here
+  const handleEditCar = () => {
+    console.log("here");
     setIsEditCarModalOpen(!isEditCarModalOpen);
-    setAllCheckboxsesCheck(false);
+    fetchEditCar(carInfo?.id);
   };
 
   const handleCancelAddingCar = () => {
     setIsEditCarModalOpen(!setIsEditCarModalOpen);
+  };
+
+  const handleYearChange = (value) => {
+    setYear(value);
+  };
+
+  const handleModelChange = (event) => {
+    setModel(event.value);
+  };
+
+  const handlePowerChange = (event) => {
+    setPower(event.value);
+  };
+
+  const handleTypeEngine = (event) => {
+    setTypeEngine(event.value);
+  };
+
+  const handleEuroEmission = (event) => {
+    setEuroEmission(event.value);
+  };
+
+  const handleTransmission = (event) => {
+    setTransmission(event.value);
+  };
+
+  const handleМileage = (event) => {
+    setМileage(event.value);
+  };
+
+  const handleCategory = (event) => {
+    setCategory(event.value);
+  };
+
+  const handleColor = (event) => {
+    setColor(event.value);
   };
 
   return (
@@ -173,11 +384,13 @@ export default function EditCarModal({
               </Flex>
             }
             onDismiss={() => setIsEditCarModalOpen(false)}
-            heading={isMobile ? "" : "Редактиране на автомобил Audi A3 2.0"}
+            heading={
+              isMobile ? "" : `Редактиране на автомобил ${carInfo.model}`
+            }
           >
             {isMobile && (
               <h3 className="fw-bold text-center pb-3">
-                Редактиране на автомобил Audi A3 2.0
+                Редактиране на автомобил {carInfo.model}
               </h3>
             )}
             <Box height={400} id="popover-overlaypanel" paddingX={8}>
@@ -195,21 +408,34 @@ export default function EditCarModal({
               <Box marginBottom={2}>
                 <Label htmlFor="year">Година</Label>
                 <DatePicker
-                  onChange={({ value }) => {
-                    setYear(value);
+                  onChange={(value) => {
+                    handleYearChange(value);
                   }}
-                  picker="month"
-                  value={year}
-                  size={isMobile ? "small" : "medium"}
-                  width="100%"
-                  placeholder=" "
+                  selected={year}
+                  renderMonthContent={renderMonthContent}
+                  showMonthYearPicker
+                  dateFormat="MM/yyyy"
+                />
+              </Box>
+              <Box marginBottom={2}>
+                <TextField
+                  id="model"
+                  label="Модел"
+                  onChange={(event) => {
+                    handleModelChange(event);
+                  }}
+                  placeholder=""
+                  type="text"
+                  name="model"
+                  value={model}
+                  size={isMobile ? "sm" : "lg"}
                 />
               </Box>
               <Box marginBottom={2}>
                 <SelectList
                   id="typeEngine"
                   label="Тип двигател"
-                  onChange={() => setTypeEngine(typeEngine)}
+                  onChange={(event, value) => handleTypeEngine(event, value)}
                   size={isMobile ? "md" : "lg"}
                   value={typeEngine}
                 >
@@ -232,7 +458,7 @@ export default function EditCarModal({
                 <TextField
                   id="power"
                   label="Мощност"
-                  onChange={() => setPower(power)}
+                  onChange={(event, value) => handlePowerChange(event, value)}
                   placeholder=""
                   type="text"
                   value={power}
@@ -243,7 +469,7 @@ export default function EditCarModal({
                 <SelectList
                   id="euroEmission"
                   label="Евростандарт"
-                  onChange={() => setEuroEmission(euroEmission)}
+                  onChange={(event, value) => handleEuroEmission(event, value)}
                   size={isMobile ? "md" : "lg"}
                   value={euroEmission}
                 >
@@ -267,7 +493,7 @@ export default function EditCarModal({
                 <SelectList
                   id="transmission"
                   label="Скоростна кутия"
-                  onChange={() => setTransmission(transmission)}
+                  onChange={(event, value) => handleTransmission(event, value)}
                   size={isMobile ? "md" : "lg"}
                   value={transmission}
                 >
@@ -287,7 +513,7 @@ export default function EditCarModal({
                 <SelectList
                   id="category"
                   label="Категория"
-                  onChange={() => setCategory(category)}
+                  onChange={(event, value) => handleCategory(event, value)}
                   size={isMobile ? "md" : "lg"}
                   value={category}
                 >
@@ -312,6 +538,28 @@ export default function EditCarModal({
                   ))}
                 </SelectList>
               </Box>
+              <Box marginBottom={2}>
+                <TextField
+                  id="mileage"
+                  label="Пробег"
+                  onChange={(event, value) => handleМileage(event, value)}
+                  placeholder=""
+                  type="text"
+                  value={mileage}
+                  size={isMobile ? "sm" : "lg"}
+                />
+              </Box>
+              <Box marginBottom={2}>
+                <TextField
+                  id="color"
+                  label="Цвят"
+                  onChange={(event, value) => handleColor(event, value)}
+                  placeholder=""
+                  type="text"
+                  size={isMobile ? "sm" : "lg"}
+                  value={color}
+                />
+              </Box>
               <Box alignItems="start" justifyContent="start">
                 <Box width="100%">
                   <TextArea
@@ -324,27 +572,6 @@ export default function EditCarModal({
                     value={description}
                   />
                 </Box>
-              </Box>
-              <Box marginBottom={2}>
-                <TextField
-                  id="mileage"
-                  label="Пробег"
-                  onChange={() => setМileage(mileage)}
-                  placeholder=""
-                  type="text"
-                  value={mileage}
-                  size={isMobile ? "sm" : "lg"}
-                />
-              </Box>
-              <Box marginBottom={2}>
-                <TextField
-                  id="color"
-                  label="Цвят"
-                  onChange={() => setColor(color)}
-                  placeholder=""
-                  type="text"
-                  size={isMobile ? "sm" : "lg"}
-                />
               </Box>
               <div className="row pt-3 align-items-baseline">
                 <div className="col-md-6 flex-1">
@@ -359,7 +586,7 @@ export default function EditCarModal({
                     width="100%"
                   >
                     <Checkbox
-                      checked={allCheckBoxesCheck}
+                      checked={carInfo.allCheckBoxesCheck}
                       id="allCheckbox"
                       label="Избери всички"
                       onChange={({ checked }) => {
@@ -772,7 +999,10 @@ export default function EditCarModal({
               <div className="row py-3">
                 <h6 className="fw-bold">Снимки</h6>
                 <Text weight="bold">
-                  <UploadImagesComponent />
+                  <UploadImagesComponent
+                    images={images}
+                    setImages={setImages}
+                  />
                 </Text>
               </div>
               <div className="row mt-3 pb-4">
@@ -783,8 +1013,8 @@ export default function EditCarModal({
                     color="blue"
                     accessibilityLabel="Submit"
                     size={`${isMobile ? "sm" : "lg"}`}
-                    text="Добави"
-                    onClick={(e) => handleAddCar()}
+                    text="Редактирай"
+                    onClick={(e) => handleEditCar(e)}
                   />{" "}
                 </Box>
                 <Button

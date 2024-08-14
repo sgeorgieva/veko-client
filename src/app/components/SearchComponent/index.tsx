@@ -10,6 +10,7 @@ import {
   Button,
   Text,
   Popover,
+  ButtonLink,
 } from "gestalt";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -207,6 +208,25 @@ export default function SearchComponent({
                     onDismiss={handleLogout}
                     onKeyDown={() => router.push("/admin-panel")}
                   >
+                    <Box
+                      zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
+                      marginTop={1}
+                      marginEnd={5}
+                    >
+                      <Flex direction="column">
+                        <Text align="end" color="default" weight="bold">
+                          <Button
+                            size="sm"
+                            color="red"
+                            onClick={() => router.push("/admin-panel")}
+                          >
+                            <Text align="end" color="default" weight="bold">
+                              Админ панел
+                            </Text>
+                          </Button>
+                        </Text>
+                      </Flex>
+                    </Box>
                     <Box
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginTop={1}

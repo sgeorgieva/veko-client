@@ -43,17 +43,19 @@ export default function Login({
   const validateForm = () => {
     if (!username) {
       setHasUsernameError(true);
+      setMessageValidation("Моля, попълнете празните полета");
     } else {
       setHasUsernameError(false);
     }
     if (!password) {
       setPasswordError(true);
+      setMessageValidation("Моля, попълнете празните полета");
     } else {
       setPasswordError(false);
     }
 
     setIsValidForm(false);
-    setMessageValidation("Моля, попълнете празните полета");
+    // setMessageValidation("Моля, попълнете празните полета");
   };
 
   const handleLogin = () => {
@@ -80,22 +82,26 @@ export default function Login({
       ) {
         throw Error(data.message);
       } else {
-        // store.dispatch(login(data));
         console.log("data", data);
-        // setError(false);
         // setMessage(t(data?.statusText));
         localStorage.setItem("jwt", data?.data?.token);
         closeModal();
         setIsLogin(true);
         setOpenLoginMenu(false);
         router.push("/admin-panel");
-        // sessionStorage.setItem("jwt", data?.accessToken);
       }
     } catch (error) {
-      console.log("error", error);
-      // setMessage(`${t(error?.message)}`);
-      // setError(true);
-      // throw Error(error);
+      if (
+        error.response.status === 400 ||
+        error.response.status === 404 ||
+        error.response.status === 401
+      ) {
+        setMessageValidation(error.response.data.message);
+      } else {
+        setMessageValidation(
+          `Има проблем с връзката със сървъра.\n  Моля, опитайте пак.`
+        );
+      }
     }
   };
 
@@ -105,7 +111,7 @@ export default function Login({
         <Layer zIndex={zIndex}>
           <ModalAlert
             paddingB={0}
-            accessibilityModalLabel=""
+            accessibilityModalLabel="dismiss logout"
             heading="Добре дошли в Veko"
             onDismiss={() => {
               setShowComponent(!showComponent);

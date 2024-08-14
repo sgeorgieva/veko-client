@@ -13,10 +13,14 @@ export default function DeleteCarModal({
   isMobile,
   isDeleteCarModalOpen,
   setIsDeleteCarModalOpen,
+  handleDeleteCar,
+  id,
 }: {
   isMobile: boolean;
   isDeleteCarModalOpen: boolean;
   setIsDeleteCarModalOpen: any;
+  handleDeleteCar: any;
+  id: number;
 }) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const zIndex = new CompositeZIndex([HEADER_ZINDEX]);
@@ -50,7 +54,7 @@ export default function DeleteCarModal({
                 accessibilityLabel="Submit"
                 size={`${isMobile ? "sm" : "lg"}`}
                 text="Премахни"
-                onClick={(e) => setIsDeleteCarModalOpen(!isDeleteCarModalOpen)}
+                onClick={(e) => handleDeleteCar(id)}
               />{" "}
             </Box>
             <Button

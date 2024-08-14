@@ -6,6 +6,11 @@ dotenv.config({ path: path.join(__dirname, "./.env") });
 const nextConfig = {
   // reactStrictMode: true,
   // output: "export",
+  // ssModules: true,
+  // cssLoaderOptions: {
+  //   importLoaders: 1,
+  //   localIdentName: "[]",
+  // },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.

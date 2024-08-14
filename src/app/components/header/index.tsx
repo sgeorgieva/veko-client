@@ -5,6 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import useTranslation from "next-translate/useTranslation";
 import Image from "next/image";
 import { Icon } from "gestalt";
+import { Navbar, Nav, NavItem, Collapse } from "reactstrap";
+import { links } from "../../../../constants";
 import AnimatedLink from "../AnimatedLink";
 import SearchComponent from "../SearchComponent";
 import detectVersion from "../../../../utils/functions";
@@ -29,6 +31,7 @@ export default function Header({
   const [name, setName] = useState(t("common:car-dealership-title"));
 
   const [open, setOpen] = useState(false);
+  const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [selected, setSelected] = useState({ value: "Български", label: "BG" });
 
   const router = useRouter();
@@ -74,78 +77,141 @@ export default function Header({
     setSticky(stickyClass);
   };
 
+  const toggleMobileMenu = () => {
+    setIsOpenMobileMenu((prevState) => !prevState);
+  };
+
+  const handleLinkClick = () => {
+    setIsOpenMobileMenu(false);
+  };
+
   return (
-    <div className={`container-fluid ${isMobile ? "header-mobile" : ""}`}>
-      <div
-        className={`row customer-support-info align-items-center ${
-          !isHover ? "background-overlay" : "background-white"
-        }`}
-      >
-        <div className="col-md-8">
-          <span>
-            <Icon color="#2b2b2b" inline={true} icon="phone" size={14} />
-            <a href="tel:+ +359 66 861 616" className="ps-2">
-              +359 66 861 616
-            </a>
-          </span>
-          <span className="ms-3">
-            <Icon color="#2b2b2b" inline={true} icon="gmail" size={14} />
-            <a href="mailto:veko@veko-oil.eu" className="ps-2">
-              veko@veko-oil.eu
-            </a>
-          </span>
+    <div
+      className={`container-fluid ${isMobile ? "header-mobile" : ""} ${
+        isMobile && isOpenMobileMenu ? "header-mobile-menu" : ""
+      }`}
+    >
+      {isMobile && (
+        <>
+          <div className="menuToggle" onClick={toggleMobileMenu}>
+            <span
+              className={`${
+                isOpenMobileMenu ? "close-icon close" : "hamburger-icon"
+              }`}
+            >
+              <input type="checkbox" />
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+          <Navbar
+            expand="md"
+            className={`small ${isOpenMobileMenu ? "bc-blue" : ""}`}
+          >
+            <Collapse isOpen={isOpenMobileMenu} navbar>
+              <Nav className="menu" navbar>
+                {links.map((element, i) => {
+                  console.log(element);
+
+                  return (
+                    isOpen && (
+                      <NavItem
+                        onClick={({ target }) => {
+                          target && target?.classList.toggle("active");
+                          handleLinkClick();
+                        }}
+                        key={i}
+                      >
+                        <AnimatedLink to={element.to}>
+                          {element.name}
+                        </AnimatedLink>
+                      </NavItem>
+                    )
+                  );
+                })}
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </>
+      )}
+      {!isOpenMobileMenu && (
+        <div
+          className={`row customer-support-info align-items-center ${
+            !isHover ? "background-overlay" : "background-white"
+          }`}
+        >
+          <div className="col-md-8">
+            <span>
+              <Icon color="#2b2b2b" inline={true} icon="phone" size={14} />
+              <a href="tel:+ +359 66 861 616" className="ps-2">
+                +359 66 861 616
+              </a>
+            </span>
+            <span className="ms-3">
+              <Icon color="#2b2b2b" inline={true} icon="gmail" size={14} />
+              <a href="mailto:veko@veko-oil.eu" className="ps-2">
+                veko@veko-oil.eu
+              </a>
+            </span>
+          </div>
+          <div className="col-md-4">
+            <SearchComponent
+              open={open}
+              selected={selected}
+              onSelect={onSelect}
+              isHover={isHover}
+            />
+          </div>
         </div>
-        <div className="col-md-4">
-          <SearchComponent
-            open={open}
-            selected={selected}
-            onSelect={onSelect}
-            isHover={isHover}
-          />
-        </div>
-      </div>
+      )}
       <div
         className={`row align-items-center ${sticky ? "scrollbar" : ""} ${
           isHover ? "row-links-nested" : ""
         }`}
       >
+        {isMobile && !isOpenMobileMenu && (
+          <Image
+            priority
+            src={Logo}
+            alt="veko-oil logo"
+            className="mobile-logo"
+          />
+        )}
         {isMobile ? (
-          <div
-            className={`mobile-header-links ${
-              pathname === "/projects" ? "mb-ps" : ""
-            }`}
-          >
-            <AnimatedLink href="#" class="navlink">
-              {" "}
-              Home{" "}
-            </AnimatedLink>
-            <AnimatedLink href="#" class="navlink">
-              {" "}
-              About{" "}
-            </AnimatedLink>
-            <AnimatedLink href="#" class="navlink">
-              {" "}
-              Products{" "}
-            </AnimatedLink>
-            <AnimatedLink href="#" class="navlink">
-              {" "}
-              Privacy{" "}
-            </AnimatedLink>
-            <AnimatedLink href="#" class="navlink">
-              {" "}
-              FAQ{" "}
-            </AnimatedLink>
-            <AnimatedLink href="#" class="navlink">
-              {" "}
-              Contact{" "}
-            </AnimatedLink>
-            <Image
-              priority
-              src={Logo}
-              alt="veko-oil logo"
-              className="mobile-logo"
-            />
-          </div>
+          isOpenMobileMenu ? (
+            <div className="mobile-header-links">
+              <AnimatedLink
+                onClick={({ target }) => {
+                  target && target?.classList.toggle("active");
+                  handleLinkClick();
+                  setIsOpenMobileMenu(false);
+                }}
+                href="/"
+                class="navlink"
+              >
+                 Начало
+              </AnimatedLink>
+              <AnimatedLink href="/car-dealership" class="navlink">
+                Автомобилно представителство
+              </AnimatedLink>
+              <AnimatedLink href="/trade" class="navlink">
+                Търговия
+              </AnimatedLink>
+              <AnimatedLink href="/services" class="navlink">
+                Услуги
+              </AnimatedLink>
+              <AnimatedLink href="/veko-products" class="navlink">
+                VEKO® продукти
+              </AnimatedLink>
+              <AnimatedLink href="/about" class="navlink">
+                За нас
+              </AnimatedLink>
+              <AnimatedLink href="/contact" class="navlink">
+                Контакти
+              </AnimatedLink>
+            </div>
+          ) : null
         ) : (
           <main className={`text-start ${!isHover ? "col" : "p-0"}`}>
             <div

@@ -21,19 +21,26 @@ export const linkUrl = () => {
   }
 };
 
+export const renderMonthContent = (month, shortMonth, longMonth, day) => {
+  const fullYear = new Date(day).getFullYear();
+  const tooltipText = `Tooltip for month: ${longMonth} ${fullYear}`;
+
+  return <span title={tooltipText}>{shortMonth}</span>;
+};
+
 export const endpoints = {
   login: "login", //POST
   contact: "contact", //POST
   posts: "posts", //GET
-  postId: "posts/{{postsId}}", // GET
+  postId: "posts/", // GET
   createPost: "posts/create", // POST
-  updatePost: "posts/{{postsId}}", // POST /updata
-  deletePost: "posts/{{postsId}}", // DELETE
+  updatePost: "posts/", // POST /updata
+  deletePost: "posts/", // DELETE
   cars: "used-cars", // GET
-  carId: "used-cars/{{carId}}", // GET
+  carId: "used-cars/", // GET
   createCar: "used-cars/cars", // POST
-  updateCar: "used-cars/edit/{{carId}}", // PUT
-  deleteCar: "used-cars/{{carId}}", // DELETE
+  updateCar: "used-cars/edit/", // PUT
+  deleteCar: "used-cars/", // DELETE
   autocenters: "auto-centers/create", //POST
 };
 

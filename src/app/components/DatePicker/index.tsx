@@ -1,25 +1,21 @@
-import { DatePicker } from "gestalt-datepicker";
+import DatePicker from "react-datepicker";
+import { renderMonthContent } from "../../../../utils/functions";
 
-export default function DatePickerComponent({
-  startDate,
-  availableDates,
-  hasDateValidationError,
-  bg,
-  setStartDate,
-  label,
-}: any) {
+// import "./datepicker.module.css";
+import "react-datepicker/dist/react-datepicker.css";
+export default function DatePickerComponent({ year, setYear }) {
+  console.log("year", year);
+
   return (
     <DatePicker
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      includeDates={availableDates}
-      label={label}
-      placeholderText={`${new Date()}`}
-      localeData={bg}
-      idealDirection="down"
-      minDate={new Date()}
-      id="example-errorMessage"
-      errorMessage={!hasDateValidationError ? undefined : "Моля, изберете дата"}
+      onChange={(value) => {
+        setYear(value);
+      }}
+      selected={year}
+      renderMonthContent={renderMonthContent}
+      showMonthYearPicker
+      dateFormat="MM/yyyy"
+      // id="datepicker"
     />
   );
 }

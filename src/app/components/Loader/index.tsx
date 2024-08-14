@@ -22,7 +22,7 @@ export default function Loader() {
         color="lightGray"
         opacity={0.5}
       >
-        <Spinner show />
+        <Spinner show color="default" />
       </Box>
     </Layer>
   );

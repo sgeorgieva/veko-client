@@ -1,6 +1,7 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import {
   BannerSlim,
   Box,
@@ -10,15 +11,21 @@ import {
   TextArea,
   TextField,
 } from "gestalt";
-import { TimePicker, DatePicker } from "antd";
-import locale from "antd/es/locale/bg_BG.js";
+import DatePicker from "react-datepicker";
+import { TimePicker } from "antd";
 import { bg } from "date-fns/locale";
 import dayjs from "dayjs";
 import HomeComponent from "../../HomeComponent";
-import DatePickerComponent from "../../DatePicker";
+import DatePickerGestaltComponent from "../../DatePickerGestalt";
 import Loader from "../../Loader";
+import { renderMonthContent } from "../../../../../utils/functions";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 import "./carCentersComponent.scss";
+// import DatePickerComponent from "../../DatePicker";
+
+// import "./datepicker.module.css";
 const generateDatesWithoutSundays = (start, end) => {
   const dates = [];
   let currentDate = new Date(start);
@@ -31,14 +38,20 @@ const generateDatesWithoutSundays = (start, end) => {
   }
   return dates;
 };
+import { createRoot } from "react-dom/client";
 
 export default function CarCentersComponent() {
+  useEffect(() => {
+    const domNode = document.getElementById("datePicker");
+    const root = createRoot(domNode);
+  }, []);
+
   const [city, setCity] = useState("");
   const [names, setNames] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [model, setModel] = useState("");
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState(null);
   const [engine, setEngine] = useState("");
   const [message, setMessage] = useState("");
   const [date, setDate] = useState(null);
@@ -324,15 +337,16 @@ export default function CarCentersComponent() {
                     <Box marginBottom={6}>
                       <Label htmlFor="year">Година</Label>
                       <DatePicker
-                        onChange={({ value }) => {
+                        onChange={(value) => {
                           setYear(value);
                         }}
-                        picker="month"
-                        value={year}
-                        width="100%"
-                        placeholder=" "
-                        size={isMobile ? "middle" : "large"}
+                        selected={year}
+                        renderMonthContent={renderMonthContent}
+                        showMonthYearPicker
+                        dateFormat="MM/yyyy"
+                        id="datePicker"
                       />
+                      {/* <DatePickerComponent year={year} setYear={setYear} /> */}
                     </Box>
                   </div>
                   <div className="col-md-4">
@@ -380,7 +394,7 @@ export default function CarCentersComponent() {
                   <div className="col-md-4">
                     <div className="row align-items-center">
                       <div className="col-md-8">
-                        <DatePickerComponent
+                        <DatePickerGestaltComponent
                           startDate={startDate}
                           availableDates={availableDates}
                           hasDateValidationError={hasDateValidationError}
