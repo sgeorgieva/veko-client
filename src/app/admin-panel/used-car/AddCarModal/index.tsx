@@ -160,6 +160,7 @@ export default function AddCarModal({
         halogenHeadlightsCheck: halogenHeadlightsCheck,
         protectionCheck: protectionCheck,
         immobilizerCheck: immobilizerCheck,
+        centralLockingCheck: centralLockingCheck,
         bluetoothHandsfreeSystemCheck: bluetoothHandsfreeSystemCheck,
         audioConsumablesCheck: audioConsumablesCheck,
         boardComputerCheck: boardComputerCheck,
@@ -199,6 +200,7 @@ export default function AddCarModal({
         halogenHeadlightsCheck: value.halogenHeadlightsCheck,
         protectionCheck: value.protectionCheck,
         immobilizerCheck: value.immobilizerCheck,
+        centralLockingCheck: centralLockingCheck,
         bluetoothHandsfreeSystemCheck: value.bluetoothHandsfreeSystemCheck,
         audioConsumablesCheck: value.audioConsumablesCheck,
         boardComputerCheck: value.boardComputerCheck,
@@ -329,7 +331,7 @@ export default function AddCarModal({
                       selected={year}
                       renderMonthContent={renderMonthContent}
                       showMonthYearPicker
-                      dateFormat="MM/yyyy"
+                      dateFormat="yyyy/MM"
                     />
                   </Box>
                 </div>

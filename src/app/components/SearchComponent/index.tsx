@@ -25,6 +25,7 @@ export default function SearchComponent({
   open,
   onSelect,
   selected,
+  setShowToast,
 }: any) {
   const [searchValue, setSearchValue] = useState("");
   const PAGE_HEADER_ZINDEX = new FixedZIndex(10);
@@ -35,6 +36,7 @@ export default function SearchComponent({
   const anchorSecondRef = useRef(null);
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -62,17 +64,11 @@ export default function SearchComponent({
     return null;
   }
 
-  // useEffect(() => {
-  //   if (anchorSecondRef.current !== null) {
-  //     router.push("/admin-panel");
-  //   }
-  // }, []);
-
   const handleLogout = () => {
-    console.log("here in logout");
-
     localStorage.removeItem("jwt");
+    localStorage.setItem("isLoginIn", false);
     router.push("/");
+    setShowToast(true);
   };
 
   return (
@@ -208,7 +204,7 @@ export default function SearchComponent({
                     onDismiss={handleLogout}
                     onKeyDown={() => router.push("/admin-panel")}
                   >
-                    <Box
+                    {/* <Box
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginTop={1}
                       marginEnd={5}
@@ -226,7 +222,7 @@ export default function SearchComponent({
                           </Button>
                         </Text>
                       </Flex>
-                    </Box>
+                    </Box> */}
                     <Box
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginTop={1}
@@ -269,6 +265,7 @@ export default function SearchComponent({
         </Flex>
         {isOpenLoginModal && (
           <Login
+            setIsLogin={setIsLogin}
             isMobile={isMobile}
             closeModal={toggleLoginModal}
             setOpenLoginMenu={setOpenLoginMenu}

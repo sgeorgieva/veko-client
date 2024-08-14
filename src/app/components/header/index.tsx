@@ -13,6 +13,7 @@ import detectVersion from "../../../../utils/functions";
 import Logo from "../../../../public/images/Logo_Veko.png";
 
 import "./header.scss";
+import Message from "../MessageComponent";
 
 export default function Header({
   classname,
@@ -29,7 +30,7 @@ export default function Header({
   const [isHover, setHover] = useState(false);
   const { t, lang } = useTranslation("home");
   const [name, setName] = useState(t("common:car-dealership-title"));
-
+  const [showToast, setShowToast] = useState(false);
   const [open, setOpen] = useState(false);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [selected, setSelected] = useState({ value: "Български", label: "BG" });
@@ -161,6 +162,7 @@ export default function Header({
               selected={selected}
               onSelect={onSelect}
               isHover={isHover}
+              setShowToast={setShowToast}
             />
           </div>
         </div>
@@ -217,6 +219,13 @@ export default function Header({
             <div
               className={`header-links ${isHover ? "header-links-nested" : ""}`}
             >
+              {showToast && (
+                <Message
+                  type="success"
+                  message="Успешно отписване"
+                  setShowToast={setShowToast}
+                />
+              )}
               <AnimatedLink
                 isHover={isHover}
                 title={"Автомобилно представителство"}

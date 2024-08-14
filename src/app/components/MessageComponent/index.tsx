@@ -1,17 +1,16 @@
-import { DefaultLabelProvider, Flex, Toast } from "gestalt";
+import { Flex, Toast } from "gestalt";
+import { usePathname } from "next/navigation";
 
-export default function Message({ type, message }: string) {
+import "./messageComponent.scss";
+export default function Message({ type, message, setShowToast }) {
+  const pathname = usePathname();
+
+  const handleDismiss = () => {
+    setShowToast(false);
+  };
+
   return (
-    <DefaultLabelProvider
-      labels={{
-        Toast: {
-          accessibilityDismissButtonLabel: "Den Toast verwerfen",
-          accessibilityIconSuccessLabel: "Erfolgsmeldung",
-          accessibilityIconErrorLabel: "Fehlermeldung",
-          accessibilityProcessingLabel: "Nachricht bearbeiten",
-        },
-      }}
-    >
+    <div className={`${pathname === "/" ? "toast-message" : ""}`}>
       <Flex
         alignItems="center"
         height="100%"
@@ -19,11 +18,11 @@ export default function Message({ type, message }: string) {
         width="100%"
       >
         <Toast
-          dismissButton={{ onDismiss: () => {} }}
           text={message}
           type={type}
+          dismissButton={{ onDismiss: () => handleDismiss() }}
         />
       </Flex>
-    </DefaultLabelProvider>
+    </div>
   );
 }
