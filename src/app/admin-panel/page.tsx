@@ -1,16 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-  IconButton,
-  SegmentedControl,
-  Tabs,
-  Text,
-} from "gestalt";
+import { Box, Flex, IconButton, SegmentedControl, Text } from "gestalt";
 import Loader from "../components/Loader";
 import HomeComponent from "../components/HomeComponent";
 import AdminPanelUsedCarComponent from "./used-car";
@@ -41,9 +32,9 @@ export default function AdminPanel() {
       activeTabIndex = localStorage.getItem("activeTabIndex");
     }
 
-    setActiveIndex(parseInt(activeTabIndex));
-    console.log("HERE in admin panel", activeIndex);
-    console.log("HERE in admin panel", itemIndex);
+    if (itemIndex !== parseInt(localStorage.getItem("activeTabIndex"))) {
+      setItemIndex(parseInt(localStorage.getItem("activeTabIndex")));
+    }
   }, [itemIndex]);
 
   const openAddCarModal = () => {
@@ -89,10 +80,7 @@ export default function AdminPanel() {
                   onChange={({ activeIndex, event }) => {
                     event.preventDefault();
                     setItemIndex(activeIndex);
-                    localStorage.setItem(
-                      "activeTabIndex",
-                      activeIndex.toString()
-                    );
+                    localStorage.setItem("activeTabIndex", activeIndex);
                   }}
                   selectedItemIndex={itemIndex}
                 />
