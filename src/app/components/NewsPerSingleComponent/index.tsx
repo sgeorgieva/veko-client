@@ -8,6 +8,8 @@ export default function NewsPerSingleComponent({
   isEdit,
   setIsEditNewsModalOpen,
   setIsDeleteNewsModalOpen,
+  title,
+  image,
 }: any) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -25,8 +27,8 @@ export default function NewsPerSingleComponent({
             <WashAnimated
               image={
                 <Avatar
-                  name="Audi A3 2.0"
-                  src={AudiCarImage.src}
+                  name={title}
+                  src={image}
                   verified={false}
                   className="car-image"
                 />
@@ -35,7 +37,7 @@ export default function NewsPerSingleComponent({
               <Flex direction="column" justifyContent="center">
                 <Text align="center" weight="bold">
                   <Box paddingX={3} paddingY={2}>
-                    Новина №1
+                    {title}
                   </Box>
                 </Text>
               </Flex>
@@ -44,18 +46,13 @@ export default function NewsPerSingleComponent({
         ) : (
           <WashAnimated
             image={
-              <Avatar
-                size="fit"
-                name="Audi A3 2.0"
-                src={AudiCarImage.src}
-                verified={false}
-              />
+              <Avatar size="fit" name={title} src={image} verified={false} />
             }
           >
             <Flex direction="column" justifyContent="center">
               <Text align="center" weight="bold">
                 <Box paddingX={3} paddingY={2}>
-                  Новина №1
+                  {title}
                 </Box>
               </Text>
               <Button

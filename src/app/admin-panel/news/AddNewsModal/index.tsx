@@ -10,90 +10,87 @@ import {
   TextArea,
   TextField,
 } from "gestalt";
+import axios from "axios";
+import { endpoints, linkUrl } from "../../../../../utils/functions";
 import UploadImagesComponet from "../../../../app/components/UploadImagesComponent";
 
 import "./addNewsModal.scss";
-import { ImageListType } from "react-images-uploading";
-import { endpoints, linkUrl } from "../../../../../utils/functions";
-
 export default function AddNewsModal({
   isMobile,
   isAddNewsModalOpen,
   setIsNewsModalOpen,
+  fetchNewsData,
 }: {
   isMobile: boolean;
   isAddNewsModalOpen: boolean;
   setIsNewsModalOpen: any;
+  fetchNewsData: any;
 }) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const modalZIndex = new CompositeZIndex([HEADER_ZINDEX]);
+  let newItems = null;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const maxNumber = 5;
 
-  const handleAddNews = () => {
-    // Add news logic here
-    console.log("here");
-    handleCreatePost();
-    setIsNewsModalOpen(!isAddNewsModalOpen);
-  };
-
   const handleCancelAddingNews = () => {
     setIsNewsModalOpen(!isAddNewsModalOpen);
   };
 
-  const onChange = (
-    imageList: ImageListType,
-    addUpdateIndex: number[] | undefined
-  ) => {
-    setImages({
-      images: imageList,
-      index: addUpdateIndex,
-    });
+  const handleTitleChange = (event) => {
+    setTitle(event.value);
   };
 
-  const handleCreatePost = async () => {
-    console.log("images", images?.images[0].file);
-    let formData = new URLSearchParams();
-    formData.append("title", title);
-    formData.append("description", description);
-    // images?.images.forEach((image) => {
-    //   console.log("image", image.file);
-    //   return formData.append("images[]", image?.file);
-    // });
-    // formData.append("images[]", images?.images[0].file);
-    console.log("formData", formData);
+  const handleDescription = (event) => {
+    setDescription(event.value);
+  };
+
+  const handleAddNews = () => {
+    // Add car logic here
+    setIsNewsModalOpen(!isAddNewsModalOpen);
+    const values = [
+      {
+        title: title,
+        description: description,
+      },
+    ];
+
+    newItems = values.map((value) => ({
+      title: value.title,
+      description: value.description,
+      images: images,
+    }));
+
+    if (images[0].file !== undefined) {
+      fetchAddPost(newItems);
+    }
+  };
+
+  const fetchAddPost = async (newItems: any) => {
+    const formData = new FormData();
+    formData.append("title", newItems[0].title);
+    formData.append("description", newItems[0].description);
+    images.map((image) => formData.append("images[]", image.file));
 
     try {
-      const response = await fetch(
-        `https://veka.perspectivefusion.com/api/v1/${endpoints.createPost}`,
+      const response = await axios.post(
+        `${linkUrl()}${endpoints.createPost}`,
+        formData,
         {
-          // const response = await fetch(`${linkUrl()}${endpoints.login}`, {
-          method: "POST",
           headers: {
-            // "Content-Type": "multipart/form-data",
-            "Content-Type": "application/x-www-form-urlencoded",
-            Bearer: localStorage.getItem("jwt"),
+            Accept: "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
           },
-          // body: images?.images[0].file,
-          body: formData,
         }
       );
-      const data = await response.json();
-
-      if (data.status === "fail" || data.status === "error") {
-        throw Error(data.message);
-      } else {
-        console.log("data", data);
-        // setError(false);
-        // setMessage(t(data?.statusText));
+      if (response.status === 200) {
+        setIsNewsModalOpen(false);
+        fetchNewsData();
       }
     } catch (error) {
-      console.log("error", error);
-      // setMessage(`${t(error?.message)}`);
-      // setError(true);
-      // throw Error(error);
+      console.error(error);
+      setIsNewsModalOpen(false);
     }
   };
 
@@ -120,8 +117,8 @@ export default function AddNewsModal({
                       <TextField
                         id="title"
                         label="Заглавие"
-                        onChange={(e) => {
-                          setTitle(e.value);
+                        onChange={(event) => {
+                          handleTitleChange(event);
                         }}
                         placeholder=""
                         value={title}
@@ -142,8 +139,8 @@ export default function AddNewsModal({
                       <TextArea
                         id="description"
                         label="Описание"
-                        onChange={(e) => {
-                          setDescription(e.value);
+                        onChange={(event) => {
+                          handleDescription(event);
                         }}
                         placeholder=""
                         value={description}
@@ -155,11 +152,7 @@ export default function AddNewsModal({
               <div className="row py-3 pb-4">
                 <h6 className="fw-bold">Снимки</h6>
                 <Text weight="bold">
-                  <UploadImagesComponet
-                    maxNumber={maxNumber}
-                    onChange={onChange}
-                    handleCreatePost={handleCreatePost}
-                  />
+                  <UploadImagesComponet images={images} setImages={setImages} />
                 </Text>
               </div>
               <div className="row mt-3">
@@ -181,7 +174,7 @@ export default function AddNewsModal({
                   accessibilityLabel="button"
                   size={`${isMobile ? "sm" : "lg"}`}
                   text="Отказ"
-                  onClick={(e) => handleCancelAddingNews()}
+                  onClick={(e) => handleCancelAddingNews(e)}
                 />{" "}
               </div>
             </Fragment>

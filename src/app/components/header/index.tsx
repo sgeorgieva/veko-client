@@ -2,24 +2,26 @@
 
 import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import useTranslation from "next-translate/useTranslation";
 import Image from "next/image";
 import { Icon } from "gestalt";
 import { Navbar, Nav, NavItem, Collapse } from "reactstrap";
+import { useTranslation } from "react-i18next";
 import { links } from "../../../../constants";
 import AnimatedLink from "../AnimatedLink";
 import SearchComponent from "../SearchComponent";
 import detectVersion from "../../../../utils/functions";
 import Logo from "../../../../public/images/Logo_Veko.png";
-
-import "./header.scss";
 import Message from "../MessageComponent";
 
+import "./header.scss";
+
 export default function Header({
+  props,
   classname,
   isOpen,
   setIsOpen,
 }: {
+  props: any;
   classname: string;
   isOpen: boolean;
   setIsOpen: object;
@@ -28,8 +30,8 @@ export default function Header({
   const pathname = usePathname();
   const [sticky, setSticky] = useState("");
   const [isHover, setHover] = useState(false);
-  const { t, lang } = useTranslation("home");
-  const [name, setName] = useState(t("common:car-dealership-title"));
+  const { t } = useTranslation();
+  const [name, setName] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [open, setOpen] = useState(false);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
@@ -113,8 +115,6 @@ export default function Header({
             <Collapse isOpen={isOpenMobileMenu} navbar>
               <Nav className="menu" navbar>
                 {links.map((element, i) => {
-                  console.log(element);
-
                   return (
                     isOpen && (
                       <NavItem
@@ -235,6 +235,7 @@ export default function Header({
                 href="/car-dealership"
                 hasActiveClass={pathname.includes("/car-dealership")}
               >
+                {/* {t("car-dealership-title")} */}
                 Автомобилно представителство
                 {isHover && name === "Автомобилно представителство" ? (
                   <div className="row">

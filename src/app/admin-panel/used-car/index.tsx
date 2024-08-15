@@ -29,20 +29,14 @@ export default function AdminPanelUsedCarComponent({
   }, []);
 
   async function fetchCarsData() {
-    // You can await here
     try {
-      const response = await axios.get(`${linkUrl()}${endpoints.cars}?page=4`, {
+      const response = await axios.get(`${linkUrl()}${endpoints.cars}?page=1`, {
         headers: {
           Accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
       });
       if (response.status === 200) {
-        // console.log(
-        //   "RECORDS",
-        //   JSON.parse(response?.data?.records?.data[0].attributes)
-        // );
-        // console.log("HEREEEEEEE", JSON.parse(response?.data?.records));
         setItems(response?.data?.records?.data);
       }
     } catch (error) {
@@ -53,8 +47,6 @@ export default function AdminPanelUsedCarComponent({
   useEffect(() => {
     fetchCarsData();
   }, []);
-
-  // console.log("items", items);
 
   const fetchDeleteCarData = async (id: number) => {
     try {
@@ -77,7 +69,6 @@ export default function AdminPanelUsedCarComponent({
   };
 
   const handleEditCarData = () => {
-    console.log("here2");
     if (carInfo) {
       setIsEditCarModalOpen(true);
     }
@@ -87,11 +78,6 @@ export default function AdminPanelUsedCarComponent({
     setIsDeleteCarModalOpen(!isDeleteCarModalOpen);
     setDeleteId(id);
   };
-
-  console.log(
-    "isEditCarModalOpen",
-    isEditCarModalOpen && carInfo && carInfo.length > 0
-  );
 
   return (
     <>

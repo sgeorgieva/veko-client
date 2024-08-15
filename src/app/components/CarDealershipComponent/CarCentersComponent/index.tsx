@@ -6,26 +6,26 @@ import {
   BannerSlim,
   Box,
   Button,
+  Flex,
   Label,
+  SegmentedControl,
   SelectList,
   TextArea,
   TextField,
 } from "gestalt";
-import DatePicker from "react-datepicker";
+import { DatePicker } from "gestalt-datepicker";
 import { TimePicker } from "antd";
 import { bg } from "date-fns/locale";
 import dayjs from "dayjs";
+import { pdf, PDFViewer } from "@react-pdf/renderer";
 import HomeComponent from "../../HomeComponent";
-import DatePickerGestaltComponent from "../../DatePickerGestalt";
 import Loader from "../../Loader";
-import { renderMonthContent } from "../../../../../utils/functions";
-
-import "react-datepicker/dist/react-datepicker.css";
+import MyDocument from "./appoitments";
 
 import "./carCentersComponent.scss";
-// import DatePickerComponent from "../../DatePicker";
+import axios from "axios";
+import { endpoints, linkUrl } from "../../../../../utils/functions";
 
-// import "./datepicker.module.css";
 const generateDatesWithoutSundays = (start, end) => {
   const dates = [];
   let currentDate = new Date(start);
@@ -38,26 +38,23 @@ const generateDatesWithoutSundays = (start, end) => {
   }
   return dates;
 };
-import { createRoot } from "react-dom/client";
 
 export default function CarCentersComponent() {
-  useEffect(() => {
-    const domNode = document.getElementById("datePicker");
-    const root = createRoot(domNode);
-  }, []);
-
+  const [items, setItems] = useState([]);
   const [city, setCity] = useState("");
   const [names, setNames] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [model, setModel] = useState("");
-  const [year, setYear] = useState(null);
-  const [engine, setEngine] = useState("");
+  const [year, setYear] = useState(new Date());
+  const [engine, setEngine] = useState("gasoline");
   const [message, setMessage] = useState("");
-  const [date, setDate] = useState(null);
-  // const [startDate, setStartDate] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
   const [vinNumber, setVinNumber] = useState("");
+  const mapOptions = { 0: ["year", "month"] };
+  const itemsCalendar = ["Month & Year"];
+  const [itemIndex, setItemIndex] = useState(0);
 
   const [hasCityValidationError, setHasCityValidationError] = useState(false);
   const [hasNamesValidationError, setHasNamesValidationError] = useState(false);
@@ -83,12 +80,82 @@ export default function CarCentersComponent() {
   const availableDates = generateDatesWithoutSundays(start, end);
   const [currentHours, setCurrentHours] = useState();
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [singleFile, setSingleFile] = useState(null);
+  const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       setIsMobile(true);
     }
   }, []);
+
+  // const generatePdfDocument = async (fileName, pdfDocumentComponent: any) => {
+  //   setLoading(true);
+  //   const blob = await pdf(pdfDocumentComponent).toBlob();
+  //   setSingleFile(blob);
+  //   saveAs(blob, fileName);
+  //   setLoading(false);
+  // };
+
+  const handlePdf = async (name, pdfDocumentComponent, items) => {
+    setFileName(name);
+    setLoading(false);
+    let blobConvertFile = null;
+    let fileBlob = null;
+
+    if (Object.keys(items).length > 0) {
+      blobConvertFile = await pdf(pdfDocumentComponent).toBlob();
+    }
+
+    if (blobConvertFile !== null) {
+      fileBlob = await new File([blobConvertFile], `VEKO-OIL-appointment.pdf`, {
+        type: "application/pdf",
+      });
+      setFile(fileBlob);
+    }
+  };
+
+  useEffect(() => {
+    async function fetchPdfData() {
+      if (file) {
+        const formData = new FormData();
+        formData.append("city", items[0].city);
+        formData.append("date", items[0].date);
+        formData.append("email", items[0].email);
+        formData.append("engine", items[0].engine);
+        formData.append("message", items[0].message);
+        formData.append("model", items[0].model);
+        formData.append("names", items[0].names);
+        formData.append("phone", items[0].phone);
+        formData.append("time", items[0].time);
+        formData.append("vinNnumber", items[0].vinNumber);
+        formData.append("year", items[0].year);
+        formData.append("file", file);
+
+        try {
+          const response = await axios.post(
+            `${linkUrl()}${endpoints.autocenters}`,
+            formData,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+            }
+          );
+          if (response.status === 200) {
+            // setIsNewsModalOpen(false);
+            console.log("response", response);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
+    fetchPdfData();
+  }, [file]);
 
   const validateForm = () => {
     // Validate city
@@ -170,9 +237,6 @@ export default function CarCentersComponent() {
       setHasTimeValidationError(false);
     }
 
-    // console.log('time', time);
-    // console.log('hasTimeValidationError', hasTimeValidationError);
-
     // Validate vin number
     if (!vinNumber) {
       setIsValidForm(false);
@@ -186,7 +250,82 @@ export default function CarCentersComponent() {
 
   const handleSubmit = async () => {
     validateForm();
-    console.log("here in validate form");
+
+    if (
+      !hasCityValidationError &&
+      !hasPhoneValidationError &&
+      !hasEmailValidationError &&
+      !hasModelValidationError &&
+      !hasYearValidationError &&
+      !hasEngineValidationError &&
+      !hasDateValidationError &&
+      !hasTimeValidationError &&
+      !hasVinNumberValidationError
+    ) {
+      setIsValidForm(true);
+      setItems([
+        {
+          city,
+          names,
+          phone,
+          email,
+          model,
+          year: dayjs(year).format("YYYY-MM"),
+          engine,
+          message,
+          date: dayjs(date).format("YYYY-MM-DD"),
+          time: dayjs(time).format("HH:mm"),
+          vinNumber,
+        },
+      ]);
+      // generatePdfDocument(
+      //   `VEKO-OIL-appointment.pdf`,
+      //   <MyDocument items={items} />
+      // );
+      handlePdf(
+        `VEKO-OIL-appointment.pdf`,
+        <MyDocument items={items} />,
+        items
+      );
+    } else {
+      setIsValidForm(false);
+    }
+  };
+
+  const handleNamesChange = (event) => {
+    setNames(event.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.value);
+  };
+
+  const handlePhoneChange = (event) => {
+    setPhone(event.value);
+  };
+
+  const handleModelChange = (event) => {
+    setModel(event.value);
+  };
+
+  const handleEngineChange = (event) => {
+    setEngine(event.value);
+  };
+
+  const handleMessageChange = (event) => {
+    setMessage(event.value);
+  };
+
+  const handleYearChange = (value) => {
+    setYear(value);
+  };
+
+  const handleTimeChange = (time) => {
+    setTime(time.$d.getTime());
+  };
+
+  const handleVinNumberChange = (event) => {
+    setVinNumber(event.value);
   };
 
   return (
@@ -195,6 +334,11 @@ export default function CarCentersComponent() {
         isHomePage={false}
         component={
           <>
+            {items && items.length > 0 && isValidForm && (
+              <PDFViewer>
+                <MyDocument items={items} />
+              </PDFViewer>
+            )}
             {!isValidForm && (
               <Box
                 alignItems="center"
@@ -257,8 +401,8 @@ export default function CarCentersComponent() {
                         id="names"
                         name="names"
                         label="Име и Фамилия"
-                        onChange={({ value }) => {
-                          setNames(value);
+                        onChange={(event, value) => {
+                          handleNamesChange(event, value);
                         }}
                         type="text"
                         size={isMobile ? "md" : "lg"}
@@ -277,8 +421,8 @@ export default function CarCentersComponent() {
                         id="email"
                         name="email"
                         label="Имейл"
-                        onChange={({ value }) => {
-                          setEmail(value);
+                        onChange={(event, value) => {
+                          handleEmailChange(event, value);
                         }}
                         type="email"
                         size={isMobile ? "md" : "lg"}
@@ -297,8 +441,8 @@ export default function CarCentersComponent() {
                         id="phone"
                         name="phone"
                         label="Телефон"
-                        onChange={({ value }) => {
-                          setPhone(value);
+                        onChange={(event, value) => {
+                          handlePhoneChange(event, value);
                         }}
                         size={isMobile ? "md" : "lg"}
                         type="text"
@@ -320,8 +464,8 @@ export default function CarCentersComponent() {
                         name="model"
                         label="Модел"
                         size={isMobile ? "md" : "lg"}
-                        onChange={({ value }) => {
-                          setModel(value);
+                        onChange={(event, value) => {
+                          handleModelChange(event, value);
                         }}
                         type="text"
                         value={model}
@@ -336,17 +480,41 @@ export default function CarCentersComponent() {
                   <div className="col-md-4">
                     <Box marginBottom={6}>
                       <Label htmlFor="year">Година</Label>
-                      <DatePicker
-                        onChange={(value) => {
-                          setYear(value);
-                        }}
-                        selected={year}
-                        renderMonthContent={renderMonthContent}
-                        showMonthYearPicker
-                        dateFormat="MM/yyyy"
-                        id="datePicker"
-                      />
-                      {/* <DatePickerComponent year={year} setYear={setYear} /> */}
+                      <div className="datepicker">
+                        <Flex
+                          alignItems="start"
+                          height="100%"
+                          justifyContent="center"
+                          width="100%"
+                        >
+                          <Box padding={2}>
+                            <Flex direction="column" gap={4} width="100%">
+                              <SegmentedControl
+                                items={itemsCalendar}
+                                onChange={({ activeIndex }) =>
+                                  setItemIndex(activeIndex)
+                                }
+                                selectedItemIndex={itemIndex}
+                              />
+                              <DatePicker
+                                idealDirection="right"
+                                id="selectLists"
+                                onChange={({ value }) =>
+                                  handleYearChange(value)
+                                }
+                                selectLists={mapOptions[itemIndex.toString()]}
+                                value={year}
+                                localeData={bg}
+                                errorMessage={
+                                  !hasYearValidationError
+                                    ? undefined
+                                    : "Моля, въведете година"
+                                }
+                              />
+                            </Flex>
+                          </Box>
+                        </Flex>
+                      </div>
                     </Box>
                   </div>
                   <div className="col-md-4">
@@ -354,7 +522,9 @@ export default function CarCentersComponent() {
                       <SelectList
                         id="selectlistexample1"
                         label="Двигател"
-                        onChange={() => {}}
+                        onChange={(event, value) =>
+                          handleEngineChange(event, value)
+                        }
                         size={isMobile ? "md" : "lg"}
                       >
                         {[
@@ -381,7 +551,9 @@ export default function CarCentersComponent() {
                         id="message"
                         name="message"
                         label="Съобщение"
-                        onChange={({ value }) => setMessage(value)}
+                        onChange={(event, value) => {
+                          handleMessageChange(event, value);
+                        }}
                         value={message}
                         errorMessage={
                           !hasMessageValidationError
@@ -394,13 +566,29 @@ export default function CarCentersComponent() {
                   <div className="col-md-4">
                     <div className="row align-items-center">
                       <div className="col-md-8">
-                        <DatePickerGestaltComponent
+                        <DatePicker
+                          selected={startDate}
+                          onChange={(date) => setStartDate(date)}
+                          includeDates={availableDates}
+                          placeholderText={`${new Date()}`}
+                          localeData={bg}
+                          idealDirection="right"
+                          minDate={new Date()}
+                          id="example-errorMessage"
+                          dateFormat="MM/yyyy"
                           startDate={startDate}
                           availableDates={availableDates}
                           hasDateValidationError={hasDateValidationError}
                           setStartDate={setStartDate}
                           bg={bg}
                           label="Дата"
+                          date={date}
+                          value={date}
+                          errorMessage={
+                            !hasDateValidationError
+                              ? undefined
+                              : "Моля, изберете дата"
+                          }
                         />
                       </div>
                       <div className="col-md-4">
@@ -411,9 +599,9 @@ export default function CarCentersComponent() {
                           }
                           status={hasTimeValidationError ? "error" : "success"}
                           disabledHours={(hour) => {
-                            console.log("hour", hour);
+                            // console.log("hour", hour);
                             if (startDate && startDate?.value.getDay() === 6) {
-                              console.log("here hour 1");
+                              // console.log("here hour 1");
 
                               return [
                                 0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 17, 18, 19,
@@ -424,11 +612,11 @@ export default function CarCentersComponent() {
                               startDate?.value.getDay() === 6 &&
                               hour === 14
                             ) {
-                              console.log("here hour 2");
+                              // console.log("here hour 2");
                               setCurrentHours(hour);
                               return [0];
                             } else {
-                              console.log("here hour 3");
+                              // console.log("here hour 3");
                               setCurrentHours(hour);
                               return [
                                 0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23,
@@ -438,7 +626,7 @@ export default function CarCentersComponent() {
                           minuteStep={15}
                           secondStep={10}
                           disabledMinutes={(time) => {
-                            console.log("currentHours", currentHours);
+                            // console.log("currentHours", currentHours);
 
                             if (
                               startDate &&
@@ -456,7 +644,7 @@ export default function CarCentersComponent() {
                               startDate?.value.getDay() !== 6 &&
                               time == "08"
                             ) {
-                              console.log("here2", startDate?.value.getDay());
+                              // console.log("here2", startDate?.value.getDay());
                               return [
                                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
                                 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -467,7 +655,7 @@ export default function CarCentersComponent() {
                               startDate?.value.getDay() === 6 &&
                               currentHours === 14
                             ) {
-                              console.log("here3");
+                              // console.log("here3");
 
                               return [15, 30, 45];
                               // console.log('here3', startDate?.value.getDay());
@@ -477,9 +665,10 @@ export default function CarCentersComponent() {
                             }
                           }}
                           placeholder="00:00"
-                          value={time}
-                          onChange={({ value }) => setTime(value)}
-                          defaultValue={dayjs("12:08", format)}
+                          onOk={(time) => {
+                            handleTimeChange(time);
+                          }}
+                          // defaultValue={dayjs("12:08", format)}
                           format={format}
                           size="large"
                         />
@@ -524,8 +713,8 @@ export default function CarCentersComponent() {
                           id="vin_number"
                           name="vin_number"
                           label="VIN номер"
-                          onChange={({ value }) => {
-                            setVinNumber(value);
+                          onChange={(event, value) => {
+                            handleVinNumberChange(event, value);
                           }}
                           type="text"
                           size={isMobile ? "md" : "lg"}

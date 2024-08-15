@@ -36,7 +36,6 @@ export default function SearchComponent({
   const anchorSecondRef = useRef(null);
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -55,7 +54,6 @@ export default function SearchComponent({
     setIsClient(true);
 
     if (anchorSecondRef.current !== null) {
-      console.log("anchorSecondRef", anchorSecondRef);
       router.push("/admin-panel");
     }
   }, [anchorSecondRef]);
@@ -127,12 +125,12 @@ export default function SearchComponent({
                 zIndex={new CompositeZIndex([PAGE_HEADER_ZINDEX])}
               >
                 <Dropdown.Section label="Езици">
-                  {/* {langs} */}
                   <Dropdown.Item
                     onSelect={onSelect}
                     option={{ value: "Български", label: "BG" }}
                     selected={selected}
                   >
+                    Български
                     {/* {t(`layout:language-name-${lng}`)} */}
                   </Dropdown.Item>
                   <Dropdown.Item
@@ -142,7 +140,9 @@ export default function SearchComponent({
                       label: "EN",
                     }}
                     selected={selected}
-                  />
+                  >
+                    Английски
+                  </Dropdown.Item>
                 </Dropdown.Section>
               </Dropdown>
             )}
@@ -265,7 +265,6 @@ export default function SearchComponent({
         </Flex>
         {isOpenLoginModal && (
           <Login
-            setIsLogin={setIsLogin}
             isMobile={isMobile}
             closeModal={toggleLoginModal}
             setOpenLoginMenu={setOpenLoginMenu}

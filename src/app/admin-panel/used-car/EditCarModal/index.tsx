@@ -275,7 +275,6 @@ export default function EditCarModal({
     images.map((image) => formData.append("images[]", image.file));
     formData.append("attributes", JSON.stringify(newItems[0].attributes));
 
-    console.log("id", id);
     try {
       const response = await axios.post(
         `${linkUrl()}${endpoints.updateCar}${id}`,
@@ -302,7 +301,6 @@ export default function EditCarModal({
   };
 
   const handleEditCar = () => {
-    console.log("here");
     setIsEditCarModalOpen(!isEditCarModalOpen);
     fetchEditCar(carInfo?.id);
   };

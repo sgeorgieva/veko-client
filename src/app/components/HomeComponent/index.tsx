@@ -20,28 +20,6 @@ export default function HomeComponent({ isHomePage, component }: any) {
     }
   }, []);
 
-  useEffect(() => {
-    // callback function to call when event triggers
-    const onPageLoad = () => {
-      console.log("page loaded");
-      // do something else
-
-      // var frameObj = document.querySelectorAll("body > iframe")[0].textContent;
-      // frameObj = frameObj?.querySelectorAll('navbar navbar-default navbar-fixed-top');
-      // console.log('frameObj', frameObj);
-
-      // frame.parentNode.removeChild(frame);
-    };
-    // Check if the page has already loaded
-    if (document.readyState === "complete") {
-      onPageLoad();
-    } else {
-      window.addEventListener("load", onPageLoad, false);
-      // Remove the event listener when component unmounts
-      return () => window.removeEventListener("load", onPageLoad);
-    }
-  }, []);
-
   return (
     <>
       <Box

@@ -101,7 +101,6 @@ export default function ContactFormComponent() {
   function handleSubmit(e: any) {
     e.preventDefault();
     validateForm();
-    console.log("HERE IN handleSubmit");
 
     if (
       !hasNameError &&
@@ -116,7 +115,6 @@ export default function ContactFormComponent() {
       !hasMessageValidationError
     ) {
       // Send form data to server
-      console.log("Form submitted", { names, email, message });
       const response = axios
         .post(`${linkUrl()}${endpoints.contact}`, {
           names: names,
@@ -130,11 +128,7 @@ export default function ContactFormComponent() {
           setMesage(data?.data.message);
         })
         .catch((error) => {
-          console.log("err", error);
-
           if (error.response.status.startsWith("4")) {
-            console.log("heres");
-
             setIsValidForm(false);
             setMessageValidation("Моля, попълнете празните полета");
           } else {
@@ -171,7 +165,7 @@ export default function ContactFormComponent() {
         <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
             size={`${isMobile ? "sm" : "lg"}`}
-            names="names"
+            name="names"
             id="names"
             label="Име"
             onChange={({ value }) => {
@@ -188,7 +182,7 @@ export default function ContactFormComponent() {
         </Box>
         <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
-            names="phone"
+            name="phone"
             size={`${isMobile ? "sm" : "lg"}`}
             id="phone"
             label="Телефон"
@@ -207,7 +201,7 @@ export default function ContactFormComponent() {
         <Box width={`${isMobile ? "350px" : "550px"}`}>
           <TextField
             id="city"
-            names="city"
+            name="city"
             size={`${isMobile ? "sm" : "lg"}`}
             label="Град"
             onChange={({ value }) => {

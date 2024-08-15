@@ -3,11 +3,13 @@
 import { Suspense, useEffect, useState } from "react";
 import { Box, Flex, IconButton, SegmentedControl, Text } from "gestalt";
 import Loader from "../components/Loader";
+import { useRouter } from "next/navigation";
 import HomeComponent from "../components/HomeComponent";
 import AdminPanelUsedCarComponent from "./used-car";
 import AdminPanelNewsComponent from "./news";
 import AddCarModal from "./used-car/AddCarModal";
 import AddNewsModal from "./news/AddNewsModal";
+import Message from "../components/MessageComponent";
 
 import "./adminPanel.scss";
 export default function AdminPanel() {
@@ -18,6 +20,26 @@ export default function AdminPanel() {
   const [itemIndex, setItemIndex] = useState(0);
   const items = ["Автооказион", "Новини"];
   const content = [<AdminPanelUsedCarComponent />, <AdminPanelNewsComponent />];
+  const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    if (Boolean(localStorage.getItem("isLoginIn"))) {
+      router.push("/admin-panel");
+      setShowToast(true);
+    } else {
+      router.push("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Boolean(localStorage.getItem("isLoginIn"))) {
+      router.push("/admin-panel");
+      setShowToast(true);
+    } else {
+      router.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -51,6 +73,13 @@ export default function AdminPanel() {
         isHomePage={false}
         component={
           <>
+            {showToast && (
+              <Message
+                type="success"
+                message="Успешно вписване"
+                setShowToast={setShowToast}
+              />
+            )}
             <div className="contact-wrapper">
               <div className="d-flex align-items-center justify-content-between title-contact">
                 <h1 className="d-flex pageHeader align-items-center justify-content-between mb-4">
@@ -80,7 +109,7 @@ export default function AdminPanel() {
                   onChange={({ activeIndex, event }) => {
                     event.preventDefault();
                     setItemIndex(activeIndex);
-                    localStorage.setItem("activeTabIndex", activeIndex);
+                    localStorage.setItem("activeTabIndex", +activeIndex);
                   }}
                   selectedItemIndex={itemIndex}
                 />
@@ -93,8 +122,8 @@ export default function AdminPanel() {
                       padding={6}
                       rounding={2}
                     >
-                      {activeIndex === 0 && <Text>{content[0]}</Text>}
-                      {activeIndex === 1 && <Text>{content[1]}</Text>}
+                      {itemIndex === 0 && <Text>{content[0]}</Text>}
+                      {itemIndex === 1 && <Text>{content[1]}</Text>}
                     </Box>
                   </Flex>
                 ) : (
@@ -105,8 +134,8 @@ export default function AdminPanel() {
                     padding={6}
                     rounding={2}
                   >
-                    {activeIndex === 0 && <Text>{content[0]}</Text>}
-                    {activeIndex === 1 && <Text>{content[1]}</Text>}
+                    {itemIndex === 0 && <Text>{content[0]}</Text>}
+                    {itemIndex === 1 && <Text>{content[1]}</Text>}
                   </Box>
                 )}
               </Box>

@@ -18,8 +18,6 @@ export default function DeleteNewsModal({
   const HEADER_ZINDEX = new FixedZIndex(10);
   const zIndex = new CompositeZIndex([HEADER_ZINDEX]);
 
-  console.log("here in delete news modal");
-
   return (
     <Fragment>
       {isDeleteNewsModalOpen ? (

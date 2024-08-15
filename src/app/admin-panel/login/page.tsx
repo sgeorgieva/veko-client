@@ -24,12 +24,11 @@ import { headers } from "next/headers";
 
 export default function Login({
   closeModal,
-  // setIslogin,
+  setIslogin,
   setOpenLoginMenu,
   isMobile,
 }: any) {
   const [showComponent, setShowComponent] = useState(true);
-  const [isLogin, setIsLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [hasUsernameError, setHasUsernameError] = useState(false);
@@ -66,35 +65,31 @@ export default function Login({
   const login = async () => {
     try {
       const response = axios.post(`${linkUrl()}${endpoints.login}`, {
-        // headers: {
-        //   Bearer: localStorage.getItem("jwt"),
-        // },
         username: username,
         password: password,
       });
       const data = await response;
 
-      console.log("data", data);
-
       if (
         data?.data?.statusText === "fail" ||
         data?.data?.statusText === "error"
       ) {
+        localStorage.setItem("isLoginIn", false);
         throw Error(data.message);
       } else {
-        console.log("data", data);
         // setMessage(t(data?.statusText));
         localStorage.setItem("jwt", data?.data?.token);
-        closeModal();
-        setIsLogin(true);
+        localStorage.setItem("isLoginIn", true);
         setOpenLoginMenu(false);
         router.push("/admin-panel");
+        closeModal();
+        setIslogin(true);
       }
     } catch (error) {
       if (
-        error.response.status === 400 ||
-        error.response.status === 404 ||
-        error.response.status === 401
+        error?.response?.status === 400 ||
+        error?.response?.status === 404 ||
+        error?.status === 401
       ) {
         setMessageValidation(error.response.data.message);
       } else {
@@ -129,14 +124,21 @@ export default function Login({
               </Flex>
               {!isValidForm && (
                 <Flex alignItems="center" justifyContent="center">
-                  <Box width="100%" paddingY={3} marginTop={0} marginBottom={0}>
-                    <BannerSlim
-                      type="error"
-                      iconAccessibilityLabel="Information"
-                      message={messageValidation}
-                      onDismiss={() => setIsValidForm(!isValidForm)}
-                    />
-                  </Box>
+                  {messageValidation.length > 0 && (
+                    <Box
+                      width="100%"
+                      paddingY={3}
+                      marginTop={0}
+                      marginBottom={0}
+                    >
+                      <BannerSlim
+                        type="error"
+                        iconAccessibilityLabel="Information"
+                        message={messageValidation}
+                        onDismiss={() => setIsValidForm(!isValidForm)}
+                      />
+                    </Box>
+                  )}
                 </Flex>
               )}
               <Box marginBottom={6}>

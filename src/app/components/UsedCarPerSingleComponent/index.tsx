@@ -25,7 +25,6 @@ export default function UsedCarPerSingleComponent({
   };
 
   const fetchSingleCar = async () => {
-    console.log("here");
     handleEditCarData();
 
     try {
@@ -75,12 +74,7 @@ export default function UsedCarPerSingleComponent({
         ) : (
           <WashAnimated
             image={
-              <Avatar
-                size="fit"
-                name="Audi A3 2.0"
-                src={image}
-                verified={true}
-              />
+              <Avatar size="fit" name={model} src={image} verified={true} />
             }
           >
             <Flex direction="column" justifyContent="center">
