@@ -321,11 +321,6 @@ export default function CarCentersComponent() {
         isHomePage={false}
         component={
           <>
-            {items && items.length > 0 && isValidForm && (
-              <PDFViewer>
-                <MyDocument items={items} />
-              </PDFViewer>
-            )}
             {messageValidation && (
               <Box
                 alignItems="center"
