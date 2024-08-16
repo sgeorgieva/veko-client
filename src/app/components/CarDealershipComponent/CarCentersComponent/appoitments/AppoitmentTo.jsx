@@ -1,11 +1,8 @@
 import React from 'react';
 import { Text, View, StyleSheet, Font, Image, Svg, Line } from '@react-pdf/renderer';
 import { useTranslation } from "react-i18next";
-// import Roboto from '../../fonts/roboto/Roboto-Regular.ttf';
-// import Roboto from '../../../../../fonts/roboto/Ropboto-Regular.ttf';
 import Logo from '../../../../../../public/images/Logo_Veko.png';
 
-// Font.register({ family: 'Roboto', fonts: [{ src: Roboto, fontWeight: 'bold' }] });
 Font.register({
   family: "Roboto",
   src:
@@ -26,7 +23,9 @@ const styles = StyleSheet.create({
     width: '80%'
   },
   logo: {
-    width: '20%'
+    width: '30%',
+    height: '50%',
+    resizeMode: 'contain'
   }
 });
 
@@ -36,7 +35,7 @@ export default function AppointmentTo() {
   return (
     <View>
       <View style={styles.headerContainer}>
-        <Image style={styles.logo} src={Logo} />
+        <Image style={styles.logo} src={Logo.src} />
         <View style={styles.header}>
           <Text>VEKO Oil</Text>
           <Text>бул. "Христо Ботев" 12, 7001 Русе</Text>

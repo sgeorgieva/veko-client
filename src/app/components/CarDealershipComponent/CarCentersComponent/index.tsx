@@ -326,7 +326,7 @@ export default function CarCentersComponent() {
                 <MyDocument items={items} />
               </PDFViewer>
             )}
-            {!isValidForm && (
+            {messageValidation && (
               <Box
                 alignItems="center"
                 display="flex"

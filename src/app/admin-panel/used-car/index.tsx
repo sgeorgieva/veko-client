@@ -91,7 +91,7 @@ export default function AdminPanelUsedCarComponent({
         {items && items.length > 0 ? (
           items.map((item) => {
             return (
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <UsedCarPerSingleComponent
                   key={item.id}
                   isMobile={isMobile}

@@ -97,7 +97,7 @@ export default function AdminPanelPostsComponent({
         {items && items.length > 0 ? (
           items.map((item) => {
             return (
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <PostComponent
                   title={item.title}
                   key={item.id}

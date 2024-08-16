@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 50,
     fontFamily: 'Roboto',
-    // textAlign: 'right',
   }
 });
 
