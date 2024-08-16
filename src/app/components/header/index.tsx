@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Icon } from "gestalt";
 import { Navbar, Nav, NavItem, Collapse } from "reactstrap";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { links } from "../../../../constants";
 import AnimatedLink from "../AnimatedLink";
 import SearchComponent from "../SearchComponent";
@@ -30,7 +30,7 @@ export default function Header({
   const pathname = usePathname();
   const [sticky, setSticky] = useState("");
   const [isHover, setHover] = useState(false);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const [name, setName] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [open, setOpen] = useState(false);
@@ -235,7 +235,7 @@ export default function Header({
                 href="/car-dealership"
                 hasActiveClass={pathname.includes("/car-dealership")}
               >
-                {/* {t("car-dealership-title")} */}
+                {/* {t("pdf_thankyou_msg")} */}
                 Автомобилно представителство
                 {isHover && name === "Автомобилно представителство" ? (
                   <div className="row">

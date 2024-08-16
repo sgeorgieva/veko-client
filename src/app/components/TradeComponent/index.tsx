@@ -75,7 +75,7 @@ export default function TradeComponent() {
                 <Link
                   href="/trade/accumulators"
                   children={<AccumulatorsComponent />}
-                  className={`${isMobile ? "" : "w-25 p-0 mx-5"}`}
+                  className={`${isMobile ? "" : "w-25 p-0 mx-3"}`}
                 >
                   <img src={BatteryImage.src} alt="accumulators-image" />
                   <h5 className="fw-bold text-center text-uppercase pt-3">
@@ -98,7 +98,7 @@ export default function TradeComponent() {
                 <Link
                   href="/trade/special-liquids"
                   children={<SpecialLiquidsComponent />}
-                  className={`${isMobile ? "" : "w-25 p-0 ms-5"}`}
+                  className={`${isMobile ? "" : "w-25 p-0 ms-3"}`}
                 >
                   <img src={LiquidsImage.src} alt="special-liquids-image" />
                   <h5 className="fw-bold text-center text-uppercase pt-3">

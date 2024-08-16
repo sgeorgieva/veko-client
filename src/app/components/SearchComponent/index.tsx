@@ -65,6 +65,7 @@ export default function SearchComponent({
   const handleLogout = () => {
     localStorage.removeItem("jwt");
     localStorage.setItem("isLoginIn", false);
+    localStorage.removeItem("activeTabIndex");
     router.push("/");
     setShowToast(true);
   };

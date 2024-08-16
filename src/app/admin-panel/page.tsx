@@ -6,20 +6,23 @@ import Loader from "../components/Loader";
 import { useRouter } from "next/navigation";
 import HomeComponent from "../components/HomeComponent";
 import AdminPanelUsedCarComponent from "./used-car";
-import AdminPanelNewsComponent from "./news";
+import AdminPanelPostsComponent from "./posts";
 import AddCarModal from "./used-car/AddCarModal";
-import AddNewsModal from "./news/AddNewsModal";
+import AddPostsModal from "./posts/AddPostsModal";
 import Message from "../components/MessageComponent";
 
 import "./adminPanel.scss";
 export default function AdminPanel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAddCarModalOpen, setIsAddCarOpen] = useState(false);
-  const [isAddNewsModalOpen, setIsNewsModalOpen] = useState(false);
+  const [isAddPostModalOpen, setIsPostModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [itemIndex, setItemIndex] = useState(0);
   const items = ["Автооказион", "Новини"];
-  const content = [<AdminPanelUsedCarComponent />, <AdminPanelNewsComponent />];
+  const content = [
+    <AdminPanelUsedCarComponent />,
+    <AdminPanelPostsComponent />,
+  ];
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
 
@@ -64,7 +67,7 @@ export default function AdminPanel() {
   };
 
   const openAddNewsModal = () => {
-    setIsNewsModalOpen(!isAddNewsModalOpen);
+    setIsPostModalOpen(!isAddPostModalOpen);
   };
 
   return (
@@ -146,11 +149,12 @@ export default function AdminPanel() {
                   setIsAddCarOpen={setIsAddCarOpen}
                 />
               )}
-              {isAddNewsModalOpen && (
-                <AddNewsModal
+              {isAddPostModalOpen && (
+                <AddPostsModal
+                  handleGetPostsData
                   isMobile={isMobile}
-                  isAddNewsModalOpen={isAddNewsModalOpen}
-                  setIsNewsModalOpen={setIsNewsModalOpen}
+                  isAddPostModalOpen={isAddPostModalOpen}
+                  setIsPostModalOpen={setIsPostModalOpen}
                 />
               )}
             </div>

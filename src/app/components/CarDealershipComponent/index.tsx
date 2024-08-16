@@ -59,7 +59,7 @@ export default function CarDealershipComponent() {
                   href="/car-dealership/brands"
                   onClick={() => router.push("/car-dealership/brands")}
                   children={<BrandsComponent />}
-                  className={`${isMobile ? "" : "w-25 p-0"}`}
+                  className={`${isMobile ? "" : "w-25"}`}
                 >
                   <img src={BrandsImage.src} alt="ecology-image" />
                   <h5 className="fw-bold py-3 text-center text-uppercase">
@@ -70,7 +70,7 @@ export default function CarDealershipComponent() {
                   href="/car-dealership/car-centers"
                   onClick={() => router.push("/car-dealership/car-centers")}
                   children={<CarCentersComponent />}
-                  className={`${isMobile ? "" : "w-25 p-0 ms-5"}`}
+                  className={`${isMobile ? "" : "w-25 ms-5"}`}
                 >
                   <img src={UsedCarImage.src} alt="used-car-image" />
                   <h5 className="fw-bold py-3 text-center text-uppercase">

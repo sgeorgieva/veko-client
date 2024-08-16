@@ -84,7 +84,7 @@ export default function HomeComponent({ isHomePage, component }: any) {
               />
             </div>
             <hr />
-            <h4>Актуални новини</h4>
+            <h4>Последни новини</h4>
           </div>
         ) : (
           component

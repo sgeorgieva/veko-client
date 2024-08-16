@@ -9,24 +9,26 @@ import {
   Text,
 } from "gestalt";
 
-import "./deleteNewsModal.scss";
-export default function DeleteNewsModal({
+import "./deletePostsModal.scss";
+export default function DeletePostsModal({
   isMobile,
-  isDeleteNewsModalOpen,
-  setIsDeleteNewsModalOpen,
+  isDeletePostsModalOpen,
+  setIsDeletePostsModalOpen,
+  handleDeletePost,
+  id,
 }: any) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const zIndex = new CompositeZIndex([HEADER_ZINDEX]);
 
   return (
     <Fragment>
-      {isDeleteNewsModalOpen ? (
+      {isDeletePostsModalOpen ? (
         <Layer zIndex={zIndex}>
           <ModalAlert
             accessibilityModalLabel="Изтриване на новина"
             heading="Премахване на новина от уебсайта"
             onDismiss={() => {
-              setIsDeleteNewsModalOpen(!isDeleteNewsModalOpen);
+              setIsDeletePostsModalOpen(!isDeletePostsModalOpen);
             }}
           >
             <Text>
@@ -42,9 +44,7 @@ export default function DeleteNewsModal({
                 accessibilityLabel="Submit"
                 size={`${isMobile ? "sm" : "lg"}`}
                 text="Премахни"
-                onClick={(e) =>
-                  setIsDeleteNewsModalOpen(!isDeleteNewsModalOpen)
-                }
+                onClick={(e) => handleDeletePost(id)}
               />{" "}
             </Box>
             <Button
@@ -54,7 +54,9 @@ export default function DeleteNewsModal({
               accessibilityLabel="button"
               size={`${isMobile ? "sm" : "lg"}`}
               text="Отказ"
-              onClick={(e) => setIsDeleteNewsModalOpen(!isDeleteNewsModalOpen)}
+              onClick={(e) =>
+                setIsDeletePostsModalOpen(!isDeletePostsModalOpen)
+              }
             />{" "}
           </ModalAlert>
         </Layer>

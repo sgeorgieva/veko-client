@@ -1,9 +1,11 @@
 import { Fragment, useState } from "react";
 import {
+  BannerSlim,
   Box,
   Button,
   CompositeZIndex,
   FixedZIndex,
+  Flex,
   Layer,
   ModalAlert,
   Text,
@@ -12,19 +14,19 @@ import {
 } from "gestalt";
 import axios from "axios";
 import { endpoints, linkUrl } from "../../../../../utils/functions";
-import UploadImagesComponet from "../../../../app/components/UploadImagesComponent";
+import UploadImagesComponet from "../../../components/UploadImagesComponent";
 
-import "./addNewsModal.scss";
-export default function AddNewsModal({
+import "./addPostsModal.scss";
+export default function AddPostsModal({
   isMobile,
-  isAddNewsModalOpen,
-  setIsNewsModalOpen,
-  fetchNewsData,
+  isAddPostModalOpen,
+  setIsPostModalOpen,
+  handleGetPostsData,
 }: {
   isMobile: boolean;
-  isAddNewsModalOpen: boolean;
-  setIsNewsModalOpen: any;
-  fetchNewsData: any;
+  isAddPostModalOpen: boolean;
+  setIsPostModalOpen: any;
+  handleGetPostsData: any;
 }) {
   const HEADER_ZINDEX = new FixedZIndex(10);
   const modalZIndex = new CompositeZIndex([HEADER_ZINDEX]);
@@ -32,10 +34,17 @@ export default function AddNewsModal({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
-  const maxNumber = 5;
 
-  const handleCancelAddingNews = () => {
-    setIsNewsModalOpen(!isAddNewsModalOpen);
+  const [isValidForm, setIsValidForm] = useState(true);
+  const [messageValidation, setMessageValidation] = useState("");
+  const [hasTitleValidationError, setHasTitleValidationError] = useState(false);
+  const [hasDescriptionValidationError, setHasDescriptionValidationError] =
+    useState(false);
+  const [hasImagesValidationError, setHasImagesValidationError] =
+    useState(false);
+
+  const handleCancelAddingPost = (е) => {
+    setIsPostModalOpen(!isAddPostModalOpen);
   };
 
   const handleTitleChange = (event) => {
@@ -46,21 +55,28 @@ export default function AddNewsModal({
     setDescription(event.value);
   };
 
-  const handleAddNews = () => {
-    // Add car logic here
-    setIsNewsModalOpen(!isAddNewsModalOpen);
-    const values = [
-      {
-        title: title,
-        description: description,
-      },
-    ];
+  const handleAddPost = () => {
+    validateForm();
 
-    newItems = values.map((value) => ({
-      title: value.title,
-      description: value.description,
-      images: images,
-    }));
+    if (
+      !hasTitleValidationError &&
+      !hasDescriptionValidationError &&
+      !hasImagesValidationError
+    ) {
+      setIsValidForm(true);
+      const values = [
+        {
+          title: title,
+          description: description,
+        },
+      ];
+
+      newItems = values.map((value) => ({
+        title: value.title,
+        description: value.description,
+        images: images,
+      }));
+    }
 
     if (images[0].file !== undefined) {
       fetchAddPost(newItems);
@@ -85,27 +101,73 @@ export default function AddNewsModal({
         }
       );
       if (response.status === 200) {
-        setIsNewsModalOpen(false);
-        fetchNewsData();
+        setIsPostModalOpen(false);
+        handleGetPostsData();
       }
     } catch (error) {
       console.error(error);
-      setIsNewsModalOpen(false);
     }
+  };
+
+  const validateForm = () => {
+    if (!title) {
+      setHasTitleValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasTitleValidationError(false);
+    }
+
+    if (!description) {
+      setHasDescriptionValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasDescriptionValidationError(false);
+    }
+
+    if (!images) {
+      setHasImagesValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasImagesValidationError(false);
+    }
+
+    setMessageValidation("Моля, попълнете празните полета");
   };
 
   return (
     <Box padding={8}>
-      {isAddNewsModalOpen && (
+      {isAddPostModalOpen && (
         <Layer zIndex={modalZIndex}>
           <ModalAlert
             accessibilityModalLabel="Create new board"
             heading="Добавяне на новина в уебсайта"
-            onDismiss={() => handleCancelAddingNews()}
+            onDismiss={(e) => handleCancelAddingPost(e)}
             type="default"
           >
             <Fragment>
               <div className="row">
+                {!isValidForm && (
+                  <Box
+                    alignItems="center"
+                    display="flex"
+                    height="100%"
+                    justifyContent="center"
+                    padding={3}
+                  >
+                    <Flex
+                      direction="column"
+                      gap={{ column: 3, row: 0 }}
+                      width="100%"
+                    >
+                      <BannerSlim
+                        iconAccessibilityLabel="Info"
+                        message={messageValidation}
+                        onDismiss={() => setIsValidForm(!isValidForm)}
+                        type="error"
+                      />
+                    </Flex>
+                  </Box>
+                )}
                 <div className="col-md-12">
                   <Box
                     alignItems="start"
@@ -122,6 +184,11 @@ export default function AddNewsModal({
                         }}
                         placeholder=""
                         value={title}
+                        errorMessage={
+                          !hasTitleValidationError
+                            ? undefined
+                            : "Моля, въведете заглавие"
+                        }
                       />
                     </Box>
                   </Box>
@@ -144,6 +211,11 @@ export default function AddNewsModal({
                         }}
                         placeholder=""
                         value={description}
+                        errorMessage={
+                          !hasDescriptionValidationError
+                            ? undefined
+                            : "Моля, въведете описание"
+                        }
                       />
                     </Box>
                   </Box>
@@ -164,7 +236,7 @@ export default function AddNewsModal({
                     accessibilityLabel="Submit"
                     size={`${isMobile ? "sm" : "lg"}`}
                     text="Добави"
-                    onClick={(e) => handleAddNews()}
+                    onClick={(e) => handleAddPost()}
                   />{" "}
                 </Box>
                 <Button
@@ -174,7 +246,7 @@ export default function AddNewsModal({
                   accessibilityLabel="button"
                   size={`${isMobile ? "sm" : "lg"}`}
                   text="Отказ"
-                  onClick={(e) => handleCancelAddingNews(e)}
+                  onClick={(e) => handleCancelAddingPost(e)}
                 />{" "}
               </div>
             </Fragment>

@@ -196,6 +196,10 @@ label[for="time"], label[for="year"] {
   }
 }
 
+.w-80 {
+  width: 80%;
+}
+
 .w-3 {
   width: 3%;
 }
@@ -204,16 +208,20 @@ label[for="time"], label[for="year"] {
   width: 5%;
 }
 
-// react-datepicker styles input
-.react-datepicker__input-container {
-  input {
-    padding: var(--space-300) var(--space-400);
-    border-radius: var(--rounding-400);
-    font-size: var(--font-size-300);
-    min-height: 48px;
-    width: calc(12 / var(--g-ncols)* 100%);
-    white-space: nowrap;
-    background-color: var(--color-background-formfield-primary);
-    border: 2px solid #cdcdcd;
+.datepicker {
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  .l92.Hsu._O1.b8T.aZc.XTe {
+    display: none; 
+  }
+  .hA-.wYR.zI7.iyn.Hsu {
+    padding: 0;
+    width: 100%;
+  }
+  .xuA {
+    &:first-child {
+      display: none;
+    }
   }
 }

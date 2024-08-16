@@ -1,15 +1,18 @@
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
-import AudiCarImage from "../../../../public/images/audi-car.png";
-
-import "./newsPerSingleComponent.scss";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { endpoints, linkUrl } from "../../../../utils/functions";
 
-export default function NewsPerSingleComponent({
+import "./postComponent.scss";
+
+export default function PostComponent({
   isEdit,
-  setIsEditNewsModalOpen,
-  setIsDeleteNewsModalOpen,
+  setPostInfo,
+  handleEditPostData,
+  handleDeletePost,
   title,
   image,
+  id,
 }: any) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -19,11 +22,27 @@ export default function NewsPerSingleComponent({
     }
   }, []);
 
+  const fetchSinglePost = async () => {
+    try {
+      const response = await axios.get(`${linkUrl()}${endpoints.postId}${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      });
+      if (response.status === 200) {
+        setPostInfo(response?.data?.post);
+        handleEditPostData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Flex alignItems="center" height="100%" justifyContent="start" width="100%">
       <Box column={12} maxWidth={236} padding={2}>
         {!isEdit ? (
-          <Link href="/services/news/1">
+          <Link href={`/services/posts/${id}`}>
             <WashAnimated
               image={
                 <Avatar
@@ -60,7 +79,7 @@ export default function NewsPerSingleComponent({
                 accessibilityLabel="edit car"
                 color="gray"
                 text="Редактирай"
-                onClick={() => setIsEditNewsModalOpen(true)}
+                onClick={fetchSinglePost}
               />
               <Box marginTop={3}>
                 <Button
@@ -69,7 +88,7 @@ export default function NewsPerSingleComponent({
                   color="red"
                   text="Изтрий"
                   fullWidth
-                  onClick={setIsDeleteNewsModalOpen}
+                  onClick={handleDeletePost}
                 />
               </Box>
             </Flex>

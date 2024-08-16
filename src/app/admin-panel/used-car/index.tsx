@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Spinner } from "gestalt";
 import { endpoints, linkUrl } from "../../../../utils/functions";
-import UsedCarPerSingleComponent from "../../../app/components/UsedCarPerSingleComponent";
+import UsedCarPerSingleComponent from "../../components/UsedCarPerSingleComponent";
 import AddCarModal from "./AddCarModal";
 import DeleteCarModal from "./DeleteCarModal";
 import EditCarModal from "./EditCarModal";
@@ -21,12 +21,20 @@ export default function AdminPanelUsedCarComponent({
   const [items, setItems] = useState([]);
   const [deleteId, setDeleteId] = useState(0);
   const [carInfo, setCarInfo] = useState("");
+  const initialized = useRef(false);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       setIsMobile(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!initialized.current && items && items.length === 0) {
+      initialized.current = true;
+      fetchCarsData();
+    }
+  }, [items]);
 
   async function fetchCarsData() {
     try {
@@ -43,10 +51,6 @@ export default function AdminPanelUsedCarComponent({
       console.error(error);
     }
   }
-
-  useEffect(() => {
-    fetchCarsData();
-  }, []);
 
   const fetchDeleteCarData = async (id: number) => {
     try {
@@ -68,10 +72,12 @@ export default function AdminPanelUsedCarComponent({
     }
   };
 
+  const handleFetchCarsData = () => {
+    fetchCarsData();
+  };
+
   const handleEditCarData = () => {
-    if (carInfo) {
-      setIsEditCarModalOpen(true);
-    }
+    setIsEditCarModalOpen(true);
   };
 
   const handleDeleteCar = (id: number) => {
@@ -120,8 +126,7 @@ export default function AdminPanelUsedCarComponent({
           isEditCarModalOpen={isEditCarModalOpen}
           setIsEditCarModalOpen={setIsEditCarModalOpen}
           setIsDeleteCarModalOpen={setIsDeleteCarModalOpen}
-          fetchCarsData={fetchCarsData}
-          id={deleteId}
+          handleFetchCarsData={handleFetchCarsData}
           carInfo={carInfo}
         />
       )}

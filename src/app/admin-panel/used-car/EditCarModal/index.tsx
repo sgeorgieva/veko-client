@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,17 +14,14 @@ import {
   SelectList,
   Label,
   Text,
+  SegmentedControl,
+  BannerSlim,
 } from "gestalt";
 import axios from "axios";
-import DatePicker from "react-datepicker";
-import {
-  endpoints,
-  linkUrl,
-  renderMonthContent,
-} from "../../../../../utils/functions";
+import { DatePicker } from "gestalt-datepicker";
+import { bg } from "date-fns/locale";
+import { endpoints, linkUrl } from "../../../../../utils/functions";
 import UploadImagesComponent from "../../../../app/components/UploadImagesComponent";
-
-import "react-datepicker/dist/react-datepicker.css";
 
 import "./editCarModal.scss";
 export default function EditCarModal({
@@ -32,13 +29,15 @@ export default function EditCarModal({
   setIsEditCarModalOpen,
   setIsDeleteCarModalOpen,
   isMobile,
-  fetchCarsData,
-  id,
+  handleFetchCarsData,
   carInfo,
 }: any) {
   let newItems = null;
+  const mapOptions = { 0: ["year", "month"] };
+  const itemsCalendar = ["Month & Year"];
+  const [itemIndex, setItemIndex] = useState(0);
   const [images, setImages] = useState([]);
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState(carInfo.year);
   const [model, setModel] = useState(carInfo?.model);
   const [description, setDescription] = useState(carInfo?.description);
   const [typeEngine, setTypeEngine] = useState(carInfo?.typeEngine);
@@ -123,6 +122,31 @@ export default function EditCarModal({
   );
   const [allCheckBoxesCheck, setAllCheckboxsesCheck] = useState(false);
 
+  const [isValidForm, setIsValidForm] = useState(true);
+  const [messageValidation, setMessageValidation] = useState("");
+  const [hasYearValidationError, setHasYearValidationError] = useState(false);
+  const [hasModelValidationError, setHasModelValidationError] = useState(false);
+  const [hasDescriptionValidationError, setHasDescriptionValidationError] =
+    useState(false);
+  const [hasPowerValidationError, setHasPowerValidationError] = useState(false);
+  const [hasMileageValidationError, setHasMileageValidationError] =
+    useState(false);
+  const [hasColorValidationError, setHasColorValidationError] = useState(false);
+  const [hasImagesValidationError, setHasImagesValidationError] =
+    useState(false);
+
+  useEffect(() => {
+    let count = 0;
+
+    for (const [key, value] of Object.entries(JSON.parse(carInfo.attributes))) {
+      value === true ? (count += 1) : false;
+    }
+
+    setAllCheckboxsesCheck(
+      count === Object.values(JSON.parse(carInfo.attributes)).length
+    );
+  }, [carInfo]);
+
   const handleAllCheckboxses = (checked: boolean) => {
     if (checked) {
       setAutoStabilityControlCheck(true);
@@ -180,87 +204,6 @@ export default function EditCarModal({
   };
 
   const fetchEditCar = async (id: number) => {
-    const values = [
-      {
-        year: year,
-        model: model,
-        description: description,
-        typeEngine: typeEngine,
-        power: power,
-        euroEmission: euroEmission,
-        transmission: transmission,
-        category: category,
-        mileage: mileage,
-        color: color,
-        autoStabilityControlCheck: autoStabilityControlCheck,
-        antiblockSystemCheck: antiblockSystemCheck,
-        backAirPillowsCheck: backAirPillowsCheck,
-        frontAirPillowsCheck: frontAirPillowsCheck,
-        lateralAirPillowsCheck: lateralAirPillowsCheck,
-        parktronicCheck: parktronicCheck,
-        doorsCheck: doorsCheck,
-        alloyWheelsCheck: alloyWheelsCheck,
-        halogenHeadlightsCheck: halogenHeadlightsCheck,
-        protectionCheck: protectionCheck,
-        immobilizerCheck: immobilizerCheck,
-        centralLockingCheck: centralLockingCheck,
-        bluetoothHandsfreeSystemCheck: bluetoothHandsfreeSystemCheck,
-        audioConsumablesCheck: audioConsumablesCheck,
-        boardComputerCheck: boardComputerCheck,
-        lightSensorCheck: lightSensorCheck,
-        electricMirrorsCheck: electricMirrorsCheck,
-        electricGlassCheck: electricGlassCheck,
-        climatronicCheck: climatronicCheck,
-        steeringWheelAdjustmentCheck: steeringWheelAdjustmentCheck,
-        rainSensorCheck: rainSensorCheck,
-        powerSteeringCheck: powerSteeringCheck,
-        autopilotCheck: autopilotCheck,
-        newImportationCheck: newImportationCheck,
-        stereoCheck: stereoCheck,
-      },
-    ];
-
-    newItems = values.map((value) => ({
-      year: value.year,
-      model: value.model,
-      description: value.description,
-      typeEngine: value.typeEngine,
-      power: value.power,
-      euroEmission: value.euroEmission,
-      transmission: value.transmission,
-      category: value.category,
-      mileage: value.mileage,
-      color: value.color,
-      attributes: {
-        autoStabilityControlCheck: value.autoStabilityControlCheck,
-        antiblockSystemCheck: value.antiblockSystemCheck,
-        backAirPillowsCheck: value.backAirPillowsCheck,
-        frontAirPillowsCheck: value.frontAirPillowsCheck,
-        lateralAirPillowsCheck: value.lateralAirPillowsCheck,
-        parktronicCheck: value.parktronicCheck,
-        doorsCheck: value.doorsCheck,
-        alloyWheelsCheck: value.alloyWheelsCheck,
-        halogenHeadlightsCheck: value.halogenHeadlightsCheck,
-        protectionCheck: value.protectionCheck,
-        immobilizerCheck: value.immobilizerCheck,
-        centralLockingCheck: value.centralLockingCheck,
-        bluetoothHandsfreeSystemCheck: value.bluetoothHandsfreeSystemCheck,
-        audioConsumablesCheck: value.audioConsumablesCheck,
-        boardComputerCheck: value.boardComputerCheck,
-        lightSensorCheck: value.lightSensorCheck,
-        electricMirrorsCheck: value.electricMirrorsCheck,
-        electricGlassCheck: value.electricGlassCheck,
-        climatronicCheck: value.climatronicCheck,
-        steeringWheelAdjustmentCheck: value.steeringWheelAdjustmentCheck,
-        rainSensorCheck: value.rainSensorCheck,
-        powerSteeringCheck: value.powerSteeringCheck,
-        autopilotCheck: value.autopilotCheck,
-        newImportationCheck: value.newImportationCheck,
-        stereoCheck: value.stereoCheck,
-      },
-      images: images,
-    }));
-
     const formData = new FormData();
     formData.append("year", newItems[0].year);
     formData.append("model", newItems[0].model);
@@ -288,11 +231,10 @@ export default function EditCarModal({
       );
       if (response.status === 200) {
         setIsEditCarModalOpen(false);
-        fetchCarsData();
+        handleFetchCarsData();
       }
     } catch (error) {
       console.error(error);
-      setIsEditCarModalOpen(false);
     }
   };
 
@@ -300,16 +242,108 @@ export default function EditCarModal({
     setIsEditCarModalOpen(false);
   };
 
-  const handleEditCar = () => {
-    setIsEditCarModalOpen(!isEditCarModalOpen);
-    fetchEditCar(carInfo?.id);
+  const handleEditCar = (e: any) => {
+    validateForm();
+
+    if (
+      !hasYearValidationError &&
+      !hasModelValidationError &&
+      !hasPowerValidationError &&
+      !hasDescriptionValidationError &&
+      !hasMileageValidationError &&
+      !hasColorValidationError &&
+      !hasImagesValidationError
+    ) {
+      setIsValidForm(true);
+      const values = [
+        {
+          year: year,
+          model: model,
+          description: description,
+          typeEngine: typeEngine,
+          power: power,
+          euroEmission: euroEmission,
+          transmission: transmission,
+          category: category,
+          mileage: mileage,
+          color: color,
+          autoStabilityControlCheck: autoStabilityControlCheck,
+          antiblockSystemCheck: antiblockSystemCheck,
+          backAirPillowsCheck: backAirPillowsCheck,
+          frontAirPillowsCheck: frontAirPillowsCheck,
+          lateralAirPillowsCheck: lateralAirPillowsCheck,
+          parktronicCheck: parktronicCheck,
+          doorsCheck: doorsCheck,
+          alloyWheelsCheck: alloyWheelsCheck,
+          halogenHeadlightsCheck: halogenHeadlightsCheck,
+          protectionCheck: protectionCheck,
+          immobilizerCheck: immobilizerCheck,
+          centralLockingCheck: centralLockingCheck,
+          bluetoothHandsfreeSystemCheck: bluetoothHandsfreeSystemCheck,
+          audioConsumablesCheck: audioConsumablesCheck,
+          boardComputerCheck: boardComputerCheck,
+          lightSensorCheck: lightSensorCheck,
+          electricMirrorsCheck: electricMirrorsCheck,
+          electricGlassCheck: electricGlassCheck,
+          climatronicCheck: climatronicCheck,
+          steeringWheelAdjustmentCheck: steeringWheelAdjustmentCheck,
+          rainSensorCheck: rainSensorCheck,
+          powerSteeringCheck: powerSteeringCheck,
+          autopilotCheck: autopilotCheck,
+          newImportationCheck: newImportationCheck,
+          stereoCheck: stereoCheck,
+        },
+      ];
+
+      newItems = values.map((value) => ({
+        year: value.year,
+        model: value.model,
+        description: value.description,
+        typeEngine: value.typeEngine,
+        power: value.power,
+        euroEmission: value.euroEmission,
+        transmission: value.transmission,
+        category: value.category,
+        mileage: value.mileage,
+        color: value.color,
+        attributes: {
+          autoStabilityControlCheck: value.autoStabilityControlCheck,
+          antiblockSystemCheck: value.antiblockSystemCheck,
+          backAirPillowsCheck: value.backAirPillowsCheck,
+          frontAirPillowsCheck: value.frontAirPillowsCheck,
+          lateralAirPillowsCheck: value.lateralAirPillowsCheck,
+          parktronicCheck: value.parktronicCheck,
+          doorsCheck: value.doorsCheck,
+          alloyWheelsCheck: value.alloyWheelsCheck,
+          halogenHeadlightsCheck: value.halogenHeadlightsCheck,
+          protectionCheck: value.protectionCheck,
+          immobilizerCheck: value.immobilizerCheck,
+          centralLockingCheck: value.centralLockingCheck,
+          bluetoothHandsfreeSystemCheck: value.bluetoothHandsfreeSystemCheck,
+          audioConsumablesCheck: value.audioConsumablesCheck,
+          boardComputerCheck: value.boardComputerCheck,
+          lightSensorCheck: value.lightSensorCheck,
+          electricMirrorsCheck: value.electricMirrorsCheck,
+          electricGlassCheck: value.electricGlassCheck,
+          climatronicCheck: value.climatronicCheck,
+          steeringWheelAdjustmentCheck: value.steeringWheelAdjustmentCheck,
+          rainSensorCheck: value.rainSensorCheck,
+          powerSteeringCheck: value.powerSteeringCheck,
+          autopilotCheck: value.autopilotCheck,
+          newImportationCheck: value.newImportationCheck,
+          stereoCheck: value.stereoCheck,
+        },
+        images: images,
+      }));
+      fetchEditCar(carInfo?.id);
+    }
   };
 
   const handleCancelAddingCar = () => {
     setIsEditCarModalOpen(!setIsEditCarModalOpen);
   };
 
-  const handleYearChange = (value) => {
+  const handleYearChange = (value: string) => {
     setYear(value);
   };
 
@@ -345,14 +379,78 @@ export default function EditCarModal({
     setColor(event.value);
   };
 
+  const validateForm = () => {
+    if (!year) {
+      setHasYearValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasYearValidationError(false);
+    }
+
+    if (!model) {
+      setHasModelValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasModelValidationError(false);
+    }
+
+    if (!power) {
+      setHasPowerValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasPowerValidationError(false);
+    }
+
+    if (!description) {
+      setHasDescriptionValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasDescriptionValidationError(false);
+    }
+
+    if (!mileage) {
+      setHasMileageValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasMileageValidationError(false);
+    }
+
+    if (!color) {
+      setHasColorValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasColorValidationError(false);
+    }
+
+    if (!images) {
+      setHasImagesValidationError(true);
+      setIsValidForm(false);
+    } else {
+      setHasImagesValidationError(false);
+    }
+
+    if (
+      !model ||
+      !year ||
+      !power ||
+      !description ||
+      !mileage ||
+      !color ||
+      !images
+    ) {
+      setIsValidForm(false);
+      setMessageValidation("Моля, попълнете празните полета");
+    }
+  };
+
   return (
     <Box padding={6}>
       {isEditCarModalOpen && (
         <Layer zIndex={new FixedZIndex(11)}>
           <OverlayPanel
             size={isMobile ? "sm" : "lg"}
-            accessibilityDismissButtonLabel="Close edit News overlay panel"
-            accessibilityLabel="Edit news"
+            accessibilityDismissButtonLabel="Close edit cars overlay panel"
+            accessibilityLabel="Edit cars"
             closeOnOutsideClick={() => handleCloseOnOutsideClick}
             footer={
               <Flex>
@@ -375,7 +473,7 @@ export default function EditCarModal({
                   />
                   <Button
                     color="blue"
-                    onClick={() => setIsEditCarModalOpen(false)}
+                    onClick={(e) => handleEditCar(e)}
                     size={isMobile ? "sm" : "lg"}
                     text="Редактирай"
                     type="submit"
@@ -393,6 +491,27 @@ export default function EditCarModal({
                 Редактиране на автомобил {carInfo.model}
               </h3>
             )}
+            {messageValidation && (
+              <Box
+                alignItems="center"
+                display="flex"
+                justifyContent="center"
+                padding={3}
+              >
+                <Flex
+                  direction="column"
+                  gap={{ column: 3, row: 0 }}
+                  width="100%"
+                >
+                  <BannerSlim
+                    iconAccessibilityLabel="Info"
+                    message={messageValidation}
+                    onDismiss={() => setIsValidForm(!isValidForm)}
+                    type="error"
+                  />
+                </Flex>
+              </Box>
+            )}
             <Box height={400} id="popover-overlaypanel" paddingX={8}>
               <Box paddingX={2} rounding={4} width={200}>
                 <Mask rounding={4}>
@@ -407,15 +526,39 @@ export default function EditCarModal({
               </Box>
               <Box marginBottom={2}>
                 <Label htmlFor="year">Година</Label>
-                <DatePicker
-                  onChange={(value) => {
-                    handleYearChange(value);
-                  }}
-                  selected={year}
-                  renderMonthContent={renderMonthContent}
-                  showMonthYearPicker
-                  dateFormat="MM/yyyy"
-                />
+                <div className="datepicker">
+                  <Flex
+                    alignItems="start"
+                    height="100%"
+                    justifyContent="center"
+                    width="100%"
+                  >
+                    <Box padding={2}>
+                      <Flex direction="column" gap={4} width="100%">
+                        <SegmentedControl
+                          items={itemsCalendar}
+                          onChange={({ activeIndex }) =>
+                            setItemIndex(activeIndex)
+                          }
+                          selectedItemIndex={itemIndex}
+                        />
+                        <DatePicker
+                          idealDirection="top"
+                          id="selectLists"
+                          onChange={({ value }) => handleYearChange(value)}
+                          selectLists={mapOptions[itemIndex.toString()]}
+                          value={year}
+                          localeData={bg}
+                          errorMessage={
+                            !hasYearValidationError
+                              ? undefined
+                              : "Моля, въведете година"
+                          }
+                        />
+                      </Flex>
+                    </Box>
+                  </Flex>
+                </div>
               </Box>
               <Box marginBottom={2}>
                 <TextField
@@ -429,6 +572,11 @@ export default function EditCarModal({
                   name="model"
                   value={model}
                   size={isMobile ? "sm" : "lg"}
+                  errorMessage={
+                    !hasModelValidationError
+                      ? undefined
+                      : "Моля, въведете модел"
+                  }
                 />
               </Box>
               <Box marginBottom={2}>
@@ -463,6 +611,11 @@ export default function EditCarModal({
                   type="text"
                   value={power}
                   size={isMobile ? "sm" : "lg"}
+                  errorMessage={
+                    !hasPowerValidationError
+                      ? undefined
+                      : "Моля, въведете мощност"
+                  }
                 />
               </Box>
               <Box marginBottom={2}>
@@ -547,6 +700,11 @@ export default function EditCarModal({
                   type="text"
                   value={mileage}
                   size={isMobile ? "sm" : "lg"}
+                  errorMessage={
+                    !hasMileageValidationError
+                      ? undefined
+                      : "Моля, въведете пробег"
+                  }
                 />
               </Box>
               <Box marginBottom={2}>
@@ -558,6 +716,9 @@ export default function EditCarModal({
                   type="text"
                   size={isMobile ? "sm" : "lg"}
                   value={color}
+                  errorMessage={
+                    !hasColorValidationError ? undefined : "Моля, въведете цвят"
+                  }
                 />
               </Box>
               <Box alignItems="start" justifyContent="start">
@@ -570,6 +731,11 @@ export default function EditCarModal({
                     }}
                     placeholder=""
                     value={description}
+                    errorMessage={
+                      !hasDescriptionValidationError
+                        ? undefined
+                        : "Моля, въведете описание"
+                    }
                   />
                 </Box>
               </Box>
@@ -586,7 +752,7 @@ export default function EditCarModal({
                     width="100%"
                   >
                     <Checkbox
-                      checked={carInfo.allCheckBoxesCheck}
+                      checked={allCheckBoxesCheck}
                       id="allCheckbox"
                       label="Избери всички"
                       onChange={({ checked }) => {

@@ -56,7 +56,7 @@ export default function ServicesComponent() {
                   href="/services/ecology"
                   onClick={() => router.push("/services/ecology")}
                   children={<EcologyComponent />}
-                  className={`${isMobile ? "" : "w-25 p-0"}`}
+                  className={`${isMobile ? "" : "w-25"}`}
                 >
                   <img src={EcologyImage.src} alt="ecology-image" />
                   <h5 className="fw-bold text-center text-uppercase pt-3">
@@ -67,7 +67,7 @@ export default function ServicesComponent() {
                   href="/services/used-car"
                   onClick={() => router.push("/services/used-car")}
                   children={<UsedCarComponent />}
-                  className={`${isMobile ? "" : "w-25 p-0 ms-5"}`}
+                  className={`${isMobile ? "" : "w-25 ms-3"}`}
                 >
                   <img src={UsedCarImage.src} alt="used-car-image" />
                   <h5 className="fw-bold text-center text-uppercase pt-3">

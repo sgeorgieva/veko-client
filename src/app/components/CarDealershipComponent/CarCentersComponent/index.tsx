@@ -81,7 +81,6 @@ export default function CarCentersComponent() {
   const [currentHours, setCurrentHours] = useState();
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [singleFile, setSingleFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState(null);
 
@@ -90,14 +89,6 @@ export default function CarCentersComponent() {
       setIsMobile(true);
     }
   }, []);
-
-  // const generatePdfDocument = async (fileName, pdfDocumentComponent: any) => {
-  //   setLoading(true);
-  //   const blob = await pdf(pdfDocumentComponent).toBlob();
-  //   setSingleFile(blob);
-  //   saveAs(blob, fileName);
-  //   setLoading(false);
-  // };
 
   const handlePdf = async (name, pdfDocumentComponent, items) => {
     setFileName(name);
@@ -278,10 +269,6 @@ export default function CarCentersComponent() {
           vinNumber,
         },
       ]);
-      // generatePdfDocument(
-      //   `VEKO-OIL-appointment.pdf`,
-      //   <MyDocument items={items} />
-      // );
       handlePdf(
         `VEKO-OIL-appointment.pdf`,
         <MyDocument items={items} />,

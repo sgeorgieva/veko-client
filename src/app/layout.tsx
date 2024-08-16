@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CookieConsent from "react-cookie-consent";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { appWithTranslation } from "next-i18next";
 import localFont from "next/font/local";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { LoadingProvider } from "./context/LoadingContext";
@@ -19,7 +20,7 @@ const sfProFont = localFont({
   // display: 'swap',
 });
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -109,3 +110,5 @@ export default function RootLayout({
     </LoadingProvider>
   );
 }
+
+export default appWithTranslation(RootLayout);

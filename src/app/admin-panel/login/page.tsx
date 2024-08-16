@@ -80,6 +80,7 @@ export default function Login({
         // setMessage(t(data?.statusText));
         localStorage.setItem("jwt", data?.data?.token);
         localStorage.setItem("isLoginIn", true);
+        localStorage.setItem("activeTabIndex", 0);
         setOpenLoginMenu(false);
         router.push("/admin-panel");
         closeModal();
