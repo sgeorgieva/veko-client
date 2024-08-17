@@ -20,7 +20,7 @@
       letter-spacing: 1.3px;
   
       &:hover {
-        cursor: url("../../../../public/images/icons/hand-pointing.png"), auto;
+        cursor: url("../../../../../public/images/icons/hand-pointing.png"), auto;
         background: #0B669D;
         color: #fff;
       }
@@ -36,7 +36,7 @@
           div,
           button,
           input {
-            cursor: url("../../../../public/images/icons/hand-pointing.png"), auto !important;
+            cursor: url("../../../../../public/images/icons/hand-pointing.png"), auto !important;
           }
         }
       }
@@ -44,7 +44,7 @@
     div
     .OGJ,
     .bPW {
-      cursor: url("../../../../public/images/icons/hand-pointing.png"), auto !important;
+      cursor: url("../../../../../public/images/icons/hand-pointing.png"), auto !important;
     }
   }
 }
@@ -82,7 +82,7 @@
 
     &:hover {
       font-weight: 600;
-      cursor: url("../../../../public/images/icons/hand-pointing.png"), auto;
+      cursor: url("../../../../../public/images/icons/hand-pointing.png"), auto;
     }
 
     &.active {
@@ -115,7 +115,7 @@
     width: 100%;
     left: 0;
     z-index: 9999;
-    cursor: url("../../../../public/images/icons/hand-pointing.png"), auto;
+    cursor: url("../../../../../public/images/icons/hand-pointing.png"), auto;
   }
 
   &.header-links-nested {
@@ -136,6 +136,7 @@
 }
 
 .header-mobile {
+  background: #0B669D;
   height: 13vh !important;
   .col-md-8 {
     margin-bottom: 47px;
@@ -176,6 +177,8 @@
   section {
     padding-top: 15px;
     a {
+      color: #2b2b2b;
+      font-weight: bold;
       text-transform: uppercase;
     }
   }
