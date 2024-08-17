@@ -36,6 +36,10 @@ export default function SearchComponent({
   const anchorSecondRef = useRef(null);
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
+  const { t, lang } = useTranslation("common");
+  const [isClient, setIsClient] = useState(false);
+  const settingsLinkRef = useRef(null);
+  const settingsRef = useRef(null);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -43,12 +47,18 @@ export default function SearchComponent({
     }
   }, []);
 
+  useEffect(() => {
+    console.log("settingsRef", settingsRef);
+    console.log("settingsLinkRef", settingsLinkRef);
+
+    if (settingsRef.current || settingsLinkRef.current) {
+      router.push("/admin-panel");
+    }
+  }, [settingsRef, settingsLinkRef]);
+
   const toggleLoginModal = () => {
     setOpenLoginModal(!isOpenLoginModal);
   };
-
-  const { t, lang } = useTranslation("common");
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -202,38 +212,64 @@ export default function SearchComponent({
                     size="sm"
                     showDismissButton={false}
                     __overflow="hidden"
-                    onDismiss={handleLogout}
+                    onDismiss={() => {}}
+                    // onDismiss={handleLogout}
                     onKeyDown={() => router.push("/admin-panel")}
                   >
-                    {/* <Box
-                      zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
-                      marginTop={1}
-                      marginEnd={5}
-                    >
-                      <Flex direction="column">
-                        <Text align="end" color="default" weight="bold">
-                          <Button
-                            size="sm"
-                            color="red"
-                            onClick={() => router.push("/admin-panel")}
-                          >
-                            <Text align="end" color="default" weight="bold">
-                              Админ панел
-                            </Text>
-                          </Button>
-                        </Text>
-                      </Flex>
-                    </Box> */}
                     <Box
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
-                      marginTop={1}
-                      marginEnd={5}
+                      marginEnd={2}
                     >
-                      <Flex direction="column">
-                        <Text align="end" color="default" weight="bold">
-                          Изход
-                        </Text>
-                      </Flex>
+                      <Link href="/admin-panel">
+                        <Flex alignItems="center" justifyContent="end">
+                          <Text
+                            size="200"
+                            align="end"
+                            color="default"
+                            weight="bold"
+                          >
+                            Настройки
+                          </Text>
+                          <IconButton
+                            accessibilityLabel="Settings"
+                            tooltip={{
+                              text: "Настройки",
+                              idealDirection: "top",
+                              zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
+                            }}
+                            size="sm"
+                            icon="cog"
+                          />
+                        </Flex>
+                      </Link>
+                    </Box>
+                    <Box
+                      zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
+                      marginEnd={2}
+                    >
+                      <Link href="/" onClick={handleLogout}>
+                        <Flex alignItems="center" justifyContent="end">
+                          <Text
+                            align="end"
+                            color="default"
+                            weight="bold"
+                            size="200"
+                          >
+                            Изход
+                          </Text>
+                          <IconButton
+                            accessibilityLabel="Settings"
+                            tooltip={{
+                              text: "Изход",
+                              idealDirection: "down",
+                              zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
+                            }}
+                            size="sm"
+                            icon="visit"
+                            onClick={handleLogout}
+                          />
+                        </Flex>
+                      </Link>
                     </Box>
                   </Popover>
                 )}
