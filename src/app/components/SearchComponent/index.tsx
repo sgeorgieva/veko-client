@@ -23,9 +23,11 @@ import "./searchComponent.scss";
 export default function SearchComponent({
   isHover,
   open,
+  setOpen,
   onSelect,
   selected,
   setShowToast,
+  handleOpenLanguageMenu,
 }: any) {
   const [searchValue, setSearchValue] = useState("");
   const PAGE_HEADER_ZINDEX = new FixedZIndex(10);
@@ -80,6 +82,8 @@ export default function SearchComponent({
     setShowToast(true);
   };
 
+  console.log("open", open);
+
   return (
     <div className="search-wrapper">
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -123,41 +127,67 @@ export default function SearchComponent({
                   }}
                   icon="arrow-up-right"
                   iconColor={`${isHover ? "darkGray" : "white"}`}
-                  onClick={onSelect}
+                  // onClick={onSelect}
+                  onClick={() => handleOpenLanguageMenu((prevVal) => !prevVal)}
                   selected={open}
                   size="sm"
                 />
               </Box>
             </Flex>
             {open && (
-              <Dropdown
-                anchor={anchorRef.current}
-                id="subtext-dropdown-example"
-                zIndex={new CompositeZIndex([PAGE_HEADER_ZINDEX])}
+              <Popover
+                accessibilityLabel="Languages"
+                anchor={anchorSecondRef.current}
+                id="a11l-example"
+                idealDirection="forceDown"
+                shouldFocus={true}
+                positionRelativeToAnchor={true}
+                size="sm"
+                showDismissButton={false}
+                __overflow="hidden"
+                onDismiss={() => {}}
+                onKeyDown={() => router.push("/admin-panel")}
               >
-                <Dropdown.Section label="Езици">
-                  <Dropdown.Item
-                    onSelect={onSelect}
-                    option={{ value: "Български", label: "BG" }}
-                    selected={selected}
-                  >
-                    Български
-                    {/* {t(`layout:language-name-${lng}`)} */}
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onSelect={onSelect}
-                    option={{
-                      value: "Английски",
-                      label: "EN",
-                    }}
-                    selected={selected}
-                  >
-                    Английски
-                  </Dropdown.Item>
-                </Dropdown.Section>
-              </Dropdown>
+                <Box
+                  padding={1}
+                  zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
+                  marginEnd={2}
+                >
+                  <Link href="/admin-panel">
+                    <Flex alignItems="center" justifyContent="end">
+                      <Text
+                        size="200"
+                        align="end"
+                        color="default"
+                        weight="bold"
+                      >
+                        Български
+                      </Text>
+                    </Flex>
+                  </Link>
+                </Box>
+                <Box
+                  padding={1}
+                  zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
+                  marginEnd={2}
+                >
+                  <Link href="/" onClick={handleLogout}>
+                    <Flex alignItems="center" justifyContent="end">
+                      <Text
+                        align="end"
+                        color="default"
+                        weight="bold"
+                        size="200"
+                      >
+                        Английски
+                      </Text>
+                    </Flex>
+                  </Link>
+                </Box>
+              </Popover>
             )}
           </>
+
           {!localStorage.getItem("jwt") ? (
             <IconButton
               type="button"
@@ -208,12 +238,11 @@ export default function SearchComponent({
                     id="a11l-example"
                     idealDirection="forceDown"
                     shouldFocus={true}
-                    positionRelativeToAnchor={false}
+                    positionRelativeToAnchor={true}
                     size="sm"
                     showDismissButton={false}
                     __overflow="hidden"
                     onDismiss={() => {}}
-                    // onDismiss={handleLogout}
                     onKeyDown={() => router.push("/admin-panel")}
                   >
                     <Box

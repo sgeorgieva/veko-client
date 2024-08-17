@@ -24,7 +24,7 @@ export default function Header({
   props: any;
   classname: string;
   isOpen: boolean;
-  setIsOpen: object;
+  setIsOpen: any;
 }) {
   const isMobile = detectVersion();
   const pathname = usePathname();
@@ -53,8 +53,14 @@ export default function Header({
     //   // changeLanguage(item.label.toLowerCase());
     // }
     setSelected(item);
+    setIsOpen((prevVal) => !prevVal);
+  };
+
+  const handleOpenLanguageMenu = (item: any) => {
     setOpen((prevVal) => !prevVal);
   };
+
+  console.log("open", open);
 
   useEffect(() => {
     window.addEventListener("scroll", isSticky);
@@ -162,6 +168,7 @@ export default function Header({
               selected={selected}
               onSelect={onSelect}
               isHover={isHover}
+              handleOpenLanguageMenu={handleOpenLanguageMenu}
               setShowToast={setShowToast}
             />
           </div>

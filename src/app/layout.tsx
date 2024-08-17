@@ -34,6 +34,8 @@ function RootLayout({
     }
   }, []);
 
+  console.log("isOpen", isOpen);
+
   return (
     <LoadingProvider>
       <Loader />
