@@ -14,7 +14,7 @@
     "@react-google-maps/api": "^2.19.3",
     "@react-pdf/renderer": "^3.4.2",
     "antd": "^5.19.3",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "date-fns": "^3.6.0",

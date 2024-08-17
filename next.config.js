@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "./.env") });
 
 const nextConfig = {
-  // reactStrictMode: true,
+  reactStrictMode: false,
   // output: "export",
   eslint: {
     // Warning: This allows production builds to successfully complete even if

@@ -13,6 +13,14 @@ export default function detectVersion() {
   return _isMobile;
 }
 
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "smooth",
+  });
+};
+
 export const linkUrl = () => {
   if (process.env.NODE_ENV === "development") {
     return process.env.NEXT_PUBLIC_BACKEND_LOCALHOST_SITE_URL;
