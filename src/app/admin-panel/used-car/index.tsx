@@ -6,8 +6,8 @@ import { Spinner } from "gestalt";
 import { endpoints, linkUrl } from "../../../../utils/functions";
 import UsedCarPerSingleComponent from "../../components/UsedCarPerSingleComponent";
 import AddCarModal from "./AddCarModal";
-import DeleteCarModal from "./DeleteCarModal";
 import EditCarModal from "./EditCarModal";
+import DeleteCarModal from "./DeleteCarModal";
 
 import "./adminPanelUsedCar.scss";
 
@@ -21,6 +21,10 @@ export default function AdminPanelUsedCarComponent({
   const [items, setItems] = useState([]);
   const [deleteId, setDeleteId] = useState(0);
   const [carInfo, setCarInfo] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagesLength, setPagesLength] = useState(null);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -30,25 +34,53 @@ export default function AdminPanelUsedCarComponent({
   }, []);
 
   useEffect(() => {
-    if (!initialized.current && items && items.length === 0) {
+    if (!initialized.current) {
       initialized.current = true;
       fetchCarsData();
     }
   }, [items]);
 
+  const handleScroll = () => {
+    if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
+      return;
+    } else {
+      if (page <= pagesLength) {
+        fetchCarsData();
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoading]);
+
   async function fetchCarsData() {
+    setIsLoading(true);
+    setError(null);
+
     try {
-      const response = await axios.get(`${linkUrl()}${endpoints.cars}?page=1`, {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        },
-      });
+      const response = await axios.get(
+        `${linkUrl()}${endpoints.cars}?page=${page}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
       if (response.status === 200) {
-        setItems(response?.data?.records?.data);
+        setItems((prevItems) => [
+          ...prevItems,
+          ...response?.data?.records?.data,
+        ]);
+        setPagesLength(response.data?.records?.last_page);
+        setPage((prevPage) => prevPage + 1);
       }
     } catch (error) {
-      console.error(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 

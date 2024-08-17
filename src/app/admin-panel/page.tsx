@@ -4,6 +4,8 @@ import { Suspense, useEffect, useState } from "react";
 import { Box, Flex, IconButton, SegmentedControl, Text } from "gestalt";
 import Loader from "../components/Loader";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { endpoints, linkUrl } from "../../../utils/functions";
 import HomeComponent from "../components/HomeComponent";
 import AdminPanelUsedCarComponent from "./used-car";
 import AdminPanelPostsComponent from "./posts";
@@ -18,6 +20,11 @@ export default function AdminPanel() {
   const [isAddPostModalOpen, setIsPostModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [itemIndex, setItemIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagesLength, setPagesLength] = useState(null);
+  const [itemsPage, setItemsPage] = useState([]);
   const items = ["Автооказион", "Новини"];
   const content = [
     <AdminPanelUsedCarComponent />,
@@ -25,6 +32,7 @@ export default function AdminPanel() {
   ];
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
   useEffect(() => {
     if (Boolean(localStorage.getItem("isLoginIn"))) {
@@ -53,7 +61,6 @@ export default function AdminPanel() {
   useEffect(() => {
     let activeTabIndex;
     if (typeof window !== "undefined") {
-      // now access your localStorage#
       activeTabIndex = localStorage.getItem("activeTabIndex");
     }
 
@@ -70,6 +77,39 @@ export default function AdminPanel() {
     setIsPostModalOpen(!isAddPostModalOpen);
   };
 
+  const handleGetPostsData = () => {
+    fetchPostsData();
+  };
+
+  async function fetchPostsData() {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(
+        `${linkUrl()}${endpoints.posts}?page=${page}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
+      if (response.status === 200) {
+        setItemsPage((prevItems) => [
+          ...prevItems,
+          ...response?.data?.posts?.data,
+        ]);
+        setPagesLength(response.data?.posts?.last_page);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <Suspense fallback={<Loader />}>
       <HomeComponent
@@ -81,6 +121,13 @@ export default function AdminPanel() {
                 type="success"
                 message="Успешно вписване"
                 setShowToast={setShowToast}
+              />
+            )}
+            {showSuccessMsg && (
+              <Message
+                type="success"
+                message="Промените са запазени успешно"
+                setShowToast={setShowSuccessMsg}
               />
             )}
             <div className="contact-wrapper">
@@ -147,14 +194,16 @@ export default function AdminPanel() {
                   isMobile={isMobile}
                   isAddCarModalOpen={isAddCarModalOpen}
                   setIsAddCarOpen={setIsAddCarOpen}
+                  setShowSuccessMsg={setShowSuccessMsg}
                 />
               )}
               {isAddPostModalOpen && (
                 <AddPostsModal
-                  handleGetPostsData
+                  handleGetPostsData={handleGetPostsData}
                   isMobile={isMobile}
                   isAddPostModalOpen={isAddPostModalOpen}
                   setIsPostModalOpen={setIsPostModalOpen}
+                  setShowSuccessMsg={setShowSuccessMsg}
                 />
               )}
             </div>

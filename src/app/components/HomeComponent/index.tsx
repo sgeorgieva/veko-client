@@ -1,24 +1,126 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Box, Video } from "gestalt";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Video,
+  Divider,
+  Flex,
+  Heading,
+  Text,
+  Letterbox,
+  Image,
+  Button,
+  IconButton,
+  Spinner,
+} from "gestalt";
+import axios from "axios";
+import { endpoints, linkUrl, scrollToTop } from "../../../../utils/functions";
+import Link from "next/link";
 // @ts-ignore
 import VekoCommersial from "../../../../public/video/VEKO_commercial.mp4";
 import KiaShoowroomImage from "../../../../public/images/kia-home-cover.jpg";
 
 import "./homeComponent.scss";
 
+function Block({ title, text }: any) {
+  return (
+    <Flex direction="column" gap={{ column: 2, row: 0 }}>
+      <Heading accessibilityLevel="none" size="400">
+        {title}
+      </Heading>
+      <Text size="200">{text}</Text>
+    </Flex>
+  );
+}
+
 export default function HomeComponent({ isHomePage, component }: any) {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const initialized = useRef(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagesLength, setPagesLength] = useState(null);
+  // const []
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       setIsMobile(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      fetchPostsData();
+    }
+  }, [posts]);
+
+  const handleScroll = () => {
+    if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
+      return;
+    } else {
+      if (page <= pagesLength) {
+        fetchPostsData();
+        // setShowButton(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoading]);
+
+  async function fetchPostsData() {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(
+        `${linkUrl()}${endpoints.posts}?page=${page}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
+      if (response.status === 200) {
+        setPosts((prevItems) => [...prevItems, ...response?.data?.posts?.data]);
+        setPagesLength(response.data?.posts?.last_page);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollFunction);
+
+    return () => {
+      window.removeEventListener("scroll", scrollFunction);
+    };
+  }, []);
+
+  function scrollFunction() {
+    const mybutton = document.getElementsByTagName("button")[3];
+
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
 
   return (
     <>
@@ -50,6 +152,14 @@ export default function HomeComponent({ isHomePage, component }: any) {
       <div className="d-flex flex-column container mx-auto py-5">
         {isHomePage ? (
           <div className="row">
+            <div className="goToTop-btn">
+              <button type="button" onClick={scrollToTop}>
+                <IconButton
+                  size={`${isMobile ? "sm" : "xl"}`}
+                  icon="chevron-up-circle"
+                />
+              </button>
+            </div>
             <div className="col-sm-12 col-md-7">
               <p className="line-height">
                 Основната дейност на &ldquo;ВЕКО ОЙЛ&ldquo; ЕООД е свързана с
@@ -84,7 +194,42 @@ export default function HomeComponent({ isHomePage, component }: any) {
               />
             </div>
             <hr />
-            <h4>Последни новини</h4>
+            {posts && posts.length ? (
+              posts.reverse().map((post) => (
+                <Box
+                  key={post?.id}
+                  alignItems="center"
+                  display="flex"
+                  height="100%"
+                  width="100%"
+                  justifyContent="start"
+                  padding={8}
+                >
+                  <Flex direction="column" gap={{ column: 10, row: 0 }}>
+                    <div className="d-flex post">
+                      <Link href={`/${post.id}`}>
+                        <Image
+                          alt={`${post?.title} image`}
+                          height={806}
+                          width={564}
+                          src={post?.images[0]?.name}
+                        />
+                        <Block
+                          text={
+                            post?.description.substring(0, 130).trimEnd() +
+                            "..."
+                          }
+                          title={post?.title}
+                        />
+                      </Link>
+                    </div>
+                    <Divider />
+                  </Flex>
+                </Box>
+              ))
+            ) : (
+              <Spinner color="default" />
+            )}
           </div>
         ) : (
           component

@@ -23,6 +23,10 @@ export default function AdminPanelPostsComponent({
   const [items, setItems] = useState([]);
   const [deleteId, setDeleteId] = useState(0);
   const [postInfo, setPostInfo] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagesLength, setPagesLength] = useState(null);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -32,17 +36,34 @@ export default function AdminPanelPostsComponent({
   }, []);
 
   useEffect(() => {
-    if (!initialized.current && items && items.length === 0) {
+    if (!initialized.current) {
       initialized.current = true;
       fetchPostsData();
     }
   }, [items]);
 
+  const handleScroll = () => {
+    if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
+      return;
+    } else {
+      if (page <= pagesLength) {
+        fetchPostsData();
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoading]);
+
   async function fetchPostsData() {
-    // You can await here
+    setIsLoading(true);
+    setError(null);
+
     try {
       const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=2`,
+        `${linkUrl()}${endpoints.posts}?page=${page}`,
         {
           headers: {
             Accept: "application/json",
@@ -51,10 +72,14 @@ export default function AdminPanelPostsComponent({
         }
       );
       if (response.status === 200) {
-        setItems(response?.data?.posts?.data);
+        setItems((prevItems) => [...prevItems, ...response?.data?.posts?.data]);
+        setPagesLength(response.data?.posts?.last_page);
+        setPage((prevPage) => prevPage + 1);
       }
     } catch (error) {
-      console.error(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -71,7 +96,7 @@ export default function AdminPanelPostsComponent({
       );
       if (response.status === 200) {
         setIsDeletePostsModalOpen(!isDeletePostsModalOpen);
-        // fetchPostsData();
+        fetchPostsData();
       }
     } catch (error) {
       console.error(error);
@@ -94,7 +119,7 @@ export default function AdminPanelPostsComponent({
   return (
     <>
       <div className="row d-flex">
-        {items && items.length > 0 ? (
+        {items && items.length > 0 && !isLoading ? (
           items.map((item) => {
             return (
               <div className="col-md-3">
