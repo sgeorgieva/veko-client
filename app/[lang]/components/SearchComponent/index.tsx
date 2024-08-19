@@ -203,7 +203,7 @@ export default function SearchComponent({
               accessibilityPopupRole="dialog"
               onClick={toggleLoginModal}
               tooltip={{
-                text: "Вход",
+                text: translations.login,
                 idealDirection: "down",
                 zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
               }}

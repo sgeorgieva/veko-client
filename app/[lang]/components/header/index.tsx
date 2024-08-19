@@ -50,9 +50,6 @@ export default function Header({
   };
 
   const onSelect = ({ item }: any) => {
-    // if (typeof window !== "undefined") {
-    //   // changeLanguage(item.label.toLowerCase());
-    // }
     setSelected(item);
     setIsOpen((prevVal) => !prevVal);
   };
