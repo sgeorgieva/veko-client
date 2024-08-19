@@ -1,8 +1,9 @@
-import React from 'react'
-import useAnimatedRouter from '../../../../hooks/useAnimatedRouter'
-import Link from 'next/link'
+import React from "react";
+import useAnimatedRouter from "../../../../hooks/useAnimatedRouter";
+import Link from "next/link";
+import { i18n } from "@/i18n.config";
 
-import './animatedLink.scss'
+import "./animatedLink.scss";
 export default function AnimatedLink({
   href,
   locale,
@@ -15,45 +16,32 @@ export default function AnimatedLink({
   handleMouseLeave,
   title,
   name,
-  shallow
+  shallow,
+  lang,
 }: any) {
-  const { animatedRoute } = useAnimatedRouter()
-
-  // console.log('passHref', passHref)
-  // console.log('locale', locale)
-  // console.log('name', name)
-  // console.log('href', href)
-  // console.log('test', `${locale}${href}`)
+  // const { animatedRoute } = useAnimatedRouter();
+  const isDefaultLang = lang === i18n.defaultLocale;
+  const path = isDefaultLang ? href : `/${lang}${href}`;
 
   return (
     <section>
       <Link
-        href={passHref && locale !== '' ? `${locale}${href}` : href}
-        onClick={() => {
-          if (passHref && locale !== undefined) {
-            console.log('here')
-
-            animatedRoute(`${locale}${href}`)
-          } else if (!passHref && locale === '') {
-            console.log('here2')
-            animatedRoute(href)
-          }
-        }}
+        href={path}
         shallow={shallow}
         locale={locale}
         passHref={prefetch}
         prefetch={passHref}
-        className={`${hasActiveClass ? 'active' : ''} ${
-          href === 'car-dealership' ? 'pr-0' : ''
+        className={`${hasActiveClass ? "active" : ""} ${
+          href === "car-dealership" ? "pr-0" : ""
         }
           ${
             isHover &&
-            (href === '/car-dealership' ||
-              href === '/services' ||
-              href === '/trade') &&
+            (href === "/car-dealership" ||
+              href === "/services" ||
+              href === "/trade") &&
             name === title
-              ? 'active-hover'
-              : ''
+              ? "active-hover"
+              : ""
           }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -61,5 +49,5 @@ export default function AnimatedLink({
         {children}
       </Link>
     </section>
-  )
+  );
 }

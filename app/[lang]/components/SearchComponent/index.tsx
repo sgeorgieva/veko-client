@@ -9,231 +9,227 @@ import {
   Avatar,
   Button,
   Text,
-  Popover
-} from 'gestalt'
-import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { usePathname } from 'next/navigation'
-import { i18n } from '@/i18n.config'
-import Login from '../../admin-panel/login/page'
+  Popover,
+} from "gestalt";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { i18n } from "@/i18n.config";
+import Login from "../../admin-panel/login/page";
 
-import './searchComponent.scss'
+import "./searchComponent.scss";
 
 export default function SearchComponent({
   isHover,
   open,
-  setOpen,
-  onSelect,
-  selected,
   setShowToast,
   handleOpenLanguageMenu,
-  translations
+  translations,
 }: any) {
-  const [searchValue, setSearchValue] = useState('')
-  const PAGE_HEADER_ZINDEX = new FixedZIndex(10)
-  const TOOLTIP__ZINDEX = new FixedZIndex(6)
-  const [isOpenLoginModal, setOpenLoginModal] = useState(false)
-  const anchorRef = useRef(null)
-  const [openLoginMenu, setOpenLoginMenu] = useState(false)
-  const anchorSecondRef = useRef(null)
-  const router = useRouter()
-  const [isMobile, setIsMobile] = useState(false)
-  const [isClient, setIsClient] = useState(false)
-  const settingsLinkRef = useRef(null)
-  const settingsRef = useRef(null)
+  const [searchValue, setSearchValue] = useState("");
+  const TOOLTIP__ZINDEX = new FixedZIndex(6);
+  const [isOpenLoginModal, setOpenLoginModal] = useState(false);
+  const [openLoginMenu, setOpenLoginMenu] = useState(false);
+  const anchorSecondRef = useRef(null);
+  const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const settingsLinkRef = useRef(null);
+  const settingsRef = useRef(null);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      setIsMobile(true)
+      setIsMobile(true);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (settingsRef.current || settingsLinkRef.current) {
-      router.push('/admin-panel')
+      router.push("/admin-panel");
     }
-  }, [settingsRef, settingsLinkRef])
+  }, [settingsRef, settingsLinkRef]);
 
   const toggleLoginModal = () => {
-    setOpenLoginModal(!isOpenLoginModal)
-  }
+    setOpenLoginModal(!isOpenLoginModal);
+  };
 
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true);
 
     if (anchorSecondRef.current !== null) {
-      router.push('/admin-panel')
+      router.push("/admin-panel");
     }
-  }, [anchorSecondRef])
+  }, [anchorSecondRef]);
 
   if (!isClient) {
-    return null
+    return null;
   }
 
-  const pathName = usePathname()
+  const pathName = usePathname();
 
   const redirectedPathName = (locale: string) => {
-    if (!pathName) return '/'
+    if (!pathName) return "/";
 
     const pathnameIsMissingLocale = i18n.locales.every(
-      locale => !pathName.startsWith(`/${locale}/`) && pathName !== `/${locale}`
-    )
+      (locale) =>
+        !pathName.startsWith(`/${locale}/`) && pathName !== `/${locale}`
+    );
 
     if (pathnameIsMissingLocale) {
-      if (locale === i18n.defaultLocale) return pathName
-      return `/${locale}${pathName}`
+      if (locale === i18n.defaultLocale) return pathName;
+      return `/${locale}${pathName}`;
     } else {
       if (locale === i18n.defaultLocale) {
-        const segments = pathName.split('/')
-        const isHome = segments.length === 2
-        if (isHome) return '/'
+        const segments = pathName.split("/");
+        const isHome = segments.length === 2;
+        if (isHome) return "/";
 
-        segments.splice(1, 1)
-        return segments.join('/')
+        segments.splice(1, 1);
+        return segments.join("/");
       }
 
-      const segments = pathName.split('/')
-      segments[1] = locale
-      return segments.join('/')
+      const segments = pathName.split("/");
+      segments[1] = locale;
+      return segments.join("/");
     }
-  }
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('jwt')
-    localStorage.setItem('isLoginIn', false)
-    localStorage.removeItem('activeTabIndex')
-    router.push('/')
-    setShowToast(true)
-  }
+    localStorage.removeItem("jwt");
+    localStorage.setItem("isLoginIn", false);
+    localStorage.removeItem("activeTabIndex");
+    router.push("/");
+    setShowToast(true);
+  };
 
   return (
-    <div className='search-wrapper'>
-      <Box display='flex' alignItems='center' justifyContent='center'>
-        <Flex alignItems='center' flex='grow' gap={{ row: 4, column: 0 }}>
-          <Flex.Item flex='grow'>
+    <div className="search-wrapper">
+      <Box display="flex" alignItems="center" justifyContent="center">
+        <Flex alignItems="center" flex="grow" gap={{ row: 4, column: 0 }}>
+          <Flex.Item flex="grow">
             <SearchField
-              accessibilityClearButtonLabel='Clear search field'
-              accessibilityLabel='Search all of Pinterest'
-              id='searchFieldA11yExample'
+              accessibilityClearButtonLabel="Clear search field"
+              accessibilityLabel="Search all of Pinterest"
+              id="searchFieldA11yExample"
               onChange={({ value }) => setSearchValue(value)}
               value={searchValue}
-              autoComplete='on'
+              autoComplete="on"
             />
           </Flex.Item>
-          <Link href='/'>
+          <Link href="/">
             <IconButton
-              accessibilityLabel='Home'
+              accessibilityLabel="Home"
               tooltip={{
                 text: translations.home,
-                idealDirection: 'down',
-                zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])
+                idealDirection: "down",
+                zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
               }}
-              icon='home'
-              size='sm'
-              iconColor={`${isHover ? 'darkGray' : 'white'}`}
+              icon="home"
+              size="sm"
+              iconColor={`${isHover ? "darkGray" : "white"}`}
             />
           </Link>
           <>
-            <Flex height='100%' justifyContent='center' width='100%'>
+            <Flex height="100%" justifyContent="center" width="100%">
               <Box>
                 <IconButton
                   ref={anchorSecondRef}
-                  accessibilityControls='subtext-dropdown-example'
+                  accessibilityControls="subtext-dropdown-example"
                   accessibilityExpanded={open}
                   accessibilityHaspopup
-                  accessibilityLabel='More Options'
+                  accessibilityLabel="More Options"
                   tooltip={{
                     text: translations.languages,
-                    idealDirection: 'down',
-                    zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])
+                    idealDirection: "down",
+                    zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
                   }}
-                  icon='arrow-up-right'
-                  iconColor={`${isHover ? 'darkGray' : 'white'}`}
-                  onClick={() => handleOpenLanguageMenu(prevVal => !prevVal)}
+                  icon="arrow-up-right"
+                  iconColor={`${isHover ? "darkGray" : "white"}`}
+                  onClick={() => handleOpenLanguageMenu((prevVal) => !prevVal)}
                   selected={open}
-                  size='sm'
+                  size="sm"
                 />
               </Box>
             </Flex>
             {open && (
               <Popover
-                accessibilityLabel='Languages'
+                accessibilityLabel="Languages"
                 anchor={anchorSecondRef.current}
-                id='a11l-example'
-                idealDirection='forceDown'
+                id="a11l-example"
+                idealDirection="forceDown"
                 shouldFocus={true}
                 positionRelativeToAnchor={true}
-                size='sm'
+                size="sm"
                 showDismissButton={false}
-                __overflow='hidden'
+                __overflow="hidden"
                 onDismiss={() => {}}
-                onKeyDown={() => router.push('/admin-panel')}
+                onKeyDown={() => router.push("/admin-panel")}
               >
                 <Box
                   padding={1}
                   zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                   marginEnd={2}
                 >
-                  {i18n.locales.map(locale => {
+                  {i18n.locales.map((locale, key) => {
                     return (
-                      <Link href={redirectedPathName(locale)}>
-                        <Flex alignItems='center' justifyContent='end'>
+                      <Link key={key} href={redirectedPathName(locale)}>
+                        <Flex alignItems="center" justifyContent="end">
                           <Text
-                            size='200'
-                            align='end'
-                            color='default'
-                            weight='bold'
+                            size="200"
+                            align="end"
+                            color="default"
+                            weight="bold"
                           >
-                            {locale === 'en'
+                            {locale === "en"
                               ? translations.en_lang
                               : translations.bg_lang}
                           </Text>
                         </Flex>
                       </Link>
-                    )
+                    );
                   })}
                 </Box>
               </Popover>
             )}
           </>
 
-          {!localStorage.getItem('jwt') ? (
+          {!localStorage.getItem("jwt") ? (
             <IconButton
-              type='button'
-              size='sm'
-              icon='person'
-              iconColor={`${isHover ? 'darkGray' : 'white'}`}
-              accessibilityPopupRole='dialog'
+              type="button"
+              size="sm"
+              icon="person"
+              iconColor={`${isHover ? "darkGray" : "white"}`}
+              accessibilityPopupRole="dialog"
               onClick={toggleLoginModal}
               tooltip={{
-                text: 'Вход',
-                idealDirection: 'down',
-                zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])
+                text: "Вход",
+                idealDirection: "down",
+                zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
               }}
             />
           ) : (
             <>
               <Flex
-                alignItems='center'
-                height='100%'
-                justifyContent='end'
-                width='100%'
+                alignItems="center"
+                height="100%"
+                justifyContent="end"
+                width="100%"
               >
                 <Box>
-                  <Flex alignItems='center' gap={{ row: 1, column: 1 }}>
+                  <Flex alignItems="center" gap={{ row: 1, column: 1 }}>
                     <Button
                       ref={anchorSecondRef}
-                      accessibilityControls='a11l-example'
+                      accessibilityControls="a11l-example"
                       accessibilityExpanded={openLoginMenu}
                       accessibilityHaspopup
-                      color='transparent'
-                      onClick={() => setOpenLoginMenu(o => !o)}
-                      size='sm'
+                      color="transparent"
+                      onClick={() => setOpenLoginMenu((o) => !o)}
+                      size="sm"
                       text={
-                        <Flex height='100%' justifyContent='center'>
+                        <Flex height="100%" justifyContent="center">
                           <Box>
-                            <Avatar name='Yasen' size='sm' />
+                            <Avatar name="Yasen" size="sm" />
                           </Box>
                         </Flex>
                       }
@@ -243,41 +239,41 @@ export default function SearchComponent({
 
                 {openLoginMenu && (
                   <Popover
-                    accessibilityLabel='Logout'
+                    accessibilityLabel="Logout"
                     anchor={anchorSecondRef.current}
-                    id='a11l-example'
-                    idealDirection='forceDown'
+                    id="a11l-example"
+                    idealDirection="forceDown"
                     shouldFocus={true}
                     positionRelativeToAnchor={true}
-                    size='sm'
+                    size="sm"
                     showDismissButton={false}
-                    __overflow='hidden'
+                    __overflow="hidden"
                     onDismiss={() => {}}
-                    onKeyDown={() => router.push('/admin-panel')}
+                    onKeyDown={() => router.push("/admin-panel")}
                   >
                     <Box
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginEnd={2}
                     >
-                      <Link href='/admin-panel'>
-                        <Flex alignItems='center' justifyContent='end'>
+                      <Link href="/admin-panel">
+                        <Flex alignItems="center" justifyContent="end">
                           <Text
-                            size='200'
-                            align='end'
-                            color='default'
-                            weight='bold'
+                            size="200"
+                            align="end"
+                            color="default"
+                            weight="bold"
                           >
                             Настройки
                           </Text>
                           <IconButton
-                            accessibilityLabel='Settings'
+                            accessibilityLabel="Settings"
                             tooltip={{
-                              text: 'Настройки',
-                              idealDirection: 'top',
-                              zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])
+                              text: "Настройки",
+                              idealDirection: "top",
+                              zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
                             }}
-                            size='sm'
-                            icon='cog'
+                            size="sm"
+                            icon="cog"
                           />
                         </Flex>
                       </Link>
@@ -286,25 +282,25 @@ export default function SearchComponent({
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginEnd={2}
                     >
-                      <Link href='/' onClick={handleLogout}>
-                        <Flex alignItems='center' justifyContent='end'>
+                      <Link href="/" onClick={handleLogout}>
+                        <Flex alignItems="center" justifyContent="end">
                           <Text
-                            align='end'
-                            color='default'
-                            weight='bold'
-                            size='200'
+                            align="end"
+                            color="default"
+                            weight="bold"
+                            size="200"
                           >
                             Изход
                           </Text>
                           <IconButton
-                            accessibilityLabel='Settings'
+                            accessibilityLabel="Settings"
                             tooltip={{
-                              text: 'Изход',
-                              idealDirection: 'down',
-                              zIndex: new CompositeZIndex([TOOLTIP__ZINDEX])
+                              text: "Изход",
+                              idealDirection: "down",
+                              zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
                             }}
-                            size='sm'
-                            icon='visit'
+                            size="sm"
+                            icon="visit"
                             onClick={handleLogout}
                           />
                         </Flex>
@@ -325,5 +321,5 @@ export default function SearchComponent({
         )}
       </Box>
     </div>
-  )
+  );
 }
