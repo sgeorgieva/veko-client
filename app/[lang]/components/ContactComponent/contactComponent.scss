@@ -1,0 +1,38 @@
+.contact-wrapper {
+  position: relative;
+
+  .row {
+    .col-md-6 {
+      &:hover {
+        transform: scale(1);
+        -moz-transform: scale(1);  
+        -webkit-transform: scale(1);
+        -o-transform: scale(1);
+        -ms-transform: scale(1);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=1.5, M12=0, M21=0, M22=1.5, SizingMethod='auto expand')";
+        filter: progid:DXImageTransform.Microsoft.Matrix(M11=1.2, M12=0, M21=0, M22=1.2, SizingMethod='auto expand');
+        
+        > div {
+          filter: drop-shadow(6px 5px 30px black);
+        }
+      }
+    }
+  }
+
+  .col-md-8 {
+    z-index: 1;
+  }
+}
+
+.contact-image {
+  background-image: url('../../../../public/images/old-telephone.png');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 50%;
+  background-position: top center;
+  width: 95%;
+  height: 100vh;
+  position: absolute;
+  top: -2.4%;
+  left: 35%;
+  opacity: .35;
+}

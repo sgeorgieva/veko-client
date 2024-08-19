@@ -1,0 +1,70 @@
+.cars-image {
+  display: block;
+  background-repeat: no-repeat, no-repeat;
+  background-size: contain;
+  
+  &.kia-image {
+    background-image: url('../../../../../public/images/kia-cars-image.webp');
+    width: 55vw;
+    height: 30vh;
+  }
+
+  &.kia-mobile-image {
+    background-image: url('../../../../../public/images/kia-cars-image.webp');
+    width: 55vw;
+    height: 20vh;
+  }
+
+  &.subaru-image {
+    background-image: url('../../../../../public/images/subaru-cars-image.png');
+    width: 60vw;
+    height: 36vh;
+  }
+
+  &.subaru-mobile-image {
+    background-image: url('../../../../../public/images/subaru-cars-image.png');
+    width: 95vw;
+    height: 20vh;
+  }
+  
+  &.kia-logo {
+    background-image: url('../../../../../public/images/Kia.avif');
+    width: 100%;
+    height: 20vh;
+    background-position: center left;
+  }
+
+  &.subaru-logo {
+    background-image: url('../../../../../public/images/subaru-logo.png');
+    width: 100%;
+    height: 15vh;
+    background-position: center left;
+  }
+
+  &.subaru-mobile-logo {
+    background-position: center right;
+    height: 10vh;
+  }
+
+  &.dongfeng-logo {
+    background-image: url('../../../../../public/images/dongfeng-logo.png');
+    width: 100%;
+    height: 20vh;
+    background-position: center right;
+  }
+
+  &.gaz-logo {
+    background-image: url('../../../../../public/images/gaz-logo.png');
+    width: 100%;
+    height: 20vh;
+    background-position: center left;
+  }
+
+  &.talaria-logo {
+    background-image: url('../../../../../public/images/talaria-logo.webp');
+    width: 100%;
+    height: 20vh;
+    background-position: center right;
+  }
+}
+

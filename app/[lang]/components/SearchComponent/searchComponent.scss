@@ -1,0 +1,43 @@
+.BNH {
+  color: #fff !important;
+}
+
+.customer-support-info {
+  &:not(.background-overlay) { 
+    .BNH {
+      color: darkgray !important;
+    }
+  }
+}
+
+#subtext-dropdown-example {
+  z-index: 6;
+  
+  div[role="presentation"] {
+    font-family: 'Avenir Next Cyr';  
+  }
+
+  span {
+    font-family: 'Avenir Next Cyr';
+  }
+}
+
+.search-wrapper { 
+  input {
+    color: #fff !important;
+    background-color: transparent !important;
+  }
+  input::placeholder {
+    color: #fff;
+    opacity: 1; /* Firefox */
+  }
+  
+  input::-ms-input-placeholder { /* Edge 12-18 */
+    color: #fff;
+    background-color: transparent !important;
+  }
+}
+
+.kFh {
+  min-width: 130px !important;
+}
