@@ -137,9 +137,9 @@
 
 .header-mobile {
   background: #0B669D;
-  height: 13vh !important;
+  height: 20vh !important;
   .col-md-8 {
-    margin-bottom: 47px;
+    margin-bottom: 25px;
     span {
       font-size: 12px;
       padding: 7px 14px;
@@ -147,7 +147,7 @@
   }
   .mobile-logo {
     position: absolute;
-    width: auto;
+    width: 50%;
     height: auto;
     top: 0;
     left: 50%;
@@ -472,7 +472,7 @@
   user-select: none;
 
   &.close {
-    top: 0.5% !important;
+    top: 0.3% !important;
   }
 
   input {

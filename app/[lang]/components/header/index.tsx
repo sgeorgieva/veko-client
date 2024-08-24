@@ -159,7 +159,7 @@ export default function Header({
               </a>
             </span>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 col-sm-12">
             <SearchComponent
               translations={translations}
               open={open}
