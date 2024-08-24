@@ -13,8 +13,8 @@ import {
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
 import { i18n } from "@/i18n.config";
+import { usePathname } from "next/navigation";
 import Login from "../../admin-panel/login/page";
 
 import "./searchComponent.scss";

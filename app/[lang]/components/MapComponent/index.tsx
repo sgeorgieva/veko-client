@@ -1,28 +1,28 @@
-'use client'
+"use client";
 
 import {
   GoogleMap,
   InfoWindow,
   Marker,
-  StreetViewPanorama
-} from '@react-google-maps/api'
-import { useState } from 'react'
+  StreetViewPanorama,
+} from "@react-google-maps/api";
+import { useState } from "react";
 
 //Map's styling
 const defaultMapContainerStyle = {
-  width: '100%',
-  height: '295px',
-  borderRadius: '5%'
-}
+  width: "100%",
+  height: "295px",
+  borderRadius: "5%",
+};
 
-const defaultMapZoom = 15
+const defaultMapZoom = 15;
 
 //Map options
 const defaultMapOptions = {
   zoomControl: true,
   controlSize: 16,
-  gestureHandling: 'auto'
-}
+  gestureHandling: "auto",
+};
 
 const MapComponent = ({
   lat,
@@ -35,30 +35,30 @@ const MapComponent = ({
   fax,
   phone,
   hrefLink,
-  googlePreview
+  googlePreview,
 }: any) => {
-  const [mapMarker, setMapMarker] = useState(null)
-  const [showingInfoWindow, setShowingInfoWindow] = useState(true)
+  const [mapMarker, setMapMarker] = useState(null);
+  const [showingInfoWindow, setShowingInfoWindow] = useState(true);
 
   const onMarkerClick = (props: any) => {
-    setShowingInfoWindow(true)
-  }
+    setShowingInfoWindow(true);
+  };
 
   const onInfoWindowClose = () => {
-    setShowingInfoWindow(false)
-  }
+    setShowingInfoWindow(false);
+  };
 
   const onLoad = (mapMarker: any) => {
-    setMapMarker(mapMarker)
-  }
+    setMapMarker(mapMarker);
+  };
 
   const defaultMapCenter = {
     lat: parseInt(lat),
-    lng: parseInt(lng)
-  }
+    lng: parseInt(lng),
+  };
 
   return (
-    <div className='w-full'>
+    <div className="w-full">
       <GoogleMap
         mapContainerStyle={defaultMapContainerStyle}
         center={defaultMapCenter}
@@ -69,7 +69,7 @@ const MapComponent = ({
           onLoad={onLoad}
           position={{
             lat: parseInt(lat),
-            lng: parseInt(lng)
+            lng: parseInt(lng),
           }}
           clickable
           onClick={onMarkerClick}
@@ -78,20 +78,20 @@ const MapComponent = ({
             <InfoWindow
               position={{
                 lat: parseInt(markerLat),
-                lng: parseInt(markerLng)
+                lng: parseInt(markerLng),
               }}
               onCloseClick={onInfoWindowClose}
             >
               <>
-                <div className='text-start'>
-                  <h6 className='mb-0'>{title}</h6>
+                <div className="text-start">
+                  <h6 className="mb-0">{title}</h6>
                   <h6>{city}</h6>
-                  <p className='mb-1'>{street}</p>
-                  <p className='mb-1'>{fax}</p>
-                  <p className='mb-1'>{phone}</p>
+                  <p className="mb-1">{street}</p>
+                  <p className="mb-1">{fax}</p>
+                  <p className="mb-1">{phone}</p>
                   <a
-                    className='text-primary text-decoration-underline text-left'
-                    target='_blank'
+                    className="text-primary text-decoration-underline text-left"
+                    target="_blank"
                     href={hrefLink}
                   >
                     {googlePreview}
@@ -103,7 +103,7 @@ const MapComponent = ({
         </Marker>
       </GoogleMap>
     </div>
-  )
-}
+  );
+};
 
-export { MapComponent }
+export { MapComponent };
