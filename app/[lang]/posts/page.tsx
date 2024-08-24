@@ -19,7 +19,7 @@ function Block({ title, text }: any) {
   );
 }
 export default function Posts({ posts }: { posts: any }) {
-  console.log("posts", posts);
+  // console.log("posts", posts);
   // const router = useRouter();
 
   return posts && posts.length > 0 ? (

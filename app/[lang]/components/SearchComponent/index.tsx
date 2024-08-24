@@ -27,6 +27,8 @@ export default function SearchComponent({
   translations,
   locale,
   setLocale,
+  // searchValue,
+  // setSearchValue,
 }: any) {
   const [searchValue, setSearchValue] = useState("");
   const TOOLTIP__ZINDEX = new FixedZIndex(6);
@@ -59,7 +61,7 @@ export default function SearchComponent({
     setIsClient(true);
 
     if (anchorSecondRef.current !== null) {
-      router.push("/admin-panel");
+      // router.push("/admin-panel");
     }
   }, [anchorSecondRef]);
 
@@ -70,10 +72,11 @@ export default function SearchComponent({
   const pathName = usePathname();
 
   const redirectedPathName = (locale: string) => {
-    console.log("pathName", pathName);
     if (!pathName) {
       setLocale("bg");
       return "/";
+    } else {
+      setLocale("/en");
     }
 
     const pathnameIsMissingLocale = i18n.locales.every(
@@ -83,18 +86,13 @@ export default function SearchComponent({
 
     if (pathnameIsMissingLocale) {
       if (locale === i18n.defaultLocale) {
-        console.log("locale", locale);
-        console.log("i18n.defaultLocale", i18n.defaultLocale);
-
         setLocale(locale);
         return pathName;
       }
-      console.log("i18n.defaultLocale", i18n.defaultLocale);
       setLocale(i18n.defaultLocale);
       return `/${locale}${pathName}`;
     } else {
       if (locale === i18n.defaultLocale) {
-        // setLocale(locale);
         const segments = pathName.split("/");
         const isHome = segments.length === 2;
         if (isHome) return "/";
@@ -109,6 +107,12 @@ export default function SearchComponent({
     }
   };
 
+  const handleSearch = (value) => {
+    console.log("value", value);
+
+    setSearchValue(value);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("jwt");
     localStorage.setItem("isLoginIn", false);
@@ -116,6 +120,8 @@ export default function SearchComponent({
     router.push("/");
     setShowToast(true);
   };
+
+  console.log("searchValue", searchValue);
 
   return (
     <div className="search-wrapper">
@@ -126,12 +132,16 @@ export default function SearchComponent({
               accessibilityClearButtonLabel="Clear search field"
               accessibilityLabel="Search all of Pinterest"
               id="searchFieldA11yExample"
-              onChange={({ value }) => setSearchValue(value)}
+              onChange={({ value }) => handleSearch(value)}
               value={searchValue}
               autoComplete="on"
             />
+
+            {searchValue && (
+              <div className="background-search">{searchValue}</div>
+            )}
           </Flex.Item>
-          <Link href={locale === "bg" ? "/" : "/en"}>
+          <Link href={pathName.includes("/en") ? "/en" : "/"}>
             <IconButton
               accessibilityLabel="Home"
               tooltip={{
@@ -152,7 +162,7 @@ export default function SearchComponent({
                   accessibilityControls="subtext-dropdown-example"
                   accessibilityExpanded={open}
                   accessibilityHaspopup
-                  accessibilityLabel="More Options"
+                  accessibilityLabel="More Languages"
                   tooltip={{
                     text: translations.languages,
                     idealDirection: "down",
@@ -178,7 +188,7 @@ export default function SearchComponent({
                 showDismissButton={false}
                 __overflow="hidden"
                 onDismiss={() => {}}
-                onKeyDown={() => router.push("/admin-panel")}
+                // onKeyDown={() => router.push("/admin-panel")}
               >
                 <Box
                   padding={2}
@@ -265,13 +275,13 @@ export default function SearchComponent({
                     showDismissButton={false}
                     __overflow="hidden"
                     onDismiss={() => {}}
-                    onKeyDown={() => router.push("/admin-panel")}
+                    // onKeyDown={() => router.push("/admin-panel")}
                   >
                     <Box
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginEnd={2}
                     >
-                      <Link href="/admin-panel">
+                      <Link href="#">
                         <Flex alignItems="center" justifyContent="end">
                           <Text
                             size="200"
@@ -298,7 +308,10 @@ export default function SearchComponent({
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginEnd={2}
                     >
-                      <Link href="/" onClick={handleLogout}>
+                      <Link
+                        href={pathName.includes("/en") ? "/en" : "/"}
+                        onClick={handleLogout}
+                      >
                         <Flex alignItems="center" justifyContent="end">
                           <Text
                             align="end"
