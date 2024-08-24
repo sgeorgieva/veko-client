@@ -15,11 +15,12 @@ export default function UsedCarPerSingleComponent({
   handleDeleteCar,
   setCarInfo,
   carInfo,
-  id,
+  carId,
+  cars,
 }: any) {
   const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
   const [posts, setPosts] = useState([]);
-
+  console.log("carId", carId);
   // useEffect(() => {
   //   fetchPostData();
   // }, []);
@@ -29,7 +30,7 @@ export default function UsedCarPerSingleComponent({
     // return <UsedCarDescription />;
   };
 
-  const fetchSingleCar = async () => {
+  const fetchSingleCar = async (id) => {
     // handleEditCarData();
 
     try {
@@ -46,6 +47,9 @@ export default function UsedCarPerSingleComponent({
       console.error(error);
     }
   };
+
+  // console.log("id", id);
+  console.log("cars", cars);
 
   const fetchPostData = async () => {
     try {
@@ -78,10 +82,7 @@ export default function UsedCarPerSingleComponent({
     // >
     <Box column={12} maxWidth={236} padding={2}>
       {!isEdit ? (
-        <Link
-          onClick={handleSingleCar}
-          href={`/services/used-car/${carInfo?.id}`}
-        >
+        <Link onClick={handleSingleCar} href={`/services/used-car/${carId}`}>
           <WashAnimated
             image={
               <Avatar
@@ -116,7 +117,7 @@ export default function UsedCarPerSingleComponent({
               color="gray"
               text="Редактирай"
               size={isMobile ? "sm" : "lg"}
-              onClick={fetchSingleCar}
+              onClick={() => fetchSingleCar(carInfo.id)}
             />
             <Box marginTop={3}>
               <Button

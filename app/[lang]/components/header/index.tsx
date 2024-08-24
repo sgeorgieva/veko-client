@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import Image from "next/image";
-import { Icon } from "gestalt";
+import { Icon, Link } from "gestalt";
 import { Navbar, Nav, NavItem, Collapse } from "reactstrap";
 import { links } from "../../../../constants";
 import AnimatedLink from "../AnimatedLink";
@@ -39,6 +39,7 @@ export default function Header({
   const [open, setOpen] = useState(false);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [selected, setSelected] = useState({ value: "Български", label: "BG" });
+  const [locale, setLocale] = useState("bg");
 
   const handleMouseEnter = (e) => {
     setName(e?.target?.innerHTML);
@@ -89,6 +90,9 @@ export default function Header({
   const handleLinkClick = () => {
     setIsOpenMobileMenu(false);
   };
+
+  console.log("pathname", pathname);
+  console.log("pathname", pathname);
 
   return (
     <div
@@ -167,6 +171,8 @@ export default function Header({
               isHover={isHover}
               handleOpenLanguageMenu={handleOpenLanguageMenu}
               setShowToast={setShowToast}
+              setLocale={setLocale}
+              locale={locale}
             />
           </div>
         </div>
@@ -177,12 +183,15 @@ export default function Header({
         }`}
       >
         {isMobile && !isOpenMobileMenu && (
-          <Image
-            priority
-            src={Logo}
-            alt="veko-oil logo"
-            className="mobile-logo"
-          />
+          <Link href={pathname}>
+            <Image
+              unoptimized
+              priority
+              src={Logo}
+              alt="veko-oil logo"
+              className="mobile-logo"
+            />
+          </Link>
         )}
         {isMobile ? (
           isOpenMobileMenu ? (
@@ -387,14 +396,15 @@ export default function Header({
                 {translations.contact}
               </AnimatedLink>
             </div>
-            <AnimatedLink hasActiveClass={false} href={`${pathname}`}>
+            <Link href={locale === "" ? "/en" : "/"}>
               <Image
+                unoptimized
                 priority
                 src={Logo}
                 alt="veko-oil logo"
                 className={`${isMobile ? "mobile-logo" : "logo"}`}
               />
-            </AnimatedLink>
+            </Link>
             {!isHover && (
               <hr
                 className={isMobile ? "line-xs" : "line"}

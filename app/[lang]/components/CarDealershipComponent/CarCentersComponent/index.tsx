@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import React, { Suspense, useState, useEffect } from 'react'
-import ReactDOM from 'react-dom'
+import React, { Suspense, useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import {
   BannerSlim,
   Box,
@@ -11,125 +11,130 @@ import {
   SegmentedControl,
   SelectList,
   TextArea,
-  TextField
-} from 'gestalt'
-import { DatePicker } from 'gestalt-datepicker'
-import { TimePicker } from 'antd'
-import { bg } from 'date-fns/locale'
-import dayjs from 'dayjs'
-import { pdf, PDFViewer } from '@react-pdf/renderer'
-import HomeComponent from '../../HomeComponent/page'
-import Loader from '../../Loader'
-import MyDocument from './appoitments'
+  TextField,
+} from "gestalt";
+import { DatePicker } from "gestalt-datepicker";
+import { TimePicker } from "antd";
+import { bg } from "date-fns/locale";
+import dayjs from "dayjs";
+import { pdf } from "@react-pdf/renderer";
+import axios from "axios";
+import { endpoints, linkUrl } from "../../../../../utils/functions";
+import HomeComponent from "../../HomeComponent/page";
+import Loader from "../../Loader";
+import MyDocument from "./appoitments";
 
-import './carCentersComponent.scss'
-import axios from 'axios'
-import { endpoints, linkUrl } from '../../../../../utils/functions'
+import "./carCentersComponent.scss";
 
 const generateDatesWithoutSundays = (start, end) => {
-  const dates = []
-  let currentDate = new Date(start)
+  const dates = [];
+  let currentDate = new Date(start);
   while (currentDate <= end) {
     if (currentDate.getDay() !== 0) {
       // 0 is Sunday
-      dates.push(new Date(currentDate))
+      dates.push(new Date(currentDate));
     }
-    currentDate.setDate(currentDate.getDate() + 1)
+    currentDate.setDate(currentDate.getDate() + 1);
   }
-  return dates
-}
+  return dates;
+};
 
 export default function CarCentersComponent({
   translations,
-  title
+  title,
 }: {
-  title: string
-  translations: any
+  title: string;
+  translations: any;
 }) {
-  const [items, setItems] = useState([])
-  const [city, setCity] = useState('')
-  const [names, setNames] = useState('')
-  const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
-  const [model, setModel] = useState('')
-  const [year, setYear] = useState(new Date())
-  const [engine, setEngine] = useState('gasoline')
-  const [message, setMessage] = useState('')
-  const [date, setDate] = useState(new Date())
-  const [time, setTime] = useState('')
-  const [vinNumber, setVinNumber] = useState('')
-  const mapOptions = { 0: ['year', 'month'] }
-  const itemsCalendar = ['Month & Year']
-  const [itemIndex, setItemIndex] = useState(0)
+  const [items, setItems] = useState([]);
+  const [city, setCity] = useState("");
+  const [names, setNames] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [model, setModel] = useState("");
+  const [year, setYear] = useState(new Date());
+  const [engine, setEngine] = useState("gasoline");
+  const [message, setMessage] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState("");
+  const [vinNumber, setVinNumber] = useState("");
+  const mapOptions = { 0: ["year", "month"] };
+  const itemsCalendar = ["Month & Year"];
+  const [itemIndex, setItemIndex] = useState(0);
 
-  const [hasCityValidationError, setHasCityValidationError] = useState(false)
-  const [hasNamesValidationError, setHasNamesValidationError] = useState(false)
-  const [hasPhoneValidationError, setHasPhoneValidationError] = useState(false)
-  const [hasEmailValidationError, setHasEmailValidationError] = useState(false)
-  const [hasModelValidationError, setHasModelValidationError] = useState(false)
-  const [hasYearValidationError, setHasYearValidationError] = useState(false)
+  const [hasCityValidationError, setHasCityValidationError] = useState(false);
+  const [hasNamesValidationError, setHasNamesValidationError] = useState(false);
+  const [hasPhoneValidationError, setHasPhoneValidationError] = useState(false);
+  const [hasEmailValidationError, setHasEmailValidationError] = useState(false);
+  const [hasModelValidationError, setHasModelValidationError] = useState(false);
+  const [hasYearValidationError, setHasYearValidationError] = useState(false);
   const [hasEngineValidationError, setHasEngineValidationError] =
-    useState(false)
+    useState(false);
   const [hasMessageValidationError, setHasMessageValidationError] =
-    useState(false)
-  const [hasDateValidationError, setHasDateValidationError] = useState(false)
-  const [hasTimeValidationError, setHasTimeValidationError] = useState(false)
+    useState(false);
+  const [hasDateValidationError, setHasDateValidationError] = useState(false);
+  const [hasTimeValidationError, setHasTimeValidationError] = useState(false);
   const [hasVinNumberValidationError, setHasVinNumberValidationError] =
-    useState(false)
-  const [isValidForm, setIsValidForm] = useState(true)
-  const [messageValidation, setMessageValidation] = useState('')
-  const format = 'HH:mm'
+    useState(false);
+  const [isValidForm, setIsValidForm] = useState(true);
+  const [messageValidation, setMessageValidation] = useState("");
+  const format = "HH:mm";
 
-  const [startDate, setStartDate] = useState(null)
-  const start = new Date()
-  const end = new Date(start.getFullYear(), start.getMonth() + 12, 0) // Next month
-  const availableDates = generateDatesWithoutSundays(start, end)
-  const [currentHours, setCurrentHours] = useState()
-  const [isMobile, setIsMobile] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [fileName, setFileName] = useState('')
-  const [file, setFile] = useState(null)
+  const [startDate, setStartDate] = useState(null);
+  const start = new Date();
+  const end = new Date(start.getFullYear(), start.getMonth() + 12, 0); // Next month
+  const availableDates = generateDatesWithoutSundays(start, end);
+  const [currentHours, setCurrentHours] = useState();
+  const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      setIsMobile(true)
+      setIsMobile(true);
     }
-  }, [])
+  }, []);
 
   const handlePdf = async (name, pdfDocumentComponent, items) => {
-    setFileName(name)
-    setLoading(false)
-    let blobConvertFile = null
-    let fileBlob = null
+    setFileName(name);
+    setLoading(false);
+    let blobConvertFile = null;
+    let fileBlob = null;
 
     if (Object.keys(items).length > 0) {
-      blobConvertFile = await pdf(pdfDocumentComponent).toBlob()
+      blobConvertFile = await pdf(pdfDocumentComponent).toBlob();
     }
 
     if (blobConvertFile !== null) {
       fileBlob = await new File([blobConvertFile], `VEKO-OIL-appointment.pdf`, {
-        type: 'application/pdf'
-      })
-      setFile(fileBlob)
+        type: "application/pdf",
+      });
+      setFile(fileBlob);
     }
-  }
+  };
 
   useEffect(() => {
     async function fetchPdfData() {
       if (file) {
-        const formData = new FormData()
-        formData.append('city', items[0].city)
-        formData.append('date', items[0].date)
-        formData.append('email', items[0].email)
-        formData.append('engine', items[0].engine)
-        formData.append('message', items[0].message)
-        formData.append('model', items[0].model)
-        formData.append('names', items[0].names)
-        formData.append('phone', items[0].phone)
-        formData.append('time', items[0].time)
-        formData.append('vinNnumber', items[0].vinNumber)
-        formData.append('year', items[0].year)
-        formData.append('file', file)
+        const formData = new FormData();
+        formData.append("city", items[0].city);
+        formData.append(
+          "date",
+          items[0].date && items[0].date + " " + items[0].time
+        );
+        formData.append("email", items[0].email);
+        formData.append("engine", items[0].engine);
+        formData.append("message", items[0].message);
+        formData.append("model", items[0].model);
+        formData.append("names", items[0].names);
+        formData.append("phone", items[0].phone);
+        formData.append("time", items[0].time);
+        formData.append("vinNumber", items[0].vinNumber);
+        formData.append("year", items[0].year);
+        formData.append("file", file);
+
+        console.log("formData", formData);
 
         try {
           const response = await axios.post(
@@ -137,116 +142,116 @@ export default function CarCentersComponent({
             formData,
             {
               headers: {
-                Accept: 'application/json'
-              }
+                Accept: "application/json",
+              },
             }
-          )
+          );
           if (response.status === 200) {
             // setIsNewsModalOpen(false);
-            console.log('response', response)
+            console.log("response", response);
           }
         } catch (error) {
-          console.error(error)
+          console.error(error);
         }
       }
     }
 
-    fetchPdfData()
-  }, [file])
+    fetchPdfData();
+  }, [file]);
 
   const validateForm = () => {
     // Validate city
     if (!city) {
-      setHasCityValidationError(true)
-      setIsValidForm(false)
+      setHasCityValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasCityValidationError(false)
+      setHasCityValidationError(false);
     }
 
     // Validate names
     if (!names) {
-      setHasNamesValidationError(true)
-      setIsValidForm(false)
+      setHasNamesValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasNamesValidationError(false)
+      setHasNamesValidationError(false);
     }
 
     // Validate phone
     if (!phone) {
-      setIsValidForm(false)
-      setHasPhoneValidationError(true)
+      setIsValidForm(false);
+      setHasPhoneValidationError(true);
     } else {
-      setHasPhoneValidationError(false)
+      setHasPhoneValidationError(false);
     }
 
     // Validate email
     if (!email) {
-      setIsValidForm(false)
-      setHasEmailValidationError(true)
+      setIsValidForm(false);
+      setHasEmailValidationError(true);
     } else {
-      setHasEmailValidationError(false)
+      setHasEmailValidationError(false);
     }
 
     // Validate model
     if (!model) {
-      setIsValidForm(false)
-      setHasModelValidationError(true)
+      setIsValidForm(false);
+      setHasModelValidationError(true);
     } else {
-      setHasModelValidationError(false)
+      setHasModelValidationError(false);
     }
 
     // Validate year
     if (!year) {
-      setIsValidForm(false)
-      setHasYearValidationError(true)
+      setIsValidForm(false);
+      setHasYearValidationError(true);
     } else {
-      setHasYearValidationError(false)
+      setHasYearValidationError(false);
     }
 
     // Validate engine
     if (!engine) {
-      setIsValidForm(false)
-      setHasEngineValidationError(true)
+      setIsValidForm(false);
+      setHasEngineValidationError(true);
     } else {
-      setHasEngineValidationError(false)
+      setHasEngineValidationError(false);
     }
 
     // Validate message
     if (!message) {
-      setIsValidForm(false)
-      setHasMessageValidationError(true)
+      setIsValidForm(false);
+      setHasMessageValidationError(true);
     } else {
-      setHasMessageValidationError(false)
+      setHasMessageValidationError(false);
     }
     // Validate date
     if (!date) {
-      setIsValidForm(false)
-      setHasDateValidationError(true)
+      setIsValidForm(false);
+      setHasDateValidationError(true);
     } else {
-      setHasDateValidationError(false)
+      setHasDateValidationError(false);
     }
 
     // Validate time
     if (!time) {
-      setIsValidForm(false)
-      setHasTimeValidationError(true)
+      setIsValidForm(false);
+      setHasTimeValidationError(true);
     } else {
-      setHasTimeValidationError(false)
+      setHasTimeValidationError(false);
     }
 
     // Validate vin number
     if (!vinNumber) {
-      setIsValidForm(false)
-      setHasVinNumberValidationError(true)
+      setIsValidForm(false);
+      setHasVinNumberValidationError(true);
     } else {
-      setHasVinNumberValidationError(false)
+      setHasVinNumberValidationError(false);
     }
 
-    setMessageValidation(translations.error_message_validation)
-  }
+    setMessageValidation(translations.error_message_validation);
+  };
 
   const handleSubmit = async () => {
-    validateForm()
+    validateForm();
 
     if (
       !hasCityValidationError &&
@@ -259,7 +264,7 @@ export default function CarCentersComponent({
       !hasTimeValidationError &&
       !hasVinNumberValidationError
     ) {
-      setIsValidForm(true)
+      setIsValidForm(true);
       setItems([
         {
           city,
@@ -267,55 +272,66 @@ export default function CarCentersComponent({
           phone,
           email,
           model,
-          year: dayjs(year).format('YYYY-MM'),
+          year: dayjs(year).format("YYYY-MM"),
           engine,
           message,
-          date: dayjs(date).format('YYYY-MM-DD'),
-          time: dayjs(time).format('HH:mm'),
-          vinNumber
-        }
-      ])
-      handlePdf(`VEKO-OIL-appointment.pdf`, <MyDocument items={items} />, items)
+          date: dayjs(date).format("YYYY-MM-DD"),
+          time: dayjs(time).format("HH:mm:ss"),
+          vinNumber,
+        },
+      ]);
+      handlePdf(
+        `VEKO-OIL-appointment.pdf`,
+        <MyDocument items={items} />,
+        items
+      );
     } else {
-      setIsValidForm(false)
+      setIsValidForm(false);
     }
-  }
+  };
 
-  const handleNamesChange = event => {
-    setNames(event.value)
-  }
+  const handleNamesChange = (event) => {
+    setNames(event.value);
+  };
 
-  const handleEmailChange = event => {
-    setEmail(event.value)
-  }
+  const handleEmailChange = (event) => {
+    setEmail(event.value);
+  };
 
-  const handlePhoneChange = event => {
-    setPhone(event.value)
-  }
+  const handlePhoneChange = (event) => {
+    setPhone(event.value);
+  };
 
-  const handleModelChange = event => {
-    setModel(event.value)
-  }
+  const handleModelChange = (event) => {
+    setModel(event.value);
+  };
 
-  const handleEngineChange = event => {
-    setEngine(event.value)
-  }
+  const handleEngineChange = (event) => {
+    setEngine(event.value);
+  };
 
-  const handleMessageChange = event => {
-    setMessage(event.value)
-  }
+  const handleMessageChange = (event) => {
+    setMessage(event.value);
+  };
 
-  const handleYearChange = value => {
-    setYear(value)
-  }
+  const handleYearChange = (value) => {
+    setYear(value);
+  };
 
-  const handleTimeChange = time => {
-    setTime(time.$d.getTime())
-  }
+  const handleTimeChange = (time) => {
+    console.log("time", time.$d.getTime());
+    setTime(time.$d.getTime());
+  };
 
-  const handleVinNumberChange = event => {
-    setVinNumber(event.value)
-  }
+  const handleVinNumberChange = (event) => {
+    setVinNumber(event.value);
+  };
+
+  console.log("items", items);
+  // console.log(
+  //   "items[0].date + items[0].time date",
+  //   items[0].date && items[0].date + " " + items[0].time
+  // );
 
   return (
     <Suspense fallback={<Loader />}>
@@ -325,43 +341,43 @@ export default function CarCentersComponent({
           <>
             {messageValidation && (
               <Box
-                alignItems='center'
-                display='flex'
-                height='100%'
+                alignItems="center"
+                display="flex"
+                height="100%"
                 paddingY={8}
               >
                 <BannerSlim
-                  iconAccessibilityLabel='Information'
+                  iconAccessibilityLabel="Information"
                   message={messageValidation}
                   onDismiss={() => setIsValidForm(!isValidForm)}
-                  type='error'
+                  type="error"
                 />
               </Box>
             )}
-            <div className='contact-wrapper'>
-              <div className='title-contact'>
-                <h1 className='pageHeader mb-4'>{title}</h1>
+            <div className="contact-wrapper">
+              <div className="title-contact">
+                <h1 className="pageHeader mb-4">{title}</h1>
               </div>
-              <div className='description-contact pageContent'>
-                <div className='row mb-3'>
+              <div className="description-contact pageContent">
+                <div className="row mb-3">
                   {isMobile ? (
                     <h6>{translations.subtitle}</h6>
                   ) : (
                     <h5>{translations.subtitle}</h5>
                   )}
                 </div>
-                <div className='row'>
-                  <div className='col-md-4'>
+                <div className="row">
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
                       <TextField
-                        id='city'
-                        name='city'
+                        id="city"
+                        name="city"
                         label={`${translations.city}`}
                         onChange={({ value }) => {
-                          setCity(value)
+                          setCity(value);
                         }}
-                        type='text'
-                        size={isMobile ? 'md' : 'lg'}
+                        type="text"
+                        size={isMobile ? "md" : "lg"}
                         value={city}
                         errorMessage={
                           !hasCityValidationError
@@ -372,18 +388,18 @@ export default function CarCentersComponent({
                     </Box>
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-md-4'>
+                <div className="row">
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
                       <TextField
-                        id='names'
-                        name='names'
+                        id="names"
+                        name="names"
                         label={`${translations.names}`}
                         onChange={(event, value) => {
-                          handleNamesChange(event, value)
+                          handleNamesChange(event, value);
                         }}
-                        type='text'
-                        size={isMobile ? 'md' : 'lg'}
+                        type="text"
+                        size={isMobile ? "md" : "lg"}
                         value={names}
                         errorMessage={
                           !hasNamesValidationError
@@ -393,17 +409,17 @@ export default function CarCentersComponent({
                       />
                     </Box>
                   </div>
-                  <div className='col-md-4'>
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
                       <TextField
-                        id='email'
-                        name='email'
+                        id="email"
+                        name="email"
                         label={`${translations.email}`}
                         onChange={(event, value) => {
-                          handleEmailChange(event, value)
+                          handleEmailChange(event, value);
                         }}
-                        type='email'
-                        size={isMobile ? 'md' : 'lg'}
+                        type="email"
+                        size={isMobile ? "md" : "lg"}
                         value={email}
                         errorMessage={
                           !hasEmailValidationError
@@ -413,17 +429,17 @@ export default function CarCentersComponent({
                       />
                     </Box>
                   </div>
-                  <div className='col-md-4'>
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
                       <TextField
-                        id='phone'
-                        name='phone'
+                        id="phone"
+                        name="phone"
                         label={`${translations.phone}`}
                         onChange={(event, value) => {
-                          handlePhoneChange(event, value)
+                          handlePhoneChange(event, value);
                         }}
-                        size={isMobile ? 'md' : 'lg'}
-                        type='text'
+                        size={isMobile ? "md" : "lg"}
+                        type="text"
                         value={phone}
                         errorMessage={
                           !hasPhoneValidationError
@@ -434,18 +450,18 @@ export default function CarCentersComponent({
                     </Box>
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-md-4'>
+                <div className="row">
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
                       <TextField
-                        id='model'
-                        name='model'
+                        id="model"
+                        name="model"
                         label={`${translations.model}`}
-                        size={isMobile ? 'md' : 'lg'}
+                        size={isMobile ? "md" : "lg"}
                         onChange={(event, value) => {
-                          handleModelChange(event, value)
+                          handleModelChange(event, value);
                         }}
-                        type='text'
+                        type="text"
                         value={model}
                         errorMessage={
                           !hasModelValidationError
@@ -455,18 +471,18 @@ export default function CarCentersComponent({
                       />
                     </Box>
                   </div>
-                  <div className='col-md-4'>
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
-                      <Label htmlFor='year'>{translations.year}</Label>
-                      <div className='datepicker'>
+                      <Label htmlFor="year">{translations.year}</Label>
+                      <div className="datepicker">
                         <Flex
-                          alignItems='start'
-                          height='100%'
-                          justifyContent='center'
-                          width='100%'
+                          alignItems="start"
+                          height="100%"
+                          justifyContent="center"
+                          width="100%"
                         >
                           <Box padding={2}>
-                            <Flex direction='column' gap={4} width='100%'>
+                            <Flex direction="column" gap={4} width="100%">
                               <SegmentedControl
                                 items={itemsCalendar}
                                 onChange={({ activeIndex }) =>
@@ -475,8 +491,8 @@ export default function CarCentersComponent({
                                 selectedItemIndex={itemIndex}
                               />
                               <DatePicker
-                                idealDirection='right'
-                                id='selectLists'
+                                idealDirection="right"
+                                id="selectLists"
                                 onChange={({ value }) =>
                                   handleYearChange(value)
                                 }
@@ -486,7 +502,7 @@ export default function CarCentersComponent({
                                 errorMessage={
                                   !hasYearValidationError
                                     ? undefined
-                                    : 'Моля, въведете година'
+                                    : "Моля, въведете година"
                                 }
                               />
                             </Flex>
@@ -495,22 +511,22 @@ export default function CarCentersComponent({
                       </div>
                     </Box>
                   </div>
-                  <div className='col-md-4'>
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
                       <SelectList
-                        id='selectlistexample1'
+                        id="selectlistexample1"
                         label={`${translations.engine}`}
                         onChange={(event, value) =>
                           handleEngineChange(event, value)
                         }
-                        size={isMobile ? 'md' : 'lg'}
+                        size={isMobile ? "md" : "lg"}
                       >
                         {[
-                          { label: translations.gasoline, value: 'gasoline' },
-                          { label: translations.diesel, value: 'diesel' },
-                          { label: translations.hybrid, value: 'hybrid' },
-                          { label: translations.gas, value: 'gas' },
-                          { label: translations.electric, value: 'electric' }
+                          { label: translations.gasoline, value: "gasoline" },
+                          { label: translations.diesel, value: "diesel" },
+                          { label: translations.hybrid, value: "hybrid" },
+                          { label: translations.gas, value: "gas" },
+                          { label: translations.electric, value: "electric" },
                         ].map(({ label, value }) => (
                           <SelectList.Option
                             key={label}
@@ -522,33 +538,33 @@ export default function CarCentersComponent({
                     </Box>
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-md-4'>
+                <div className="row">
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
                       <TextArea
-                        id='message'
-                        name='message'
+                        id="message"
+                        name="message"
                         label={`${translations.message}`}
                         onChange={(event, value) => {
-                          handleMessageChange(event, value)
+                          handleMessageChange(event, value);
                         }}
                         value={message}
                       />
                     </Box>
                   </div>
-                  <div className='col-md-4'>
-                    <div className='row align-items-center'>
-                      <div className='col-md-8'>
+                  <div className="col-md-4">
+                    <div className="row align-items-center">
+                      <div className="col-md-8">
                         <DatePicker
                           selected={startDate}
-                          onChange={date => setStartDate(date)}
+                          onChange={(date) => setStartDate(date)}
                           includeDates={availableDates}
                           placeholderText={`${new Date()}`}
                           localeData={bg}
-                          idealDirection='right'
+                          idealDirection="right"
                           minDate={new Date()}
-                          id='example-errorMessage'
-                          dateFormat='MM/yyyy'
+                          id="example-errorMessage"
+                          dateFormat="MM/yyyy"
                           startDate={startDate}
                           availableDates={availableDates}
                           hasDateValidationError={hasDateValidationError}
@@ -564,41 +580,41 @@ export default function CarCentersComponent({
                           }
                         />
                       </div>
-                      <div className='col-md-4'>
-                        <Label htmlFor='time'>{translations.hour}</Label>
+                      <div className="col-md-4">
+                        <Label htmlFor="time">{translations.hour}</Label>
                         <TimePicker
                           className={
-                            hasTimeValidationError ? 'error-input' : ''
+                            hasTimeValidationError ? "error-input" : ""
                           }
-                          status={hasTimeValidationError ? 'error' : 'success'}
-                          disabledHours={hour => {
+                          status={hasTimeValidationError ? "error" : "success"}
+                          disabledHours={(hour) => {
                             // console.log("hour", hour);
                             if (startDate && startDate?.value.getDay() === 6) {
                               // console.log("here hour 1");
 
                               return [
                                 0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 17, 18, 19,
-                                20, 21, 22, 23
-                              ]
+                                20, 21, 22, 23,
+                              ];
                             } else if (
                               startDate &&
                               startDate?.value.getDay() === 6 &&
                               hour === 14
                             ) {
                               // console.log("here hour 2");
-                              setCurrentHours(hour)
-                              return [0]
+                              setCurrentHours(hour);
+                              return [0];
                             } else {
                               // console.log("here hour 3");
-                              setCurrentHours(hour)
+                              setCurrentHours(hour);
                               return [
-                                0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23
-                              ]
+                                0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23,
+                              ];
                             }
                           }}
                           minuteStep={15}
                           secondStep={10}
-                          disabledMinutes={time => {
+                          disabledMinutes={(time) => {
                             // console.log("currentHours", currentHours);
 
                             if (
@@ -610,19 +626,19 @@ export default function CarCentersComponent({
                               return [
                                 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
                                 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
-                                55, 56, 57, 58, 59
-                              ]
+                                55, 56, 57, 58, 59,
+                              ];
                             } else if (
                               startDate &&
                               startDate?.value.getDay() !== 6 &&
-                              time == '08'
+                              time == "08"
                             ) {
                               // console.log("here2", startDate?.value.getDay());
                               return [
                                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
                                 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-                                26, 27, 28, 29
-                              ]
+                                26, 27, 28, 29,
+                              ];
                             } else if (
                               startDate &&
                               startDate?.value.getDay() === 6 &&
@@ -630,44 +646,47 @@ export default function CarCentersComponent({
                             ) {
                               // console.log("here3");
 
-                              return [15, 30, 45]
+                              return [15, 30, 45];
                               // console.log('here3', startDate?.value.getDay());
                               // return [9, 10, 11, 12, 13, 14];
                             } else {
-                              return []
+                              return [];
                             }
                           }}
-                          placeholder='00:00'
-                          onOk={time => {
-                            handleTimeChange(time)
+                          placeholder="00:00"
+                          onNow={(time) => {
+                            handleTimeChange(time);
+                          }}
+                          onOk={(time) => {
+                            handleTimeChange(time);
                           }}
                           // defaultValue={dayjs("12:08", format)}
                           format={format}
-                          size='large'
+                          size="large"
                         />
                         {hasTimeValidationError && (
-                          <div className='hjj zI7 iyn Hsu'>
-                            <div className='tBJ dyH iFc dR0 sOY zDA IZT swG'>
+                          <div className="hjj zI7 iyn Hsu">
+                            <div className="tBJ dyH iFc dR0 sOY zDA IZT swG">
                               <span
-                                className='MFi'
-                                id='example-errorMessage-error'
+                                className="MFi"
+                                id="example-errorMessage-error"
                               >
-                                <div role='alert' className='zI7 iyn Hsu'>
-                                  <div className='KS5 hs0 un8 tkf A6h'>
-                                    <div className='xuA'>
+                                <div role="alert" className="zI7 iyn Hsu">
+                                  <div className="KS5 hs0 un8 tkf A6h">
+                                    <div className="xuA">
                                       <svg
-                                        aria-hidden='true'
-                                        aria-label=''
-                                        className='X7a gUZ U9O kVc'
-                                        height='16'
-                                        role='img'
-                                        viewBox='0 0 24 24'
-                                        width='16'
+                                        aria-hidden="true"
+                                        aria-label=""
+                                        className="X7a gUZ U9O kVc"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 24 24"
+                                        width="16"
                                       >
-                                        <path d='M23.6 18.5 14.63 2.53a3 3 0 0 0-5.24 0L.4 18.5A3.02 3.02 0 0 0 3 23h18a3 3 0 0 0 2.6-4.5m-7.54-1.06a1.5 1.5 0 0 1 0 2.12 1.5 1.5 0 0 1-2.12 0L12 17.62l-1.95 1.94a1.5 1.5 0 0 1-2.12 0 1.5 1.5 0 0 1 0-2.12l1.94-1.94-1.94-1.94a1.5 1.5 0 0 1 0-2.12 1.5 1.5 0 0 1 2.12 0L12 13.38l1.94-1.94a1.5 1.5 0 0 1 2.12 0 1.5 1.5 0 0 1 0 2.12l-1.94 1.94z'></path>
+                                        <path d="M23.6 18.5 14.63 2.53a3 3 0 0 0-5.24 0L.4 18.5A3.02 3.02 0 0 0 3 23h18a3 3 0 0 0 2.6-4.5m-7.54-1.06a1.5 1.5 0 0 1 0 2.12 1.5 1.5 0 0 1-2.12 0L12 17.62l-1.95 1.94a1.5 1.5 0 0 1-2.12 0 1.5 1.5 0 0 1 0-2.12l1.94-1.94-1.94-1.94a1.5 1.5 0 0 1 0-2.12 1.5 1.5 0 0 1 2.12 0L12 13.38l1.94-1.94a1.5 1.5 0 0 1 2.12 0 1.5 1.5 0 0 1 0 2.12l-1.94 1.94z"></path>
                                       </svg>
                                     </div>
-                                    <div className='xuA'>
+                                    <div className="xuA">
                                       {translations.hour_validation}
                                     </div>
                                   </div>
@@ -679,18 +698,18 @@ export default function CarCentersComponent({
                       </div>
                     </div>
                   </div>
-                  <div className='col-md-4'>
+                  <div className="col-md-4">
                     <Box marginBottom={6}>
-                      <div className='pb-2'>
+                      <div className="pb-2">
                         <TextField
-                          id='vin_number'
-                          name='vin_number'
+                          id="vin_number"
+                          name="vin_number"
                           label={`${translations.vin_number}`}
                           onChange={(event, value) => {
-                            handleVinNumberChange(event, value)
+                            handleVinNumberChange(event, value);
                           }}
-                          type='text'
-                          size={isMobile ? 'md' : 'lg'}
+                          type="text"
+                          size={isMobile ? "md" : "lg"}
                           value={vinNumber}
                           helperText={`${translations.helperText}`}
                           errorMessage={
@@ -703,13 +722,13 @@ export default function CarCentersComponent({
                     </Box>
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-md-12 text-end'>
+                <div className="row">
+                  <div className="col-md-12 text-end">
                     <Button
-                      type='button'
+                      type="button"
                       text={`${translations.button_continue}`}
-                      color='blue'
-                      size={isMobile ? 'md' : 'lg'}
+                      color="blue"
+                      size={isMobile ? "md" : "lg"}
                       onClick={handleSubmit}
                     />
                   </div>
@@ -720,5 +739,5 @@ export default function CarCentersComponent({
         }
       />
     </Suspense>
-  )
+  );
 }

@@ -21,9 +21,11 @@ const styles = StyleSheet.create({
 });
 
 const AppointmentThankYouMsg = ({ message }) => {
+  console.log('message: ' + message);
+  
   return (
     <View style={styles.titleContainer}>
-      <Text style={styles.reportTitle}>{`${t(message)}`}</Text>
+      <Text style={styles.reportTitle}>{message}</Text>
     </View>
   )
 };

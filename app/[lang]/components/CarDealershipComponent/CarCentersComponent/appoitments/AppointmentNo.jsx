@@ -37,7 +37,7 @@ export default function AppointmentNo({ offerDateTitle, items }){
         </View>
         <View>
           <View>
-            <Text>{`${t(offerDateTitle)}`}: {items.time} {items.date} </Text>
+            <Text>{offerDateTitle}: {items.time} {items.date} </Text>
           </View>
         </View>
       </View>

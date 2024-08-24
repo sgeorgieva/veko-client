@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
 const AppointmentTitle = ({ title, offerTitle }) => {
   return (
     <View style={styles.titleContainer}>
-      <Text style={styles.offerTitle}>{`${t(offerTitle)}`}</Text>
-      <Text style={styles.title}>{`${t(title)}`}</Text>
+      <Text style={styles.offerTitle}>{offerTitle}</Text>
+      <Text style={styles.title}>{title}</Text>
     </View>
   )
 };

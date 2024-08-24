@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
 
 import { i18n } from '@/i18n.config'
 
@@ -50,6 +51,12 @@ export function middleware(request: NextRequest) {
     )
   }
 }
+
+export default createMiddleware({
+  locales: ['bg', 'en'],
+  defaultLocale: 'bg',
+  localePrefix: 'as-needed',
+})
 
 export const config = {
   // Matcher ignoring `/_next/` and `/api/`

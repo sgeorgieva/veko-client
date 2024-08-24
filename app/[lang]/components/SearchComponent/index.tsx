@@ -4,7 +4,6 @@ import {
   IconButton,
   SearchField,
   CompositeZIndex,
-  Dropdown,
   FixedZIndex,
   Avatar,
   Button,
@@ -26,6 +25,8 @@ export default function SearchComponent({
   setShowToast,
   handleOpenLanguageMenu,
   translations,
+  locale,
+  setLocale,
 }: any) {
   const [searchValue, setSearchValue] = useState("");
   const TOOLTIP__ZINDEX = new FixedZIndex(6);
@@ -69,7 +70,11 @@ export default function SearchComponent({
   const pathName = usePathname();
 
   const redirectedPathName = (locale: string) => {
-    if (!pathName) return "/";
+    console.log("pathName", pathName);
+    if (!pathName) {
+      setLocale("bg");
+      return "/";
+    }
 
     const pathnameIsMissingLocale = i18n.locales.every(
       (locale) =>
@@ -77,10 +82,19 @@ export default function SearchComponent({
     );
 
     if (pathnameIsMissingLocale) {
-      if (locale === i18n.defaultLocale) return pathName;
+      if (locale === i18n.defaultLocale) {
+        console.log("locale", locale);
+        console.log("i18n.defaultLocale", i18n.defaultLocale);
+
+        setLocale(locale);
+        return pathName;
+      }
+      console.log("i18n.defaultLocale", i18n.defaultLocale);
+      setLocale(i18n.defaultLocale);
       return `/${locale}${pathName}`;
     } else {
       if (locale === i18n.defaultLocale) {
+        // setLocale(locale);
         const segments = pathName.split("/");
         const isHome = segments.length === 2;
         if (isHome) return "/";
@@ -117,7 +131,7 @@ export default function SearchComponent({
               autoComplete="on"
             />
           </Flex.Item>
-          <Link href="/">
+          <Link href={locale === "bg" ? "/" : "/en"}>
             <IconButton
               accessibilityLabel="Home"
               tooltip={{
@@ -167,25 +181,27 @@ export default function SearchComponent({
                 onKeyDown={() => router.push("/admin-panel")}
               >
                 <Box
-                  padding={1}
+                  padding={2}
                   zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                   marginEnd={2}
                 >
                   {i18n.locales.map((locale, key) => {
                     return (
                       <Link key={key} href={redirectedPathName(locale)}>
-                        <Flex alignItems="center" justifyContent="end">
-                          <Text
-                            size="200"
-                            align="end"
-                            color="default"
-                            weight="bold"
-                          >
-                            {locale === "en"
-                              ? translations.en_lang
-                              : translations.bg_lang}
-                          </Text>
-                        </Flex>
+                        <Box paddingY={1}>
+                          <Flex alignItems="center" justifyContent="end">
+                            <Text
+                              size="200"
+                              align="end"
+                              color="default"
+                              weight="bold"
+                            >
+                              {locale === "en"
+                                ? translations.en_lang
+                                : translations.bg_lang}
+                            </Text>
+                          </Flex>
+                        </Box>
                       </Link>
                     );
                   })}

@@ -1,7 +1,7 @@
-const path = require('path')
-const dotenv = require('dotenv')
+const path = require("path");
+const dotenv = require("dotenv");
 
-dotenv.config({ path: path.join(__dirname, './.env') })
+dotenv.config({ path: path.join(__dirname, "./.env") });
 
 const nextConfig = {
   reactStrictMode: false,
@@ -9,32 +9,35 @@ const nextConfig = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
-    ignoreDuringBuilds: true
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
-  webpack: config => {
+  // skipTrailingSlashRedirect: true,
+  // trailingSlash: true,
+  // rewrite: true,
+  webpack: (config) => {
     config.module.rules.push(
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader'
+        loader: "svg-inline-loader",
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)$/,
         use: {
-          loader: 'file-loader',
+          loader: "file-loader",
           options: {
-            publicPath: '/_next/static/media/',
-            outputPath: 'static/media/',
-            name: '[name].[hash][ext]',
-            esModule: false
-          }
-        }
+            publicPath: "/_next/static/media/",
+            outputPath: "static/media/",
+            name: "[name].[hash][ext]",
+            esModule: false,
+          },
+        },
       }
-    )
-    return config
-  }
-}
+    );
+    return config;
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
