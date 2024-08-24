@@ -25,6 +25,7 @@ import Loader from "../../Loader";
 import MyDocument from "./appoitments";
 
 import "./carCentersComponent.scss";
+import Message from "../../MessageComponent";
 
 const generateDatesWithoutSundays = (start, end) => {
   const dates = [];
@@ -89,6 +90,7 @@ export default function CarCentersComponent({
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState(null);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -147,8 +149,9 @@ export default function CarCentersComponent({
             }
           );
           if (response.status === 200) {
-            // setIsNewsModalOpen(false);
-            console.log("response", response);
+            setMessageValidation("");
+            setShowToast(true);
+            // console.log("response", response);
           }
         } catch (error) {
           console.error(error);
@@ -162,8 +165,11 @@ export default function CarCentersComponent({
   const validateForm = () => {
     // Validate city
     if (!city) {
+      console.log("here");
+
       setHasCityValidationError(true);
       setIsValidForm(false);
+      setMessageValidation(translations.validation_error);
     } else {
       setHasCityValidationError(false);
     }
@@ -216,13 +222,6 @@ export default function CarCentersComponent({
       setHasEngineValidationError(false);
     }
 
-    // Validate message
-    if (!message) {
-      setIsValidForm(false);
-      setHasMessageValidationError(true);
-    } else {
-      setHasMessageValidationError(false);
-    }
     // Validate date
     if (!date) {
       setIsValidForm(false);
@@ -247,7 +246,7 @@ export default function CarCentersComponent({
       setHasVinNumberValidationError(false);
     }
 
-    setMessageValidation(translations.error_message_validation);
+    setMessageValidation(translations.validation_error);
   };
 
   const handleSubmit = async () => {
@@ -287,6 +286,7 @@ export default function CarCentersComponent({
       );
     } else {
       setIsValidForm(false);
+      setMessageValidation(translations.error_message_validation);
     }
   };
 
@@ -319,19 +319,12 @@ export default function CarCentersComponent({
   };
 
   const handleTimeChange = (time) => {
-    console.log("time", time.$d.getTime());
     setTime(time.$d.getTime());
   };
 
   const handleVinNumberChange = (event) => {
     setVinNumber(event.value);
   };
-
-  console.log("items", items);
-  // console.log(
-  //   "items[0].date + items[0].time date",
-  //   items[0].date && items[0].date + " " + items[0].time
-  // );
 
   return (
     <Suspense fallback={<Loader />}>
@@ -353,6 +346,13 @@ export default function CarCentersComponent({
                   type="error"
                 />
               </Box>
+            )}
+            {showToast && (
+              <Message
+                type="success"
+                message="Вашият час е записан успешно"
+                setShowToast={setShowToast}
+              />
             )}
             <div className="contact-wrapper">
               <div className="title-contact">

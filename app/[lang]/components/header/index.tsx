@@ -91,9 +91,6 @@ export default function Header({
     setIsOpenMobileMenu(false);
   };
 
-  console.log("pathname", pathname);
-  console.log("pathname", pathname);
-
   return (
     <div
       className={`container-fluid ${isMobile ? "header-mobile" : ""} ${
