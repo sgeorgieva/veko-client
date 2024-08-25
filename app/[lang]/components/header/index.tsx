@@ -243,7 +243,7 @@ export default function Header({
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
                 href="/car-dealership"
-                hasActiveClass={pathname.includes("/car-dealership")}
+                hasActiveClass={pathname.includes("car-dealership")}
                 lang={lang}
               >
                 {translations.car_delership}
@@ -282,7 +282,7 @@ export default function Header({
                 isHover={isHover}
                 href="/trade"
                 lang={lang}
-                hasActiveClass={pathname.includes("/trade")}
+                hasActiveClass={pathname.includes("trade")}
               >
                 {translations.trade}
                 {isHover && name === translations.trade ? (
@@ -338,7 +338,7 @@ export default function Header({
                 handleMouseLeave={handleMouseLeave}
                 name={name}
                 isHover={isHover}
-                hasActiveClass={pathname.includes("/services")}
+                hasActiveClass={pathname.includes("services")}
               >
                 {translations.services}
                 {isHover && name === translations.services ? (
@@ -372,7 +372,7 @@ export default function Header({
                 lang={lang}
                 title={`${translations.veko_products}`}
                 href="/veko-products"
-                hasActiveClass={pathname == "/veko-products"}
+                hasActiveClass={pathname.includes("veko-products")}
               >
                 {translations.veko_products}
               </AnimatedLink>
@@ -380,7 +380,7 @@ export default function Header({
                 title={`${translations.about}`}
                 href="/about"
                 lang={lang}
-                hasActiveClass={pathname == "/about"}
+                hasActiveClass={pathname.includes("about")}
               >
                 {translations.about}
               </AnimatedLink>

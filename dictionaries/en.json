@@ -69,6 +69,7 @@
       "phone_validation": "Please, enter phone number",
       "model_validation": "Please, enter model",
       "hour_validation": "Please, pick up a hour",
+      "hour_taken_validation": "The date has already been taken. Please, pick up another hour",
       "vin_number_validation": "Please, enter VIN number",
       "error_message_validation": "Please, enter empty fields"
     },

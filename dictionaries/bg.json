@@ -70,6 +70,7 @@
       "model_validation": "Моля, въведете модел",
       "message_validation": "Моля, въведете съобщение",
       "hour_validation": "Моля, изберете час",
+      "hour_taken_validation": "Този час е зает, моля изберете друг",
       "vin_number_validation": "Моля, въведете VIN номер",
       "error_message_validation": "Моля, попълнете празните полета"
     },
