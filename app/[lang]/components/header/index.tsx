@@ -40,7 +40,6 @@ export default function Header({
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [selected, setSelected] = useState({ value: "Български", label: "BG" });
   const [locale, setLocale] = useState("bg");
-  const [searchValue, setSearchValue] = useState("");
 
   const handleMouseEnter = (e) => {
     setName(e?.target?.innerHTML);
@@ -91,8 +90,6 @@ export default function Header({
   const handleLinkClick = () => {
     setIsOpenMobileMenu(false);
   };
-
-  console.log("handleSearch", searchValue);
 
   return (
     <div
@@ -173,8 +170,6 @@ export default function Header({
               setShowToast={setShowToast}
               setLocale={setLocale}
               locale={locale}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
             />
           </div>
         </div>
@@ -412,9 +407,6 @@ export default function Header({
                 className={isMobile ? "line-xs" : "line"}
                 data-content="&nbsp;&nbsp;"
               />
-            )}
-            {searchValue && (
-              <div className="background-search">{searchValue}</div>
             )}
           </main>
         )}

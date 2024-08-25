@@ -55,6 +55,22 @@ export default function AdminPanelUsedCarComponent({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isLoading]);
 
+  const fetchSingleCar = async (id) => {
+    try {
+      const response = await axios.get(`${linkUrl()}${endpoints.carId}${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+        },
+      });
+      if (response.status === 200) {
+        setCarInfo(response.data.record);
+        handleEditCarData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   async function fetchCarsData() {
     setIsLoading(true);
     setError(null);
@@ -128,7 +144,7 @@ export default function AdminPanelUsedCarComponent({
                   key={item.id}
                   isMobile={isMobile}
                   isEdit={true}
-                  handleEditCarData={handleEditCarData}
+                  handleEditCarData={() => fetchSingleCar(item.id)}
                   setIsDeleteCarModalOpen={setIsDeleteCarModalOpen}
                   model={item.model}
                   id={item.id}

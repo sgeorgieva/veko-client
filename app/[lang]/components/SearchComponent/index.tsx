@@ -27,8 +27,6 @@ export default function SearchComponent({
   translations,
   locale,
   setLocale,
-  // searchValue,
-  // setSearchValue,
 }: any) {
   const [searchValue, setSearchValue] = useState("");
   const TOOLTIP__ZINDEX = new FixedZIndex(6);
@@ -108,8 +106,6 @@ export default function SearchComponent({
   };
 
   const handleSearch = (value) => {
-    console.log("value", value);
-
     setSearchValue(value);
   };
 
@@ -120,8 +116,6 @@ export default function SearchComponent({
     router.push("/");
     setShowToast(true);
   };
-
-  console.log("searchValue", searchValue);
 
   return (
     <div className="search-wrapper">
