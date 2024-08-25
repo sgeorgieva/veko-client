@@ -50,6 +50,7 @@ export const endpoints = {
   updateCar: "used-cars/edit/", // PUT
   deleteCar: "used-cars/", // DELETE
   autocenters: "auto-centers/create", //POST
+  search: "search", //GET
 };
 
 // module.exports = {

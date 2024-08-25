@@ -18,6 +18,9 @@ import { usePathname } from "next/navigation";
 import Login from "../../admin-panel/login/page";
 
 import "./searchComponent.scss";
+import { endpoints, linkUrl } from "@/utils/functions";
+import axios from "axios";
+import { log } from "console";
 
 export default function SearchComponent({
   isHover,
@@ -36,6 +39,8 @@ export default function SearchComponent({
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [searchedNews, setSearchedNews] = useState("");
+  const [searchedCars, setSearchedCars] = useState("");
   const settingsLinkRef = useRef(null);
   const settingsRef = useRef(null);
 
@@ -107,6 +112,32 @@ export default function SearchComponent({
 
   const handleSearch = (value) => {
     setSearchValue(value);
+
+    if (value) {
+      fetchSearch(value);
+    } else {
+      setSearchedNews("");
+      setSearchedCars("");
+    }
+  };
+
+  const fetchSearch = async (value) => {
+    try {
+      const response = await axios.get(
+        `${linkUrl()}${endpoints.search}?=${value}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
+      if (response.status === 200) {
+        setSearchedNews(response.data.results.news);
+        setSearchedCars(response.data.results.occasion);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleLogout = () => {
@@ -131,9 +162,34 @@ export default function SearchComponent({
               autoComplete="on"
             />
 
-            {searchValue && (
-              <div className="background-search">{searchValue}</div>
-            )}
+            {searchedNews &&
+              searchedCars &&
+              (searchedNews.length > 0 || searchedCars.length > 0) && (
+                <div className="background-search">
+                  <div className="d-flex">
+                    {searchedNews.length > 0 && (
+                      <div>
+                        <h3 className="mb-3">Новини</h3>
+                        {searchedNews.map((item, index) => (
+                          <Link href={`/posts/${item.title}`}>
+                            <p>{item.title}</p>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                    {searchedCars.length > 0 && (
+                      <div>
+                        <h3 className="mb-3">Автомобили</h3>
+                        {searchedCars.map((item, index) => (
+                          <Link href={`/posts/${item.model}`}>
+                            <p>{item.model}</p>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
           </Flex.Item>
           <Link href={pathName.includes("/en") ? "/en" : "/"}>
             <IconButton

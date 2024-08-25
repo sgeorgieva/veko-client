@@ -50,8 +50,18 @@
   padding-left: 27px;
   z-index: -1;
   position: absolute;
-  width: 20%;
-  top: 52px;
-  left: 68.5%;
-  height: 100%;
+  width: 100%;
+  top: 54px;
+  left: 0;
+  height: auto;
+  
+  p {
+    text-decoration: underline;
+  }
+
+  .d-flex {
+    div {
+      flex: 1;
+    }
+  }
 }
