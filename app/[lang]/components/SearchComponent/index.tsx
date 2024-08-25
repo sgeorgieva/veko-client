@@ -275,7 +275,7 @@ export default function SearchComponent({
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginEnd={2}
                     >
-                      <Link href="#">
+                      <Link href="/admin-panel">
                         <Flex alignItems="center" justifyContent="end">
                           <Text
                             size="200"

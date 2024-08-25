@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -15,208 +15,208 @@ import {
   Label,
   Text,
   SegmentedControl,
-  BannerSlim
-} from 'gestalt'
-import axios from 'axios'
-import { DatePicker } from 'gestalt-datepicker'
-import { bg } from 'date-fns/locale'
-import { endpoints, linkUrl } from '../../../../../utils/functions'
-import UploadImagesComponent from '@/app/[lang]/components/UploadImagesComponent'
+  BannerSlim,
+} from "gestalt";
+import axios from "axios";
+import { DatePicker } from "gestalt-datepicker";
+import { bg } from "date-fns/locale";
+import { endpoints, linkUrl } from "../../../../../utils/functions";
+import UploadImagesComponent from "@/app/[lang]/components/UploadImagesComponent";
 
-import './editCarModal.scss'
+import "./editCarModal.scss";
 export default function EditCarModal({
   isEditCarModalOpen,
   setIsEditCarModalOpen,
   setIsDeleteCarModalOpen,
   isMobile,
   handleFetchCarsData,
-  carInfo
+  carInfo,
 }: any) {
-  let newItems = null
-  const mapOptions = { 0: ['year', 'month'] }
-  const itemsCalendar = ['Month & Year']
-  const [itemIndex, setItemIndex] = useState(0)
-  const [images, setImages] = useState([])
-  const [year, setYear] = useState(carInfo.year)
-  const [model, setModel] = useState(carInfo?.model)
-  const [description, setDescription] = useState(carInfo?.description)
-  const [typeEngine, setTypeEngine] = useState(carInfo?.typeEngine)
-  const [power, setPower] = useState(carInfo?.power)
-  const [euroEmission, setEuroEmission] = useState(carInfo?.euroEmission)
-  const [transmission, setTransmission] = useState(carInfo?.transmission)
-  const [category, setCategory] = useState(carInfo?.category)
-  const [mileage, setМileage] = useState(carInfo?.mileage)
-  const [color, setColor] = useState(carInfo?.color)
+  let newItems = null;
+  const mapOptions = { 0: ["year", "month"] };
+  const itemsCalendar = ["Month & Year"];
+  const [itemIndex, setItemIndex] = useState(0);
+  const [images, setImages] = useState([]);
+  const [year, setYear] = useState(carInfo.year);
+  const [model, setModel] = useState(carInfo?.model);
+  const [description, setDescription] = useState(carInfo?.description);
+  const [typeEngine, setTypeEngine] = useState(carInfo?.typeEngine);
+  const [power, setPower] = useState(carInfo?.power);
+  const [euroEmission, setEuroEmission] = useState(carInfo?.euroEmission);
+  const [transmission, setTransmission] = useState(carInfo?.transmission);
+  const [category, setCategory] = useState(carInfo?.category);
+  const [mileage, setМileage] = useState(carInfo?.mileage);
+  const [color, setColor] = useState(carInfo?.color);
   const [autoStabilityControlCheck, setAutoStabilityControlCheck] = useState(
     JSON.parse(carInfo?.attributes)?.autoStabilityControlCheck
-  )
+  );
   const [antiblockSystemCheck, setAntiBlockSystemCheck] = useState(
     JSON.parse(carInfo?.attributes)?.antiblockSystemCheck
-  )
+  );
   const [backAirPillowsCheck, setBackAirPillowsCheck] = useState(
     JSON.parse(carInfo?.attributes)?.backAirPillowsCheck
-  )
+  );
   const [frontAirPillowsCheck, setFrontAirPillowsCheck] = useState(
     JSON.parse(carInfo?.attributes)?.frontAirPillowsCheck
-  )
+  );
   const [lateralAirPillowsCheck, setLateralAirPillowsCheck] = useState(
     JSON.parse(carInfo?.attributes)?.lateralAirPillowsCheck
-  )
+  );
   const [parktronicCheck, setParktronicCheck] = useState(
     JSON.parse(carInfo?.attributes)?.parktronicCheck
-  )
+  );
   const [doorsCheck, setDoorsCheck] = useState(
     JSON.parse(carInfo?.attributes)?.doorsCheck
-  )
+  );
   const [alloyWheelsCheck, setAlloyWheelsCheck] = useState(
     JSON.parse(carInfo?.attributes)?.alloyWheelsCheck
-  )
+  );
   const [halogenHeadlightsCheck, setHalogenHeadlightsCheck] = useState(
     JSON.parse(carInfo?.attributes)?.halogenHeadlightsCheck
-  )
+  );
   const [protectionCheck, setProtectionCheck] = useState(
     JSON.parse(carInfo?.attributes)?.protectionCheck
-  )
+  );
   const [immobilizerCheck, setImmobilizerCheck] = useState(
     JSON.parse(carInfo?.attributes)?.immobilizerCheck
-  )
+  );
   const [centralLockingCheck, setCentralLockingCheck] = useState(
     JSON.parse(carInfo?.attributes)?.centralLockingCheck
-  )
+  );
   const [bluetoothHandsfreeSystemCheck, setBluetoothHandsfreeSystemCheck] =
-    useState(JSON.parse(carInfo?.attributes)?.bluetoothHandsfreeSystemCheck)
+    useState(JSON.parse(carInfo?.attributes)?.bluetoothHandsfreeSystemCheck);
   const [audioConsumablesCheck, setAudioConsumablesCheck] = useState(
     JSON.parse(carInfo?.attributes)?.audioConsumablesCheck
-  )
+  );
   const [boardComputerCheck, setBoardComputerCheck] = useState(
     JSON.parse(carInfo?.attributes)?.boardComputerCheck
-  )
+  );
   const [lightSensorCheck, setLightSensorCheck] = useState(
     JSON.parse(carInfo?.attributes)?.lightSensorCheck
-  )
+  );
   const [electricMirrorsCheck, setElectricMirrorsCheck] = useState(
     JSON.parse(carInfo?.attributes)?.electricMirrorsCheck
-  )
+  );
   const [electricGlassCheck, setElectricGlassCheck] = useState(
     JSON.parse(carInfo?.attributes)?.electricGlassCheck
-  )
+  );
   const [climatronicCheck, setClimatronicCheck] = useState(
     JSON.parse(carInfo?.attributes)?.climatronicCheck
-  )
+  );
   const [steeringWheelAdjustmentCheck, setSteeringWheelAdjustmentCheck] =
-    useState(JSON.parse(carInfo?.attributes)?.steeringWheelAdjustmentCheck)
+    useState(JSON.parse(carInfo?.attributes)?.steeringWheelAdjustmentCheck);
   const [rainSensorCheck, setRainSensorCheck] = useState(
     JSON.parse(carInfo?.attributes)?.rainSensorCheck
-  )
+  );
   const [powerSteeringCheck, setPowerSteeringCheck] = useState(
     JSON.parse(carInfo?.attributes)?.powerSteeringCheck
-  )
+  );
   const [autopilotCheck, setAutopilotCheck] = useState(
     JSON.parse(carInfo?.attributes)?.autopilotCheck
-  )
+  );
   const [newImportationCheck, setNewImportationCheck] = useState(
     JSON.parse(carInfo?.attributes)?.newImportationCheck
-  )
+  );
   const [stereoCheck, setStereoCheck] = useState(
     JSON.parse(carInfo?.attributes)?.stereoCheck
-  )
-  const [allCheckBoxesCheck, setAllCheckboxsesCheck] = useState(false)
+  );
+  const [allCheckBoxesCheck, setAllCheckboxsesCheck] = useState(false);
 
-  const [isValidForm, setIsValidForm] = useState(true)
-  const [messageValidation, setMessageValidation] = useState('')
-  const [hasYearValidationError, setHasYearValidationError] = useState(false)
-  const [hasModelValidationError, setHasModelValidationError] = useState(false)
+  const [isValidForm, setIsValidForm] = useState(true);
+  const [messageValidation, setMessageValidation] = useState("");
+  const [hasYearValidationError, setHasYearValidationError] = useState(false);
+  const [hasModelValidationError, setHasModelValidationError] = useState(false);
   const [hasDescriptionValidationError, setHasDescriptionValidationError] =
-    useState(false)
-  const [hasPowerValidationError, setHasPowerValidationError] = useState(false)
+    useState(false);
+  const [hasPowerValidationError, setHasPowerValidationError] = useState(false);
   const [hasMileageValidationError, setHasMileageValidationError] =
-    useState(false)
-  const [hasColorValidationError, setHasColorValidationError] = useState(false)
+    useState(false);
+  const [hasColorValidationError, setHasColorValidationError] = useState(false);
   const [hasImagesValidationError, setHasImagesValidationError] =
-    useState(false)
+    useState(false);
 
   useEffect(() => {
-    let count = 0
+    let count = 0;
 
     for (const [key, value] of Object.entries(JSON.parse(carInfo.attributes))) {
-      value === true ? (count += 1) : false
+      value === true ? (count += 1) : false;
     }
 
     setAllCheckboxsesCheck(
       count === Object.values(JSON.parse(carInfo.attributes)).length
-    )
-  }, [carInfo])
+    );
+  }, [carInfo]);
 
   const handleAllCheckboxses = (checked: boolean) => {
     if (checked) {
-      setAutoStabilityControlCheck(true)
-      setAntiBlockSystemCheck(true)
-      setBackAirPillowsCheck(true)
-      setFrontAirPillowsCheck(true)
-      setLateralAirPillowsCheck(true)
-      setParktronicCheck(true)
-      setDoorsCheck(true)
-      setAlloyWheelsCheck(true)
-      setHalogenHeadlightsCheck(true)
-      setProtectionCheck(true)
-      setImmobilizerCheck(true)
-      setCentralLockingCheck(true)
-      setBluetoothHandsfreeSystemCheck(true)
-      setAudioConsumablesCheck(true)
-      setBoardComputerCheck(true)
-      setLightSensorCheck(true)
-      setElectricMirrorsCheck(true)
-      setElectricGlassCheck(true)
-      setClimatronicCheck(true)
-      setSteeringWheelAdjustmentCheck(true)
-      setRainSensorCheck(true)
-      setPowerSteeringCheck(true)
-      setAutopilotCheck(true)
-      setStereoCheck(true)
-      setNewImportationCheck(true)
+      setAutoStabilityControlCheck(true);
+      setAntiBlockSystemCheck(true);
+      setBackAirPillowsCheck(true);
+      setFrontAirPillowsCheck(true);
+      setLateralAirPillowsCheck(true);
+      setParktronicCheck(true);
+      setDoorsCheck(true);
+      setAlloyWheelsCheck(true);
+      setHalogenHeadlightsCheck(true);
+      setProtectionCheck(true);
+      setImmobilizerCheck(true);
+      setCentralLockingCheck(true);
+      setBluetoothHandsfreeSystemCheck(true);
+      setAudioConsumablesCheck(true);
+      setBoardComputerCheck(true);
+      setLightSensorCheck(true);
+      setElectricMirrorsCheck(true);
+      setElectricGlassCheck(true);
+      setClimatronicCheck(true);
+      setSteeringWheelAdjustmentCheck(true);
+      setRainSensorCheck(true);
+      setPowerSteeringCheck(true);
+      setAutopilotCheck(true);
+      setStereoCheck(true);
+      setNewImportationCheck(true);
     } else {
-      setAutoStabilityControlCheck(false)
-      setAntiBlockSystemCheck(false)
-      setBackAirPillowsCheck(false)
-      setFrontAirPillowsCheck(false)
-      setLateralAirPillowsCheck(false)
-      setParktronicCheck(false)
-      setDoorsCheck(false)
-      setAlloyWheelsCheck(false)
-      setHalogenHeadlightsCheck(false)
-      setProtectionCheck(false)
-      setImmobilizerCheck(false)
-      setCentralLockingCheck(false)
-      setBluetoothHandsfreeSystemCheck(false)
-      setAudioConsumablesCheck(false)
-      setBoardComputerCheck(false)
-      setLightSensorCheck(false)
-      setElectricMirrorsCheck(false)
-      setElectricGlassCheck(false)
-      setClimatronicCheck(false)
-      setSteeringWheelAdjustmentCheck(false)
-      setRainSensorCheck(false)
-      setPowerSteeringCheck(false)
-      setAutopilotCheck(false)
-      setStereoCheck(false)
-      setNewImportationCheck(false)
+      setAutoStabilityControlCheck(false);
+      setAntiBlockSystemCheck(false);
+      setBackAirPillowsCheck(false);
+      setFrontAirPillowsCheck(false);
+      setLateralAirPillowsCheck(false);
+      setParktronicCheck(false);
+      setDoorsCheck(false);
+      setAlloyWheelsCheck(false);
+      setHalogenHeadlightsCheck(false);
+      setProtectionCheck(false);
+      setImmobilizerCheck(false);
+      setCentralLockingCheck(false);
+      setBluetoothHandsfreeSystemCheck(false);
+      setAudioConsumablesCheck(false);
+      setBoardComputerCheck(false);
+      setLightSensorCheck(false);
+      setElectricMirrorsCheck(false);
+      setElectricGlassCheck(false);
+      setClimatronicCheck(false);
+      setSteeringWheelAdjustmentCheck(false);
+      setRainSensorCheck(false);
+      setPowerSteeringCheck(false);
+      setAutopilotCheck(false);
+      setStereoCheck(false);
+      setNewImportationCheck(false);
     }
-  }
+  };
 
   const fetchEditCar = async (id: number) => {
-    const formData = new FormData()
-    formData.append('year', newItems[0].year)
-    formData.append('model', newItems[0].model)
-    formData.append('typeEngine', newItems[0].typeEngine)
-    formData.append('power', newItems[0].power)
-    formData.append('euroEmission', newItems[0].euroEmission)
-    formData.append('transmission', newItems[0].transmission)
-    formData.append('category', newItems[0].category)
-    formData.append('description', newItems[0].description)
-    formData.append('mileage', newItems[0].mileage)
-    formData.append('color', newItems[0].color)
-    images.map(image => formData.append('images[]', image.file))
-    formData.append('attributes', JSON.stringify(newItems[0].attributes))
+    const formData = new FormData();
+    formData.append("year", newItems[0].year);
+    formData.append("model", newItems[0].model);
+    formData.append("typeEngine", newItems[0].typeEngine);
+    formData.append("power", newItems[0].power);
+    formData.append("euroEmission", newItems[0].euroEmission);
+    formData.append("transmission", newItems[0].transmission);
+    formData.append("category", newItems[0].category);
+    formData.append("description", newItems[0].description);
+    formData.append("mileage", newItems[0].mileage);
+    formData.append("color", newItems[0].color);
+    images.map((image) => formData.append("images[]", image.file));
+    formData.append("attributes", JSON.stringify(newItems[0].attributes));
 
     try {
       const response = await axios.post(
@@ -224,26 +224,26 @@ export default function EditCarModal({
         formData,
         {
           headers: {
-            Accept: 'multipart/form-data',
-            Authorization: `Bearer ${localStorage.getItem('jwt')}` // Replace with your actual authorization token
-          }
+            Accept: "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
         }
-      )
+      );
       if (response.status === 200) {
-        setIsEditCarModalOpen(false)
-        handleFetchCarsData()
+        setIsEditCarModalOpen(false);
+        handleFetchCarsData();
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handleCloseOnOutsideClick = () => {
-    setIsEditCarModalOpen(false)
-  }
+    setIsEditCarModalOpen(false);
+  };
 
   const handleEditCar = (e: any) => {
-    validateForm()
+    validateForm();
 
     if (
       !hasYearValidationError &&
@@ -254,7 +254,7 @@ export default function EditCarModal({
       !hasColorValidationError &&
       !hasImagesValidationError
     ) {
-      setIsValidForm(true)
+      setIsValidForm(true);
       const values = [
         {
           year: year,
@@ -291,11 +291,11 @@ export default function EditCarModal({
           powerSteeringCheck: powerSteeringCheck,
           autopilotCheck: autopilotCheck,
           newImportationCheck: newImportationCheck,
-          stereoCheck: stereoCheck
-        }
-      ]
+          stereoCheck: stereoCheck,
+        },
+      ];
 
-      newItems = values.map(value => ({
+      newItems = values.map((value) => ({
         year: value.year,
         model: value.model,
         description: value.description,
@@ -331,102 +331,102 @@ export default function EditCarModal({
           powerSteeringCheck: value.powerSteeringCheck,
           autopilotCheck: value.autopilotCheck,
           newImportationCheck: value.newImportationCheck,
-          stereoCheck: value.stereoCheck
+          stereoCheck: value.stereoCheck,
         },
-        images: images
-      }))
-      fetchEditCar(carInfo?.id)
+        images: images,
+      }));
+      fetchEditCar(carInfo?.id);
     }
-  }
+  };
 
   const handleCancelAddingCar = () => {
-    setIsEditCarModalOpen(!setIsEditCarModalOpen)
-  }
+    setIsEditCarModalOpen(!setIsEditCarModalOpen);
+  };
 
   const handleYearChange = (value: string) => {
-    setYear(value)
-  }
+    setYear(value);
+  };
 
-  const handleModelChange = event => {
-    setModel(event.value)
-  }
+  const handleModelChange = (event) => {
+    setModel(event.value);
+  };
 
-  const handlePowerChange = event => {
-    setPower(event.value)
-  }
+  const handlePowerChange = (event) => {
+    setPower(event.value);
+  };
 
-  const handleTypeEngine = event => {
-    setTypeEngine(event.value)
-  }
+  const handleTypeEngine = (event) => {
+    setTypeEngine(event.value);
+  };
 
-  const handleEuroEmission = event => {
-    setEuroEmission(event.value)
-  }
+  const handleEuroEmission = (event) => {
+    setEuroEmission(event.value);
+  };
 
-  const handleTransmission = event => {
-    setTransmission(event.value)
-  }
+  const handleTransmission = (event) => {
+    setTransmission(event.value);
+  };
 
-  const handleМileage = event => {
-    setМileage(event.value)
-  }
+  const handleМileage = (event) => {
+    setМileage(event.value);
+  };
 
-  const handleCategory = event => {
-    setCategory(event.value)
-  }
+  const handleCategory = (event) => {
+    setCategory(event.value);
+  };
 
-  const handleColor = event => {
-    setColor(event.value)
-  }
+  const handleColor = (event) => {
+    setColor(event.value);
+  };
 
   const validateForm = () => {
     if (!year) {
-      setHasYearValidationError(true)
-      setIsValidForm(false)
+      setHasYearValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasYearValidationError(false)
+      setHasYearValidationError(false);
     }
 
     if (!model) {
-      setHasModelValidationError(true)
-      setIsValidForm(false)
+      setHasModelValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasModelValidationError(false)
+      setHasModelValidationError(false);
     }
 
     if (!power) {
-      setHasPowerValidationError(true)
-      setIsValidForm(false)
+      setHasPowerValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasPowerValidationError(false)
+      setHasPowerValidationError(false);
     }
 
     if (!description) {
-      setHasDescriptionValidationError(true)
-      setIsValidForm(false)
+      setHasDescriptionValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasDescriptionValidationError(false)
+      setHasDescriptionValidationError(false);
     }
 
     if (!mileage) {
-      setHasMileageValidationError(true)
-      setIsValidForm(false)
+      setHasMileageValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasMileageValidationError(false)
+      setHasMileageValidationError(false);
     }
 
     if (!color) {
-      setHasColorValidationError(true)
-      setIsValidForm(false)
+      setHasColorValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasColorValidationError(false)
+      setHasColorValidationError(false);
     }
 
     if (!images) {
-      setHasImagesValidationError(true)
-      setIsValidForm(false)
+      setHasImagesValidationError(true);
+      setIsValidForm(false);
     } else {
-      setHasImagesValidationError(false)
+      setHasImagesValidationError(false);
     }
 
     if (
@@ -438,103 +438,111 @@ export default function EditCarModal({
       !color ||
       !images
     ) {
-      setIsValidForm(false)
-      setMessageValidation('Моля, попълнете празните полета')
+      setIsValidForm(false);
+      setMessageValidation("Моля, попълнете празните полета");
     }
-  }
+  };
+
+  console.log("carInfo", carInfo);
 
   return (
     <Box padding={6}>
       {isEditCarModalOpen && (
         <Layer zIndex={new FixedZIndex(11)}>
           <OverlayPanel
-            size={isMobile ? 'sm' : 'lg'}
-            accessibilityDismissButtonLabel='Close edit cars overlay panel'
-            accessibilityLabel='Edit cars'
+            size={isMobile ? "sm" : "lg"}
+            accessibilityDismissButtonLabel="Close edit cars overlay panel"
+            accessibilityLabel="Edit cars"
             closeOnOutsideClick={() => handleCloseOnOutsideClick}
             footer={
               <Flex>
-                <Flex.Item flex='grow'>
+                <Flex.Item flex="grow">
                   <Button
-                    color='red'
+                    color="red"
                     onClick={() => {
-                      setIsDeleteCarModalOpen(true)
-                      setIsEditCarModalOpen(false)
+                      setIsDeleteCarModalOpen(true);
+                      setIsEditCarModalOpen(false);
                     }}
-                    size={isMobile ? 'sm' : 'lg'}
-                    text='Изтрий'
+                    size={isMobile ? "sm" : "lg"}
+                    text="Изтрий"
                   />
                 </Flex.Item>
                 <Flex gap={{ column: 0, row: 2 }}>
                   <Button
                     onClick={() => setIsEditCarModalOpen(false)}
-                    size={isMobile ? 'sm' : 'lg'}
-                    text='Отказ'
+                    size={isMobile ? "sm" : "lg"}
+                    text="Отказ"
                   />
                   <Button
-                    color='blue'
-                    onClick={e => handleEditCar(e)}
-                    size={isMobile ? 'sm' : 'lg'}
-                    text='Редактирай'
-                    type='submit'
+                    color="blue"
+                    onClick={(e) => handleEditCar(e)}
+                    size={isMobile ? "sm" : "lg"}
+                    text="Редактирай"
+                    type="submit"
                   />
                 </Flex>
               </Flex>
             }
             onDismiss={() => setIsEditCarModalOpen(false)}
             heading={
-              isMobile ? '' : `Редактиране на автомобил: ${carInfo.model}`
+              isMobile ? "" : `Редактиране на автомобил: ${carInfo.model}`
             }
           >
             {isMobile && (
-              <h3 className='fw-bold pb-3 text-center'>
+              <h3 className="fw-bold pb-3 text-center">
                 Редактиране на автомобил {carInfo.model}
               </h3>
             )}
             {messageValidation && (
               <Box
-                alignItems='center'
-                display='flex'
-                justifyContent='center'
+                alignItems="center"
+                display="flex"
+                justifyContent="center"
                 padding={3}
               >
                 <Flex
-                  direction='column'
+                  direction="column"
                   gap={{ column: 3, row: 0 }}
-                  width='100%'
+                  width="100%"
                 >
                   <BannerSlim
-                    iconAccessibilityLabel='Info'
+                    iconAccessibilityLabel="Info"
                     message={messageValidation}
                     onDismiss={() => setIsValidForm(!isValidForm)}
-                    type='error'
+                    type="error"
                   />
                 </Flex>
               </Box>
             )}
-            <Box height={400} id='popover-overlaypanel' paddingX={8}>
-              <Box paddingX={2} rounding={4} width={200}>
-                <Mask rounding={4}>
-                  <Image
-                    alt='Tropic greens: The taste of Petrol and Porcelain | Interior design, Vintage Sets and Unique Pieces agave'
-                    color='rgb(231, 186, 176)'
-                    naturalHeight={751}
-                    naturalWidth={564}
-                    src='https://i.ibb.co/7bQQYkX/stock2.jpg'
-                  />
-                </Mask>
-              </Box>
+            <Box height={400} id="popover-overlaypanel" paddingX={8}>
+              {carInfo?.images &&
+                carInfo.images.map((image) => {
+                  console.log("image", image.name);
+
+                  <Box paddingX={2} rounding={4} width={200}>
+                    <Mask rounding={4}>
+                      <Image
+                        alt="Tropic greens: The taste of Petrol and Porcelain | Interior design, Vintage Sets and Unique Pieces agave"
+                        color="rgb(231, 186, 176)"
+                        naturalHeight={751}
+                        naturalWidth={564}
+                        src={image.name}
+                      />
+                    </Mask>
+                  </Box>;
+                })}
+
               <Box marginBottom={2}>
-                <Label htmlFor='year'>Година</Label>
-                <div className='datepicker'>
+                <Label htmlFor="year">Година</Label>
+                <div className="datepicker">
                   <Flex
-                    alignItems='start'
-                    height='100%'
-                    justifyContent='center'
-                    width='100%'
+                    alignItems="start"
+                    height="100%"
+                    justifyContent="center"
+                    width="100%"
                   >
                     <Box padding={2}>
-                      <Flex direction='column' gap={4} width='100%'>
+                      <Flex direction="column" gap={4} width="100%">
                         <SegmentedControl
                           items={itemsCalendar}
                           onChange={({ activeIndex }) =>
@@ -543,8 +551,8 @@ export default function EditCarModal({
                           selectedItemIndex={itemIndex}
                         />
                         <DatePicker
-                          idealDirection='top'
-                          id='selectLists'
+                          idealDirection="top"
+                          id="selectLists"
                           onChange={({ value }) => handleYearChange(value)}
                           selectLists={mapOptions[itemIndex.toString()]}
                           value={year}
@@ -552,7 +560,7 @@ export default function EditCarModal({
                           errorMessage={
                             !hasYearValidationError
                               ? undefined
-                              : 'Моля, въведете година'
+                              : "Моля, въведете година"
                           }
                         />
                       </Flex>
@@ -562,37 +570,37 @@ export default function EditCarModal({
               </Box>
               <Box marginBottom={2}>
                 <TextField
-                  id='model'
-                  label='Модел'
-                  onChange={event => {
-                    handleModelChange(event)
+                  id="model"
+                  label="Модел"
+                  onChange={(event) => {
+                    handleModelChange(event);
                   }}
-                  placeholder=''
-                  type='text'
-                  name='model'
+                  placeholder=""
+                  type="text"
+                  name="model"
                   value={model}
-                  size={isMobile ? 'sm' : 'lg'}
+                  size={isMobile ? "sm" : "lg"}
                   errorMessage={
                     !hasModelValidationError
                       ? undefined
-                      : 'Моля, въведете модел'
+                      : "Моля, въведете модел"
                   }
                 />
               </Box>
               <Box marginBottom={2}>
                 <SelectList
-                  id='typeEngine'
-                  label='Тип двигател'
+                  id="typeEngine"
+                  label="Тип двигател"
                   onChange={(event, value) => handleTypeEngine(event, value)}
-                  size={isMobile ? 'md' : 'lg'}
+                  size={isMobile ? "md" : "lg"}
                   value={typeEngine}
                 >
                   {[
-                    { label: 'Бензин', value: 'gasoline' },
-                    { label: 'Дизел', value: 'diesel' },
-                    { label: 'Хибрид', value: 'hybrid' },
-                    { label: 'Газ', value: 'gas' },
-                    { label: 'Електрически', value: 'electric' }
+                    { label: "Бензин", value: "gasoline" },
+                    { label: "Дизел", value: "diesel" },
+                    { label: "Хибрид", value: "hybrid" },
+                    { label: "Газ", value: "gas" },
+                    { label: "Електрически", value: "electric" },
                   ].map(({ label, value }) => (
                     <SelectList.Option
                       key={label}
@@ -604,35 +612,35 @@ export default function EditCarModal({
               </Box>
               <Box marginBottom={2}>
                 <TextField
-                  id='power'
-                  label='Мощност'
+                  id="power"
+                  label="Мощност"
                   onChange={(event, value) => handlePowerChange(event, value)}
-                  placeholder=''
-                  type='text'
+                  placeholder=""
+                  type="text"
                   value={power}
-                  size={isMobile ? 'sm' : 'lg'}
+                  size={isMobile ? "sm" : "lg"}
                   errorMessage={
                     !hasPowerValidationError
                       ? undefined
-                      : 'Моля, въведете мощност'
+                      : "Моля, въведете мощност"
                   }
                 />
               </Box>
               <Box marginBottom={2}>
                 <SelectList
-                  id='euroEmission'
-                  label='Евростандарт'
+                  id="euroEmission"
+                  label="Евростандарт"
                   onChange={(event, value) => handleEuroEmission(event, value)}
-                  size={isMobile ? 'md' : 'lg'}
+                  size={isMobile ? "md" : "lg"}
                   value={euroEmission}
                 >
                   {[
-                    { label: 'Евро 1', value: 'euro1' },
-                    { label: 'Евро 2', value: 'euro2' },
-                    { label: 'Евро 3', value: 'euro3' },
-                    { label: 'Евро 4', value: 'euro4' },
-                    { label: 'Евро 5', value: 'euro5' },
-                    { label: 'Евро 6', value: 'euro6' }
+                    { label: "Евро 1", value: "euro1" },
+                    { label: "Евро 2", value: "euro2" },
+                    { label: "Евро 3", value: "euro3" },
+                    { label: "Евро 4", value: "euro4" },
+                    { label: "Евро 5", value: "euro5" },
+                    { label: "Евро 6", value: "euro6" },
                   ].map(({ label, value }) => (
                     <SelectList.Option
                       key={label}
@@ -644,15 +652,15 @@ export default function EditCarModal({
               </Box>
               <Box marginBottom={2}>
                 <SelectList
-                  id='transmission'
-                  label='Скоростна кутия'
+                  id="transmission"
+                  label="Скоростна кутия"
                   onChange={(event, value) => handleTransmission(event, value)}
-                  size={isMobile ? 'md' : 'lg'}
+                  size={isMobile ? "md" : "lg"}
                   value={transmission}
                 >
                   {[
-                    { label: 'Ръчна', value: 'manual' },
-                    { label: 'Автоматична', value: 'automatic' }
+                    { label: "Ръчна", value: "manual" },
+                    { label: "Автоматична", value: "automatic" },
                   ].map(({ label, value }) => (
                     <SelectList.Option
                       key={label}
@@ -664,24 +672,24 @@ export default function EditCarModal({
               </Box>
               <Box marginBottom={2}>
                 <SelectList
-                  id='category'
-                  label='Категория'
+                  id="category"
+                  label="Категория"
                   onChange={(event, value) => handleCategory(event, value)}
-                  size={isMobile ? 'md' : 'lg'}
+                  size={isMobile ? "md" : "lg"}
                   value={category}
                 >
                   {[
-                    { label: 'Кабриолет', value: 'convertible' },
-                    { label: 'Купе', value: 'coupe' },
-                    { label: 'Кросувър', value: 'crossover' },
-                    { label: 'Хибрид', value: 'hybrid' },
-                    { label: 'Луксозен', value: 'luxury' },
-                    { label: 'Седан', value: 'sedan' },
-                    { label: 'Спортен', value: 'sports car' },
-                    { label: 'СУВ', value: 'SUV' },
-                    { label: 'Товарен автомобил/Пикап', value: 'truck' },
-                    { label: 'Ван/Миниван', value: 'van/minivan' },
-                    { label: 'Хетчбек', value: 'hatchback' }
+                    { label: "Кабриолет", value: "convertible" },
+                    { label: "Купе", value: "coupe" },
+                    { label: "Кросувър", value: "crossover" },
+                    { label: "Хибрид", value: "hybrid" },
+                    { label: "Луксозен", value: "luxury" },
+                    { label: "Седан", value: "sedan" },
+                    { label: "Спортен", value: "sports car" },
+                    { label: "СУВ", value: "SUV" },
+                    { label: "Товарен автомобил/Пикап", value: "truck" },
+                    { label: "Ван/Миниван", value: "van/minivan" },
+                    { label: "Хетчбек", value: "hatchback" },
                   ].map(({ label, value }) => (
                     <SelectList.Option
                       key={label}
@@ -693,510 +701,510 @@ export default function EditCarModal({
               </Box>
               <Box marginBottom={2}>
                 <TextField
-                  id='mileage'
-                  label='Пробег'
+                  id="mileage"
+                  label="Пробег"
                   onChange={(event, value) => handleМileage(event, value)}
-                  placeholder=''
-                  type='text'
+                  placeholder=""
+                  type="text"
                   value={mileage}
-                  size={isMobile ? 'sm' : 'lg'}
+                  size={isMobile ? "sm" : "lg"}
                   errorMessage={
                     !hasMileageValidationError
                       ? undefined
-                      : 'Моля, въведете пробег'
+                      : "Моля, въведете пробег"
                   }
                 />
               </Box>
               <Box marginBottom={2}>
                 <TextField
-                  id='color'
-                  label='Цвят'
+                  id="color"
+                  label="Цвят"
                   onChange={(event, value) => handleColor(event, value)}
-                  placeholder=''
-                  type='text'
-                  size={isMobile ? 'sm' : 'lg'}
+                  placeholder=""
+                  type="text"
+                  size={isMobile ? "sm" : "lg"}
                   value={color}
                   errorMessage={
-                    !hasColorValidationError ? undefined : 'Моля, въведете цвят'
+                    !hasColorValidationError ? undefined : "Моля, въведете цвят"
                   }
                 />
               </Box>
-              <Box alignItems='start' justifyContent='start'>
-                <Box width='100%'>
+              <Box alignItems="start" justifyContent="start">
+                <Box width="100%">
                   <TextArea
-                    id='description'
-                    label='Описание'
-                    onChange={e => {
-                      setDescription(e.value)
+                    id="description"
+                    label="Описание"
+                    onChange={(e) => {
+                      setDescription(e.value);
                     }}
-                    placeholder=''
+                    placeholder=""
                     value={description}
                     errorMessage={
                       !hasDescriptionValidationError
                         ? undefined
-                        : 'Моля, въведете описание'
+                        : "Моля, въведете описание"
                     }
                   />
                 </Box>
               </Box>
-              <div className='row align-items-baseline pt-3'>
-                <div className='col-md-6 flex-1'>
-                  <h6 className='fw-bold mb-0'>Безопасност</h6>
+              <div className="row align-items-baseline pt-3">
+                <div className="col-md-6 flex-1">
+                  <h6 className="fw-bold mb-0">Безопасност</h6>
                 </div>
-                <div className='col-md-6 flex-1'>
+                <div className="col-md-6 flex-1">
                   <Flex
-                    alignItems='center'
+                    alignItems="center"
                     gap={4}
-                    height='100%'
-                    justifyContent='end'
-                    width='100%'
+                    height="100%"
+                    justifyContent="end"
+                    width="100%"
                   >
                     <Checkbox
                       checked={allCheckBoxesCheck}
-                      id='allCheckbox'
-                      label='Избери всички'
+                      id="allCheckbox"
+                      label="Избери всички"
                       onChange={({ checked }) => {
-                        handleAllCheckboxses(checked)
-                        setAllCheckboxsesCheck(checked)
+                        handleAllCheckboxses(checked);
+                        setAllCheckboxsesCheck(checked);
                       }}
-                      size={isMobile ? 'sm' : 'md'}
+                      size={isMobile ? "sm" : "md"}
                     />
                   </Flex>
                 </div>
               </div>
-              <div className='row'>
+              <div className="row">
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={autoStabilityControlCheck}
-                    id='autoStabilityControlCheck'
-                    label='Автоматичен контрол на стабилността'
+                    id="autoStabilityControlCheck"
+                    label="Автоматичен контрол на стабилността"
                     onChange={({ checked }) =>
                       setAutoStabilityControlCheck(checked)
                     }
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={antiblockSystemCheck}
-                    id='antiblockSystemCheck'
-                    label='Антиблокираща система'
+                    id="antiblockSystemCheck"
+                    label="Антиблокираща система"
                     onChange={({ checked }) => setAntiBlockSystemCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={backAirPillowsCheck}
-                    id='backAirPillowsCheck'
-                    label='Въздушни възглавници - Задни'
+                    id="backAirPillowsCheck"
+                    label="Въздушни възглавници - Задни"
                     onChange={({ checked }) => setBackAirPillowsCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={frontAirPillowsCheck}
-                    id='frontAirPillowsCheck'
-                    label='Въздушни възглавници - Предни'
+                    id="frontAirPillowsCheck"
+                    label="Въздушни възглавници - Предни"
                     onChange={({ checked }) => setFrontAirPillowsCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={lateralAirPillowsCheck}
-                    id='lateralAirPillowsCheck'
-                    label='Въздушни възглавници - Странични'
+                    id="lateralAirPillowsCheck"
+                    label="Въздушни възглавници - Странични"
                     onChange={({ checked }) =>
                       setLateralAirPillowsCheck(checked)
                     }
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={parktronicCheck}
-                    id='checkbox'
-                    label='Парктроник'
+                    id="checkbox"
+                    label="Парктроник"
                     onChange={({ checked }) => setParktronicCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
               </div>
-              <h6 className='fw-bold mb-0 pt-3'>Екстериор</h6>
-              <div className='row'>
+              <h6 className="fw-bold mb-0 pt-3">Екстериор</h6>
+              <div className="row">
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={doorsCheck}
-                    id='doorsCheck'
-                    label='2(3) Врати'
+                    id="doorsCheck"
+                    label="2(3) Врати"
                     onChange={({ checked }) => setDoorsCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={alloyWheelsCheck}
-                    id='alloyWheelsCheck'
-                    label='Лети джанти'
+                    id="alloyWheelsCheck"
+                    label="Лети джанти"
                     onChange={({ checked }) => setAlloyWheelsCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={halogenHeadlightsCheck}
-                    id='halogenHeadlightsCheck'
-                    label='Халогенни фарове'
+                    id="halogenHeadlightsCheck"
+                    label="Халогенни фарове"
                     onChange={({ checked }) =>
                       setHalogenHeadlightsCheck(checked)
                     }
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={protectionCheck}
-                    id='protection'
-                    label='Защита'
+                    id="protection"
+                    label="Защита"
                     onChange={({ checked }) => setProtectionCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={immobilizerCheck}
-                    id='immobilizerCheck'
-                    label='Имобилайзер'
+                    id="immobilizerCheck"
+                    label="Имобилайзер"
                     onChange={({ checked }) => setImmobilizerCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={centralLockingCheck}
-                    id='centralLockingCheck'
-                    label='Централно заключване'
+                    id="centralLockingCheck"
+                    label="Централно заключване"
                     onChange={({ checked }) => setCentralLockingCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
               </div>
-              <h6 className='fw-bold mb-0 pt-3'>Комфорт</h6>
-              <div className='row'>
+              <h6 className="fw-bold mb-0 pt-3">Комфорт</h6>
+              <div className="row">
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
-                    id='bluetoothHandsfreeSystemCheck'
+                    id="bluetoothHandsfreeSystemCheck"
                     checked={bluetoothHandsfreeSystemCheck}
-                    label='Bluetooth \ handsfree система'
+                    label="Bluetooth \ handsfree система"
                     onChange={({ checked }) =>
                       setBluetoothHandsfreeSystemCheck(checked)
                     }
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={audioConsumablesCheck}
-                    id='audioConsumablesCheck'
-                    label='USB, audio\video, IN\AUX изводи'
+                    id="audioConsumablesCheck"
+                    label="USB, audio\video, IN\AUX изводи"
                     onChange={({ checked }) =>
                       setAudioConsumablesCheck(checked)
                     }
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={boardComputerCheck}
-                    id='boardComputerCheck'
-                    label='Бордкомпютър'
+                    id="boardComputerCheck"
+                    label="Бордкомпютър"
                     onChange={({ checked }) => setBoardComputerCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={lightSensorCheck}
-                    id='lightSensorCheck'
-                    label='Датчик за светлина'
+                    id="lightSensorCheck"
+                    label="Датчик за светлина"
                     onChange={({ checked }) => setLightSensorCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={electricMirrorsCheck}
-                    id='electricMirrorsCheck'
-                    label='Ел. Огледала'
+                    id="electricMirrorsCheck"
+                    label="Ел. Огледала"
                     onChange={({ checked }) => setElectricMirrorsCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={electricGlassCheck}
-                    id='electricGlassCheck'
-                    label='Ел. Стъкла'
+                    id="electricGlassCheck"
+                    label="Ел. Стъкла"
                     onChange={({ checked }) => setElectricGlassCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={climatronicCheck}
-                    id='climatronicCheck'
-                    label='Климатроник'
+                    id="climatronicCheck"
+                    label="Климатроник"
                     onChange={({ checked }) => setClimatronicCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={steeringWheelAdjustmentCheck}
-                    id='steeringWheelAdjustmentCheck'
-                    label='Регулиране на волана'
+                    id="steeringWheelAdjustmentCheck"
+                    label="Регулиране на волана"
                     onChange={({ checked }) =>
                       setSteeringWheelAdjustmentCheck(checked)
                     }
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={rainSensorCheck}
-                    id='rainSensorCheck'
-                    label='Сензор за дъжд'
+                    id="rainSensorCheck"
+                    label="Сензор за дъжд"
                     onChange={({ checked }) => setRainSensorCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={powerSteeringCheck}
-                    id='powerSteeringCheck'
-                    label='Серво усилвател на волана'
+                    id="powerSteeringCheck"
+                    label="Серво усилвател на волана"
                     onChange={({ checked }) => setPowerSteeringCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={autopilotCheck}
-                    id='autopilotCheck'
-                    label='Система за контрол на скоростта (автопилот)'
+                    id="autopilotCheck"
+                    label="Система за контрол на скоростта (автопилот)"
                     onChange={({ checked }) => setAutopilotCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={stereoCheck}
-                    id='stereoCheck'
-                    label='Стерео уредба'
+                    id="stereoCheck"
+                    label="Стерео уредба"
                     onChange={({ checked }) => setStereoCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
               </div>
-              <h6 className='fw-bold mb-0 pt-3'>Други</h6>
-              <div className='row'>
+              <h6 className="fw-bold mb-0 pt-3">Други</h6>
+              <div className="row">
                 <Flex
-                  alignItems='center'
+                  alignItems="center"
                   gap={4}
-                  height='100%'
-                  justifyContent='start'
-                  width='100%'
+                  height="100%"
+                  justifyContent="start"
+                  width="100%"
                 >
                   <Checkbox
                     checked={newImportationCheck}
-                    id='newImportationCheck'
-                    label='Нов внос'
+                    id="newImportationCheck"
+                    label="Нов внос"
                     onChange={({ checked }) => setNewImportationCheck(checked)}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                   />
                 </Flex>
               </div>
-              <div className='row py-3'>
-                <h6 className='fw-bold'>Снимки</h6>
-                <Text weight='bold'>
+              <div className="row py-3">
+                <h6 className="fw-bold">Снимки</h6>
+                <Text weight="bold">
                   <UploadImagesComponent
                     images={images}
                     setImages={setImages}
                   />
                 </Text>
               </div>
-              <div className='row mt-3 pb-4'>
+              <div className="row mt-3 pb-4">
                 <Box padding={0} marginTop={3} marginBottom={3}>
                   <Button
                     fullWidth
-                    type='submit'
-                    color='blue'
-                    accessibilityLabel='Submit'
-                    size={`${isMobile ? 'sm' : 'lg'}`}
-                    text='Редактирай'
-                    onClick={e => handleEditCar(e)}
-                  />{' '}
+                    type="submit"
+                    color="blue"
+                    accessibilityLabel="Submit"
+                    size={`${isMobile ? "sm" : "lg"}`}
+                    text="Редактирай"
+                    onClick={(e) => handleEditCar(e)}
+                  />{" "}
                 </Box>
                 <Button
                   fullWidth
-                  type='button'
-                  color='gray'
-                  accessibilityLabel='button'
-                  size={`${isMobile ? 'sm' : 'lg'}`}
-                  text='Отказ'
-                  onClick={e => handleCancelAddingCar()}
-                />{' '}
+                  type="button"
+                  color="gray"
+                  accessibilityLabel="button"
+                  size={`${isMobile ? "sm" : "lg"}`}
+                  text="Отказ"
+                  onClick={(e) => handleCancelAddingCar()}
+                />{" "}
               </div>
             </Box>
           </OverlayPanel>
         </Layer>
       )}
     </Box>
-  )
+  );
 }
