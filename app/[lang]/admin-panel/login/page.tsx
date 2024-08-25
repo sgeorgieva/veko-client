@@ -117,6 +117,7 @@ export default function Login({
             <>
               <Flex alignItems="center" justifyContent="center">
                 <Image
+                  unoptimized
                   width={35}
                   height={35}
                   src={VekoLogoImage}
