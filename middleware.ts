@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
     if (locale !== i18n.defaultLocale) {
       return NextResponse.rewrite(
         new URL(
-          `/${i18n.defaultLocale}${pathname.startsWith('/en') ? `${pathname}` : '/'}`,
+          `/${i18n.defaultLocale}${pathname}`,
           request.url
         )
       )
