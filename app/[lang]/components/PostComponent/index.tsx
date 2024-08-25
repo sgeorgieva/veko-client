@@ -13,6 +13,7 @@ export default function PostComponent({
   title,
   image,
   id,
+  lang,
 }: any) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -24,11 +25,14 @@ export default function PostComponent({
 
   const fetchSinglePost = async () => {
     try {
-      const response = await axios.get(`${linkUrl()}${endpoints.postId}${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        },
-      });
+      const response = await axios.get(
+        `${linkUrl()}${endpoints.postId}${id}?language_id=${lang}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          },
+        }
+      );
       if (response.status === 200) {
         setPostInfo(response?.data?.post);
         handleEditPostData();

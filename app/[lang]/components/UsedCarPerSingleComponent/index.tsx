@@ -20,7 +20,6 @@ export default function UsedCarPerSingleComponent({
 }: any) {
   const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
   const [posts, setPosts] = useState([]);
-  console.log("carId", carId);
   // useEffect(() => {
   //   fetchPostData();
   // }, []);
@@ -48,9 +47,6 @@ export default function UsedCarPerSingleComponent({
     }
   };
 
-  // console.log("id", id);
-  console.log("cars", cars);
-
   const fetchPostData = async () => {
     try {
       const response = await axios.get(
@@ -63,9 +59,6 @@ export default function UsedCarPerSingleComponent({
         }
       );
       if (response.status === 200) {
-        console.log(response);
-        // console.log("response: " + JSON.stringify(response));
-
         setPosts(response?.data?.records?.data);
       }
     } catch (error) {

@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Spinner } from "gestalt";
-import { endpoints, linkUrl } from "../../../../utils/functions";
-import UsedCarPerSingleComponent from "../../components/UsedCarPerSingleComponent";
+import { endpoints, linkUrl } from "../../../../../utils/functions";
+import UsedCarPerSingleComponent from "../../../components/UsedCarPerSingleComponent";
 import AddCarModal from "./AddCarModal";
 import EditCarModal from "./EditCarModal";
 import DeleteCarModal from "./DeleteCarModal";
@@ -14,6 +14,7 @@ import "./adminPanelUsedCar.scss";
 export default function AdminPanelUsedCarComponent({
   isAddCarModalOpen,
   setIsAddCarOpen,
+  lang,
 }: any) {
   const [isEditCarModalOpen, setIsEditCarModalOpen] = useState(false);
   const [isDeleteCarModalOpen, setIsDeleteCarModalOpen] = useState(false);
@@ -57,11 +58,14 @@ export default function AdminPanelUsedCarComponent({
 
   const fetchSingleCar = async (id) => {
     try {
-      const response = await axios.get(`${linkUrl()}${endpoints.carId}${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
-        },
-      });
+      const response = await axios.get(
+        `${linkUrl()}${endpoints.carId}${id}?language_id=${lang}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
       if (response.status === 200) {
         setCarInfo(response.data.record);
         handleEditCarData();
@@ -166,6 +170,7 @@ export default function AdminPanelUsedCarComponent({
           isAddCarModalOpen={isAddCarModalOpen}
           setIsAddCarOpen={setIsAddCarOpen}
           fetchCarsData={fetchCarsData}
+          lang={lang}
         />
       )}
       {isEditCarModalOpen && (
@@ -176,6 +181,7 @@ export default function AdminPanelUsedCarComponent({
           setIsDeleteCarModalOpen={setIsDeleteCarModalOpen}
           handleFetchCarsData={handleFetchCarsData}
           carInfo={carInfo}
+          lang={lang}
         />
       )}
       {isDeleteCarModalOpen && (

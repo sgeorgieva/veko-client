@@ -20,7 +20,7 @@ import {
 import axios from "axios";
 import { DatePicker } from "gestalt-datepicker";
 import { bg } from "date-fns/locale";
-import { endpoints, linkUrl } from "../../../../../utils/functions";
+import { endpoints, linkUrl } from "../../../../../../utils/functions";
 import UploadImagesComponent from "@/app/[lang]/components/UploadImagesComponent";
 
 import "./editCarModal.scss";
@@ -31,6 +31,7 @@ export default function EditCarModal({
   isMobile,
   handleFetchCarsData,
   carInfo,
+  lang,
 }: any) {
   let newItems = null;
   const mapOptions = { 0: ["year", "month"] };
@@ -215,6 +216,7 @@ export default function EditCarModal({
     formData.append("description", newItems[0].description);
     formData.append("mileage", newItems[0].mileage);
     formData.append("color", newItems[0].color);
+    formData.append("language_id", lang);
     images.map((image) => formData.append("images[]", image.file));
     formData.append("attributes", JSON.stringify(newItems[0].attributes));
 
@@ -442,8 +444,6 @@ export default function EditCarModal({
       setMessageValidation("Моля, попълнете празните полета");
     }
   };
-
-  console.log("carInfo", carInfo);
 
   return (
     <Box padding={6}>

@@ -22,7 +22,7 @@ export default function PostId({ post }) {
   // const router = useRouter();
   // const { query } = router;
 
-  console.log("router", decodeURIComponent(post.title));
+  // console.log("router", decodeURIComponent(post.title));
 
   return (
     // Your JSX

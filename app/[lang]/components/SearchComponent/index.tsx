@@ -52,7 +52,7 @@ export default function SearchComponent({
 
   useEffect(() => {
     if (settingsRef.current || settingsLinkRef.current) {
-      router.push("/admin-panel");
+      // router.push("/admin-panel");
     }
   }, [settingsRef, settingsLinkRef]);
 
@@ -79,7 +79,7 @@ export default function SearchComponent({
       setLocale("bg");
       return "/";
     } else {
-      setLocale("/en");
+      setLocale("en");
     }
 
     const pathnameIsMissingLocale = i18n.locales.every(
@@ -331,7 +331,13 @@ export default function SearchComponent({
                       zIndex={new CompositeZIndex([TOOLTIP__ZINDEX])}
                       marginEnd={2}
                     >
-                      <Link href="/admin-panel">
+                      <Link
+                        href={
+                          pathName.includes("/en")
+                            ? "/en/admin-panel"
+                            : "/admin-panel"
+                        }
+                      >
                         <Flex alignItems="center" justifyContent="end">
                           <Text
                             size="200"

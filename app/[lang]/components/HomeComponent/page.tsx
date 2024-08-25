@@ -30,6 +30,7 @@ export default function HomeComponent({
   pass,
   translations,
   children,
+  lang,
 }: any) {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0);
@@ -62,7 +63,6 @@ export default function HomeComponent({
     } else {
       if (page <= pagesLength) {
         fetchPostsData();
-        // setShowButton(true);
       }
     }
   };
@@ -78,7 +78,7 @@ export default function HomeComponent({
 
     try {
       const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=${page}`,
+        `${linkUrl()}${endpoints.posts}?page=${page}?language_id=${lang}`,
         {
           headers: {
             Accept: "application/json",
@@ -118,8 +118,6 @@ export default function HomeComponent({
   //     mybutton.style.display = "none";
   //   }
   // }
-
-  // console.log('pathname', pathname)
 
   return (
     <>

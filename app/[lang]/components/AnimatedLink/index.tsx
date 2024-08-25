@@ -23,10 +23,6 @@ export default function AnimatedLink({
   const isDefaultLang = lang === i18n.defaultLocale;
   const path = isDefaultLang ? href : `/${lang}${href}`;
 
-  // console.log("path", path);
-  // console.log("href", href);
-  // console.log("lang === i18n.defaultLocale", lang === i18n.defaultLocale);
-
   return (
     <section>
       <Link

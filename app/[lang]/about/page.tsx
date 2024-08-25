@@ -41,10 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-var lang;
 export async function generateStaticParams() {
-  lang = i18n.locales.map((locale) => ({ lang: locale }));
-
   return i18n.locales.map((locale) => ({ lang: locale }));
 }
 

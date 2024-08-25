@@ -1,215 +1,57 @@
-"use client";
+import { Metadata } from "next";
+import { Locale, i18n } from "@/i18n.config";
+import { getDictionary } from "@/lib/dictionary";
+import AboutComponent from "../components/AboutComponent";
+import AdminPanelComponent from "./AdminPanelComponent";
 
-import { Suspense, useEffect, useState } from "react";
-import { Box, Flex, IconButton, SegmentedControl, Text } from "gestalt";
-import Loader from "../components/Loader";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { endpoints, linkUrl } from "../../../utils/functions";
-import HomeComponent from "../components/HomeComponent/page";
-import AdminPanelUsedCarComponent from "./used-car";
-import AdminPanelPostsComponent from "./posts";
-import AddCarModal from "./used-car/AddCarModal";
-import AddPostsModal from "./posts/AddPostsModal";
-import Message from "../components/MessageComponent";
+// import Image from "../../../public/images/portfolio.webp";
 
-import "./adminPanel.scss";
-export default function AdminPanel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isAddCarModalOpen, setIsAddCarOpen] = useState(false);
-  const [isAddPostModalOpen, setIsPostModalOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [itemIndex, setItemIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [pagesLength, setPagesLength] = useState(null);
-  const [itemsPage, setItemsPage] = useState([]);
-  const items = ["Автооказион", "Новини"];
-  const content = [
-    <AdminPanelUsedCarComponent />,
-    <AdminPanelPostsComponent />,
-  ];
-  const router = useRouter();
-  const [showToast, setShowToast] = useState(false);
-  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+export const metadata: Metadata = {
+  title: "ВЕКО ОЙЛ ЕООД",
+  description: "ВЕКО ОЙЛ ЕООД",
+  keywords: `ВЕКО ОЙЛ ЕООД, ВЕКО, ВЕКО Русе, Русе, масла русе, VEKO-Oil, масла, търговия, VEKO продукти, автомобилно представителство, 
+    марки, автоцентрове, акумулатори, автоконсумативи, специални течности, екология, автооказион, за нас, контакти,
+    car delearship, trade, oils, services, VEKO products, about, contact, accummulators, autoconsumbles, special liquids, products,
+    Ruse, Rousse, veko oil ruse`,
+  icons: {
+    icon: "/favicon.ico",
+  },
+  verification: {
+    google: "qqWRx7KDlhQ2BEy9j3cl77uXKVaD7FvkYU4XjkM",
+  },
+  openGraph: {
+    title: "ВЕКО ОЙЛ ЕООД | VEKO Oil Ltd.",
+    url:
+      process.env.NODE_ENV !== "production"
+        ? process.env.LOCALHOST_SITE_URL
+        : process.env.SITE_URL,
+    type: "website",
+    description: "ВЕКО ОЙЛ ЕООД",
+    // images: `${process.env.NODE_ENV !== 'production' ? '' : process.env.SITE_URL}${Image.src}`,
+    // 'http-equiv': 'Content-Security-Policy',
+  },
+  alternates: {
+    canonical: `${process.env.NODE_ENV !== "production" ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/about`,
+  },
+  other: {
+    classification: "business",
+    rating: "general",
+    robots: "all",
+    owner: "Santiya Georgieva",
+    googlebot: "notranslate",
+  },
+};
 
-  useEffect(() => {
-    if (Boolean(localStorage.getItem("isLoginIn"))) {
-      router.push("/admin-panel");
-      setShowToast(true);
-    } else {
-      router.push("/");
-    }
-  }, []);
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
-  useEffect(() => {
-    if (Boolean(localStorage.getItem("isLoginIn"))) {
-      router.push("/admin-panel");
-      setShowToast(true);
-    } else {
-      router.push("/");
-    }
-  }, []);
+export default async function AdminPanel({
+  params,
+}: {
+  params: { lang: Locale };
+}) {
+  const { page } = await getDictionary(params.lang);
 
-  useEffect(() => {
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      setIsMobile(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    let activeTabIndex;
-    if (typeof window !== "undefined") {
-      activeTabIndex = localStorage.getItem("activeTabIndex");
-    }
-
-    if (itemIndex !== parseInt(localStorage.getItem("activeTabIndex"))) {
-      setItemIndex(parseInt(localStorage.getItem("activeTabIndex")));
-    }
-  }, [itemIndex]);
-
-  const openAddCarModal = () => {
-    setIsAddCarOpen(!isAddCarModalOpen);
-  };
-
-  const openAddNewsModal = () => {
-    setIsPostModalOpen(!isAddPostModalOpen);
-  };
-
-  const handleGetPostsData = () => {
-    fetchPostsData();
-  };
-
-  async function fetchPostsData() {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=${page}`,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
-          },
-        }
-      );
-      if (response.status === 200) {
-        setItemsPage((prevItems) => [
-          ...prevItems,
-          ...response?.data?.posts?.data,
-        ]);
-        setPagesLength(response.data?.posts?.last_page);
-        setPage((prevPage) => prevPage + 1);
-      }
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  return (
-    <Suspense fallback={<Loader />}>
-      <HomeComponent
-        isHomePage={false}
-        component={
-          <>
-            {showToast && (
-              <Message
-                type="success"
-                message="Успешно вписване"
-                setShowToast={setShowToast}
-              />
-            )}
-            {showSuccessMsg && (
-              <Message
-                type="success"
-                message="Промените са запазени успешно"
-                setShowToast={setShowSuccessMsg}
-              />
-            )}
-            <div className="contact-wrapper">
-              <div className="d-flex align-items-center justify-content-between title-contact">
-                <h1 className="d-flex pageHeader align-items-center justify-content-between mb-4">
-                  Админстраторски панел на Veko Oil
-                </h1>
-                {itemIndex === 0 && (
-                  <IconButton
-                    size={isMobile ? "sm" : "lg"}
-                    bgColor="lightGray"
-                    icon="add"
-                    onClick={openAddCarModal}
-                  />
-                )}
-                {itemIndex === 1 && (
-                  <IconButton
-                    size={isMobile ? "sm" : "lg"}
-                    bgColor="lightGray"
-                    icon="add"
-                    onClick={openAddNewsModal}
-                  />
-                )}
-              </div>
-              <hr />
-              <Box height="100%">
-                <SegmentedControl
-                  items={items}
-                  onChange={({ activeIndex, event }) => {
-                    event.preventDefault();
-                    setItemIndex(activeIndex);
-                    localStorage.setItem("activeTabIndex", +activeIndex);
-                  }}
-                  selectedItemIndex={itemIndex}
-                />
-                {isMobile ? (
-                  <Flex justifyContent="center" alignItems="center">
-                    <Box
-                      borderStyle="sm"
-                      height="80%"
-                      marginTop={2}
-                      padding={6}
-                      rounding={2}
-                    >
-                      {itemIndex === 0 && <Text>{content[0]}</Text>}
-                      {itemIndex === 1 && <Text>{content[1]}</Text>}
-                    </Box>
-                  </Flex>
-                ) : (
-                  <Box
-                    borderStyle="sm"
-                    height="80%"
-                    marginTop={2}
-                    padding={6}
-                    rounding={2}
-                  >
-                    {itemIndex === 0 && <Text>{content[0]}</Text>}
-                    {itemIndex === 1 && <Text>{content[1]}</Text>}
-                  </Box>
-                )}
-              </Box>
-              {isAddCarModalOpen && (
-                <AddCarModal
-                  isMobile={isMobile}
-                  isAddCarModalOpen={isAddCarModalOpen}
-                  setIsAddCarOpen={setIsAddCarOpen}
-                  setShowSuccessMsg={setShowSuccessMsg}
-                />
-              )}
-              {isAddPostModalOpen && (
-                <AddPostsModal
-                  handleGetPostsData={handleGetPostsData}
-                  isMobile={isMobile}
-                  isAddPostModalOpen={isAddPostModalOpen}
-                  setIsPostModalOpen={setIsPostModalOpen}
-                  setShowSuccessMsg={setShowSuccessMsg}
-                />
-              )}
-            </div>
-          </>
-        }
-      />
-    </Suspense>
-  );
+  return <AdminPanelComponent lang={params.lang} />;
 }

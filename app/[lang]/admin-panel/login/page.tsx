@@ -82,7 +82,7 @@ export default function Login({
         localStorage.setItem("isLoginIn", true);
         localStorage.setItem("activeTabIndex", 0);
         setOpenLoginMenu(false);
-        router.push("/admin-panel");
+        // router.push("/admin-panel");
         closeModal();
         setIslogin(true);
       }

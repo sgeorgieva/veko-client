@@ -1,87 +1,89 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
-import { Spinner } from 'gestalt'
-import { endpoints, linkUrl } from '../../../../utils/functions'
-import PostComponent from '../../components/PostComponent'
-import AddPostsModal from './AddPostsModal'
-import EditPostsModal from './EditPostsModal'
-import DeletePostsModal from './DeletePostsModal'
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { Spinner } from "gestalt";
+import { endpoints, linkUrl } from "../../../../utils/functions";
+import PostComponent from "../../components/PostComponent";
+import AddPostsModal from "./AddPostsModal";
+import EditPostsModal from "./EditPostsModal";
+import DeletePostsModal from "./DeletePostsModal";
 
-import './adminPanelPosts.scss'
-import Message from '../../components/MessageComponent'
+import "./adminPanelPosts.scss";
+import Message from "../../components/MessageComponent";
 export default function AdminPanelPostsComponent({
   isAddPostModalOpen,
-  setIsPostModalOpen
+  setIsPostModalOpen,
+  lang,
 }: {
-  isAddPostModalOpen: boolean
-  setIsPostModalOpen: any
+  isAddPostModalOpen: boolean;
+  setIsPostModalOpen: any;
+  lang: string;
 }) {
-  const [isEditPostsModalOpen, setIsEditPostsModalOpen] = useState(false)
-  const [isDeletePostsModalOpen, setIsDeletePostsModalOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [items, setItems] = useState([])
-  const [deleteId, setDeleteId] = useState(0)
-  const [postInfo, setPostInfo] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [page, setPage] = useState(1)
-  const [pagesLength, setPagesLength] = useState(null)
-  const initialized = useRef(false)
-  const [showSuccessMsg, setShowSuccessMsg] = useState(false)
+  const [isEditPostsModalOpen, setIsEditPostsModalOpen] = useState(false);
+  const [isDeletePostsModalOpen, setIsDeletePostsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [items, setItems] = useState([]);
+  const [deleteId, setDeleteId] = useState(0);
+  const [postInfo, setPostInfo] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagesLength, setPagesLength] = useState(null);
+  const initialized = useRef(false);
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      setIsMobile(true)
+      setIsMobile(true);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!initialized.current) {
-      initialized.current = true
-      fetchPostsData()
+      initialized.current = true;
+      fetchPostsData();
     }
-  }, [items])
+  }, [items]);
 
   const handleScroll = () => {
     if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
-      return
+      return;
     } else {
       if (page <= pagesLength) {
-        fetchPostsData()
+        fetchPostsData();
       }
     }
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isLoading])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoading]);
 
   async function fetchPostsData() {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
     try {
       const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=${page}`,
+        `${linkUrl()}${endpoints.posts}?page=${page}?language_id=${lang}`,
         {
           headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('jwt')}` // Replace with your actual authorization token
-          }
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
         }
-      )
+      );
       if (response.status === 200) {
-        setItems(prevItems => [...prevItems, ...response?.data?.posts?.data])
-        setPagesLength(response.data?.posts?.last_page)
-        setPage(prevPage => prevPage + 1)
+        setItems((prevItems) => [...prevItems, ...response?.data?.posts?.data]);
+        setPagesLength(response.data?.posts?.last_page);
+        setPage((prevPage) => prevPage + 1);
       }
     } catch (error) {
-      setError(error)
+      setError(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -91,48 +93,48 @@ export default function AdminPanelPostsComponent({
         `${linkUrl()}${endpoints.deletePost}${id}`,
         {
           headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('jwt')}` // Replace with your actual authorization token
-          }
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
         }
-      )
+      );
       if (response.status === 200) {
-        setIsDeletePostsModalOpen(!isDeletePostsModalOpen)
-        fetchPostsData()
-        setShowSuccessMsg(true)
+        setIsDeletePostsModalOpen(!isDeletePostsModalOpen);
+        fetchPostsData();
+        setShowSuccessMsg(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handleGetPostsData = () => {
-    fetchPostsData()
-  }
+    fetchPostsData();
+  };
 
   const handleEditPostData = () => {
-    setIsEditPostsModalOpen(true)
-  }
+    setIsEditPostsModalOpen(true);
+  };
 
   const handleDeletePost = (id: number) => {
-    setIsDeletePostsModalOpen(!isDeletePostsModalOpen)
-    setDeleteId(id)
-  }
+    setIsDeletePostsModalOpen(!isDeletePostsModalOpen);
+    setDeleteId(id);
+  };
 
   return (
     <>
       {showSuccessMsg && (
         <Message
-          type='success'
-          message='Промените са запазени успешно'
+          type="success"
+          message="Промените са запазени успешно"
           setShowToast={setShowSuccessMsg}
         />
       )}
-      <div className='row d-flex'>
+      <div className="row d-flex">
         {items && items.length > 0 && !isLoading ? (
-          items.map(item => {
+          items.map((item) => {
             return (
-              <div className='col-md-3'>
+              <div className="col-md-3">
                 <PostComponent
                   title={item.title}
                   key={item.id}
@@ -148,12 +150,13 @@ export default function AdminPanelPostsComponent({
                   isEditPostsModalOpen={isEditPostsModalOpen}
                   setIsEditPostsModalOpen={setIsEditPostsModalOpen}
                   setIsDeletePostsModalOpen={setIsDeletePostsModalOpen}
+                  lang={lang}
                 />
               </div>
-            )
+            );
           })
         ) : (
-          <Spinner show color='default' />
+          <Spinner show color="default" />
         )}
       </div>
       {isAddPostModalOpen && (
@@ -163,6 +166,7 @@ export default function AdminPanelPostsComponent({
           setIsPostModalOpen={setIsPostModalOpen}
           handleGetPostsData={handleGetPostsData}
           setShowSuccessMsg={setShowSuccessMsg}
+          lang={lang}
         />
       )}
       {isEditPostsModalOpen && (
@@ -176,6 +180,7 @@ export default function AdminPanelPostsComponent({
           setIsEditPostsModalOpen={setIsEditPostsModalOpen}
           handleGetPostsData={handleGetPostsData}
           setShowSuccessMsg={setShowSuccessMsg}
+          lang={lang}
         />
       )}
       {isDeletePostsModalOpen && (
@@ -188,5 +193,5 @@ export default function AdminPanelPostsComponent({
         />
       )}
     </>
-  )
+  );
 }

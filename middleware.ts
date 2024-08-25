@@ -21,8 +21,6 @@ function getLocale(request: NextRequest): string | undefined {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
-  // const router = useLocation();
-  // console.log('router: ', router);
   
   const pathnameIsMissingLocale = i18n.locales.every(
     locale => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
@@ -33,19 +31,17 @@ export function middleware(request: NextRequest) {
     const locale = getLocale(request)
 
     if (locale !== i18n.defaultLocale) {
-      // console.log('here')
       return NextResponse.rewrite(
         new URL(
-          `/${i18n.defaultLocale}${pathname.startsWith('/') ? `${pathname}` : '/'}`,
+          `/${i18n.defaultLocale}${pathname.startsWith('/en') ? `${pathname}` : '/'}`,
           request.url
         )
       )
     }
     
-    // console.log('here2')
     return NextResponse.redirect(
       new URL(
-        `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
+        `/${locale}${pathname.startsWith('/en') ? '/en' : '/'}${pathname}`,
         request.url
       )
     )
