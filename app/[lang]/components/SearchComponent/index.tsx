@@ -181,7 +181,7 @@ export default function SearchComponent({
                       <div>
                         <h3 className="mb-3">Автомобили</h3>
                         {searchedCars.map((item, index) => (
-                          <Link href={`/posts/${item.model}`}>
+                          <Link href={`/used-cars/${item.model}`}>
                             <p>{item.model}</p>
                           </Link>
                         ))}
