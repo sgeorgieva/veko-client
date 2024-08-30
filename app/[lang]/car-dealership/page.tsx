@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   verification: {
-    google: "qqWRx7KDlhQ2BEy9j3cl77uXKVaD7FvkYU4XjkM",
+    google: "PBhS2OksPMopQ926LID6cpmxuDpdJsyqVVIFt4Vhlwo",
   },
   openGraph: {
     title: "ВЕКО ОЙЛ ЕООД | VEKO Oil Ltd.",
