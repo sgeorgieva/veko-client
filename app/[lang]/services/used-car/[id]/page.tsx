@@ -1,8 +1,9 @@
 import HomeComponent from "@/app/[lang]/components/HomeComponent/page";
 
+export async function generateStaticParams() {
+  // return i18n.locales.map((locale) => ({ lang: locale }));
+}
 export default function page({ params }: { params: { id: string } }) {
-  console.log("params", params.model);
-
   return (
     <>
       <HomeComponent isHome={false} />
