@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { Locale, i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
-import AboutComponent from "../components/AboutComponent";
 import HomeComponent from "./components/HomeComponent/page";
 
 // import Image from "../../../public/images/portfolio.webp";

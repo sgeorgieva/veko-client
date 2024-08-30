@@ -1,17 +1,19 @@
 // import { useRouter } from "next/router";
 "use client";
 
+import { linkUrl } from '@/utils/functions';
 import { Flex, Heading, Image, Text } from "gestalt";
 import Link from "next/link";
-import PostDescription from "./[slug]";
+// import PostDescription from "../[slug]/page";
 
 function Block({ title, text }: any) {
+  console.log(title)
   return (
     <Flex direction="column" gap={{ column: 2, row: 0 }}>
       <Heading accessibilityLevel="none" size="400">
-        <Link href={`/posts/${encodeURIComponent(title)}`}>
+        <Link href={`/posts/${title.toString().replaceAll(" ","-")}`}>
           {title}
-          <PostDescription title={title} />
+          {/* <PostDescription title={title} /> */}
         </Link>
       </Heading>
       <Text size="200">{text}</Text>

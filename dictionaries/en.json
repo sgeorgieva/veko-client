@@ -46,6 +46,8 @@
     "car_centers": {
       "subtitle": "Reserve your service appointment by filling out the following form:",
       "city": "City",
+      "city_ruse": "Ruse",
+      "city_gabrovo": "Gabrovo",
       "names": "Name and Familiy name",
       "phone": "Phone",
       "email": "Email",

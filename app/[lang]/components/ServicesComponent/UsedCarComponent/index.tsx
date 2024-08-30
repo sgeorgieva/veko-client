@@ -84,6 +84,7 @@ export default function UsedCarComponent({ title }: { title: string }) {
     }
   }
 
+console.log('cc', cars)
   return (
     <Suspense fallback={<Loader />}>
       <HomeComponent
@@ -91,25 +92,24 @@ export default function UsedCarComponent({ title }: { title: string }) {
         component={
           <div
             className={`used-car-wrapper mt-3 ${
-              isMobile ? "used-car-wrapper-mobile" : ""
+              isMobile ? 'used-car-wrapper-mobile' : ''
             }`}
           >
-            <div className="title-contact">
-              <h1 className="pageHeader mb-4">{title}</h1>
+            <div className='title-contact'>
+              <h1 className='pageHeader mb-4'>{title}</h1>
               <Image
-                alt="kia-cropped-image"
+                alt='kia-cropped-image'
                 src={CroppedKiaImage.src}
-                className="test"
+                className='test'
               />
             </div>
             <hr />
-            <div className="description-contact pageContent">
-              <div className="d-flex row align-items-center mx-auto w-80">
+            <div className='description-contact pageContent'>
+              <div className='d-flex row align-items-center mx-auto w-80'>
                 {cars &&
                   cars.map((car) => (
-                    <div className="col-md-4">
+                    <div className='col-md-4' key={car?.id}>
                       <UsedCarPerSingleComponent
-                        key={car?.id}
                         model={car?.model}
                         image={car?.image}
                         carId={car?.id}
@@ -124,5 +124,5 @@ export default function UsedCarComponent({ title }: { title: string }) {
         }
       />
     </Suspense>
-  );
+  )
 }

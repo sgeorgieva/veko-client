@@ -15,7 +15,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   // skipTrailingSlashRedirect: true,
-  // trailingSlash: true,
+  trailingSlash: false,
+  skipMiddlewareUrlNormalize: true,
+
   // rewrite: true,
   webpack: (config) => {
     config.module.rules.push(

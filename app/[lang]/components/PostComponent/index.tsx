@@ -1,3 +1,4 @@
+ 'use client';
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
 import { useEffect, useState } from "react";
 import axios from "axios";

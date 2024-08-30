@@ -2,6 +2,8 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
+import HomeComponent from "../[lang]/components/HomeComponent/page";
+import LayoutComponent from "../[lang]/components/LayoutComponent";
 
 const LoadingContext = createContext();
 

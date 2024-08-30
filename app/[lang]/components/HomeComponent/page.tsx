@@ -22,6 +22,7 @@ import KiaShoowroomImage from "../../../../public/images/kia-home-cover.jpg";
 
 import "./homeComponent.scss";
 import Posts from "../../posts/page";
+import { usePosts } from '@/app/context/PostsContext';
 // import { useRouter } from "next/router";
 
 export default function HomeComponent({
@@ -35,7 +36,7 @@ export default function HomeComponent({
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const { posts, setPosts } = usePosts();
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -118,6 +119,8 @@ export default function HomeComponent({
   //     mybutton.style.display = "none";
   //   }
   // }
+
+  console.log(posts)
 
   return (
     <>

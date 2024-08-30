@@ -89,6 +89,7 @@ export default function Posts({ posts }: { posts: any }) {
                   />
                 </Link>
               ))} */}
+  
 
             {post && <PostId post={post} />}
           </div>

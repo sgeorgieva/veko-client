@@ -20,18 +20,12 @@ export default function UsedCarPerSingleComponent({
 }: any) {
   const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
   const [posts, setPosts] = useState([]);
-  // useEffect(() => {
-  //   fetchPostData();
-  // }, []);
 
   const handleSingleCar = () => {
     setIsHandleSingleClicked(true);
-    // return <UsedCarDescription />;
   };
 
   const fetchSingleCar = async (id) => {
-    // handleEditCarData();
-
     try {
       const response = await axios.get(`${linkUrl()}${endpoints.carId}${id}`, {
         headers: {

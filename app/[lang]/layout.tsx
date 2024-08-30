@@ -16,6 +16,7 @@ import Loader from "./components/Loader";
 import LayoutComponent from "./components/LayoutComponent";
 import { LoadingProvider } from "../context/LoadingContext";
 import { getDictionary } from "@/lib/dictionary";
+import { PostsProvider } from "../context/PostsContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -90,13 +91,15 @@ export default async function RootLayout({
             ></script>
           </head>
           <body className={sfProFont.className}>
-            <LayoutComponent
-              lang={params.lang}
-              font={sfProFont.className}
-              children={children}
-              translationsFooter={footer}
-              translations={navigation}
-            />
+            <PostsProvider>
+              <LayoutComponent
+                lang={params.lang}
+                font={sfProFont.className}
+                children={children}
+                translationsFooter={footer}
+                translations={navigation}
+              />
+            </PostsProvider>
           </body>
           <GoogleAnalytics gaId="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" />
         </html>

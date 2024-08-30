@@ -300,6 +300,10 @@ export default function CarCentersComponent({
     }
   };
 
+  const handleCityChange = (event) => {
+    setCity(event.value);
+  };
+
   const handleNamesChange = (event) => {
     setNames(event.value);
   };
@@ -379,22 +383,29 @@ export default function CarCentersComponent({
                 <div className="row">
                   <div className="col-md-4">
                     <Box marginBottom={6}>
-                      <TextField
+                      <SelectList
                         id="city"
                         name="city"
                         label={`${translations.city}`}
-                        onChange={({ value }) => {
-                          setCity(value);
-                        }}
-                        type="text"
-                        size={isMobile ? "md" : "lg"}
-                        value={city}
-                        errorMessage={
-                          !hasCityValidationError
-                            ? undefined
-                            : translations.city_validation
+                        onChange={(event, value) =>
+                          handleCityChange(event, value)
                         }
-                      />
+                        size={isMobile ? "md" : "lg"}
+                      >
+                        {[
+                          { label: translations.city_ruse, value: "ruse" },
+                          {
+                            label: translations.city_gabrovo,
+                            value: "gabrovo",
+                          },
+                        ].map(({ label, value }) => (
+                          <SelectList.Option
+                            key={label}
+                            label={label}
+                            value={value}
+                          />
+                        ))}
+                      </SelectList>
                     </Box>
                   </div>
                 </div>

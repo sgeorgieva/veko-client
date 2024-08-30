@@ -39,8 +39,8 @@ export default function SearchComponent({
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [searchedNews, setSearchedNews] = useState("");
-  const [searchedCars, setSearchedCars] = useState("");
+  const [searchedNews, setSearchedNews] = useState<any[]>([]);
+  const [searchedCars, setSearchedCars] = useState<any[]>([]);
   const settingsLinkRef = useRef(null);
   const settingsRef = useRef(null);
 
@@ -116,8 +116,8 @@ export default function SearchComponent({
     if (value) {
       fetchSearch(value);
     } else {
-      setSearchedNews("");
-      setSearchedCars("");
+      setSearchedNews([]);
+      setSearchedCars([]);
     }
   };
 
@@ -142,7 +142,8 @@ export default function SearchComponent({
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
-    localStorage.setItem("isLoginIn", false);
+
+    localStorage.setItem("isLoginIn", "false");
     localStorage.removeItem("activeTabIndex");
     router.push("/");
     setShowToast(true);
@@ -171,7 +172,8 @@ export default function SearchComponent({
                       <div>
                         <h3 className="mb-3">Новини</h3>
                         {searchedNews.map((item, index) => (
-                          <Link href={`/posts/${item.title}`}>
+
+                          <Link key={index} href={`/posts/${item.title.replaceAll(" ", "-")}`}>
                             <p>{item.title}</p>
                           </Link>
                         ))}
@@ -181,7 +183,8 @@ export default function SearchComponent({
                       <div>
                         <h3 className="mb-3">Автомобили</h3>
                         {searchedCars.map((item, index) => (
-                          <Link href={`/services/used-cars/${item.model}`}>
+
+                          <Link key={index} href={`/services/used-car/${item.id}`}>
                             <p>{item.model}</p>
                           </Link>
                         ))}
@@ -407,4 +410,5 @@ export default function SearchComponent({
       </Box>
     </div>
   );
+
 }
