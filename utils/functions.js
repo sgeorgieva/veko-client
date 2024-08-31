@@ -22,12 +22,7 @@ export const scrollToTop = () => {
 };
 
 export const linkUrl = () => {
-  if (process.env.NODE_ENV === "development") {
-    // return process.env.NEXT_PUBLIC_BACKEND_LOCALHOST_SITE_URL;
-    return process.env.NEXT_PUBLIC_SITE_BACKEND_URL;
-  } else {
-    return process.env.NEXT_PUBLIC_SITE_BACKEND_URL;
-  }
+  return process.env.NEXT_PUBLIC_SITE_BACKEND_URL;
 };
 
 export const renderMonthContent = (month, shortMonth, longMonth, day) => {

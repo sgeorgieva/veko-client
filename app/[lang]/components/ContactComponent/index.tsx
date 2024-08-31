@@ -37,7 +37,7 @@ export default function ContactComponent({ translations }) {
             </div>
           </div>
           <div className="row">
-            <div className={`col-md-6 ${isMobile ? "py-4" : ""}`}>
+            <div className={`location col-md-6 ${isMobile ? "py-4" : ""}`}>
               <LocationsComponents
                 title={translations.trade_base_name_ruse}
                 message={`${translations.long_address_ruse}`}

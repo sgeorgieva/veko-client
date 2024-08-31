@@ -172,19 +172,26 @@ export default function SearchComponent({
                       <div>
                         <h3 className="mb-3">Новини</h3>
                         {searchedNews.map((item, index) => (
-
-                          <Link key={index} href={`/posts/${item.title.replaceAll(" ", "-")}`}>
+                          <Link
+                            key={index}
+                            href={`/posts/${item.title.replaceAll(" ", "-")}`}
+                            as={`/posts/${item.title.replaceAll(" ", "-")}`}
+                            onClick={() => handleSearch("")}
+                          >
                             <p>{item.title}</p>
                           </Link>
                         ))}
                       </div>
                     )}
-                    {searchedCars.length > 0 && (
+                    {searchedCars && searchedCars.length > 0 && (
                       <div>
                         <h3 className="mb-3">Автомобили</h3>
                         {searchedCars.map((item, index) => (
-
-                          <Link key={index} href={`/services/used-car/${item.id}`}>
+                          <Link
+                            onClick={() => handleSearch("")}
+                            key={index}
+                            href={`/services/used-car/${item.model.replaceAll(" ", "-")}`}
+                          >
                             <p>{item.model}</p>
                           </Link>
                         ))}
@@ -410,5 +417,4 @@ export default function SearchComponent({
       </Box>
     </div>
   );
-
 }

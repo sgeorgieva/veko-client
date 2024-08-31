@@ -1,19 +1,13 @@
-import { Locale, i18n } from "@/i18n.config";
-import { getDictionary } from "@/lib/dictionary";
-import PostContent from "./_components/post-content";
-// import { useParams } from "next/navigation";
+import PostContent from "../../posts/[slug]/_components/post-content";
 
 export async function generateStaticParams() {
-  // return i18n.locales.map((locale) => ({ lang: locale }));
+  return [{ lang: "bg", slug: "test" }];
 }
 
-export default async function PostDescription({
+export default function PostDescription({
   params,
 }: {
-  params: { slug: string; lang: Locale };
+  params: { slug: string };
 }) {
-  const { page } = await getDictionary(params.lang);
-  // const { slug } = useParams();
-
   return <PostContent title={params.slug.replaceAll("-", " ")} />;
 }

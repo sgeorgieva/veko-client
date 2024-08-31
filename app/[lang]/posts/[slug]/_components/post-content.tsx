@@ -1,13 +1,14 @@
 "use client";
 
-import HomeComponent from "@/app/[lang]/components/HomeComponent/page";
 import { usePosts } from "@/app/context/PostsContext";
-import { Image } from "gestalt";
+import HomeComponent from "../../../../[lang]/components/HomeComponent/page";
+// import { usePosts } from "../../../../context/PostsContext";
+// import { Image } from "gestalt";
 
 export default function PostContent({ title }: { title: string }) {
   const { posts } = usePosts();
-  console.log("tt", title);
   const post = posts?.find((post) => post.title === title);
+
   return (
     <>
       <HomeComponent isHome={false} />

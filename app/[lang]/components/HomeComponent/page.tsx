@@ -22,7 +22,8 @@ import KiaShoowroomImage from "../../../../public/images/kia-home-cover.jpg";
 
 import "./homeComponent.scss";
 import Posts from "../../posts/page";
-import { usePosts } from '@/app/context/PostsContext';
+import { usePosts } from "@/app/context/PostsContext";
+// import { usePosts } from '../../../context/PostsContext';
 // import { useRouter } from "next/router";
 
 export default function HomeComponent({
@@ -120,7 +121,7 @@ export default function HomeComponent({
   //   }
   // }
 
-  console.log(posts)
+  console.log(posts);
 
   return (
     <>

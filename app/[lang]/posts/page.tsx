@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Divider, Flex, Heading, Image, Spinner, Text } from "gestalt";
+import { Box, Divider, Flex, Spinner } from "gestalt";
 import PostId from "./post";
 
 export default function Posts({ posts }: { posts: any }) {

@@ -1,13 +1,15 @@
- 'use client';
+"use client";
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { endpoints, linkUrl } from "../../../../utils/functions";
 
 import "./postComponent.scss";
+import { useRouter } from "next/navigation";
 
 export default function PostComponent({
   isEdit,
+  postInfo,
   setPostInfo,
   handleEditPostData,
   handleDeletePost,
@@ -17,12 +19,18 @@ export default function PostComponent({
   lang,
 }: any) {
   const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
+  // const { post } = router.query;
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       setIsMobile(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!title) return;
+  }, [router]);
 
   const fetchSinglePost = async () => {
     try {

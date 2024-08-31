@@ -133,6 +133,11 @@
       "service_manager": "Stanislav Salamanov - manager autoservice",
       "receiver_car_service":"receiver car service",
       "spare_parts":"spare parts"
+    },
+    "not_found": {
+      "error_404": "Error 404!",
+      "page_not_found": "Page not found",
+      "back_to_home": "Go back to home"
     }
   }
 }

@@ -1,23 +1,16 @@
 // import './globals.css'
 import type { Metadata } from "next";
 import { Locale, i18n } from "@/i18n.config";
-// import { Locale, i18n } from "../../../i18n.config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import localFont from "next/font/local";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
-// import { LoadingProvider } from "../context/LoadingContext";
-// import Loader from "../components/Loader";
-
-import "../globals.scss";
-// import LayoutComponent from "../components/LayoutComponent";
-
-import { Inter } from "next/font/google";
 import Loader from "./components/Loader";
 import LayoutComponent from "./components/LayoutComponent";
 import { LoadingProvider } from "../context/LoadingContext";
 import { getDictionary } from "@/lib/dictionary";
 import { PostsProvider } from "../context/PostsContext";
-const inter = Inter({ subsets: ["latin"] });
+
+import "../globals.scss";
 
 export const metadata: Metadata = {
   title: '"Веко ОЙЛ" ЕООД | Русе',

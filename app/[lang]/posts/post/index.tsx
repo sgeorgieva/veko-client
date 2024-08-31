@@ -1,20 +1,25 @@
 // import { useRouter } from "next/router";
 "use client";
 
-import { linkUrl } from "@/utils/functions";
 import { Flex, Heading, Image, Text } from "gestalt";
 import Link from "next/link";
-// import PostDescription from "../[slug]/page";
+import { FacebookShare } from "react-share-kit";
 
-function Block({ title, text }: any) {
+import "./post.scss";
+
+function Block({ title, text, postId }: any) {
   return (
     <Flex direction="column" gap={{ column: 2, row: 0 }}>
       <Heading accessibilityLevel="none" size="400">
         <Link
-          href={`/posts/${title.toString().replaceAll(" ", "-").toLowerCase()}`}
+          href={{ pathname: `posts/${title.toString().replaceAll(" ", "-")}` }}
         >
           {title}
         </Link>
+        <FacebookShare
+          url={`https://www.facebook.com/posts/${postId}`}
+          quote={title}
+        />
       </Heading>
       <Text size="200">{text}</Text>
     </Flex>
@@ -32,6 +37,7 @@ export default function PostId({ post }) {
       <Block
         text={post?.description.substring(0, 130).trimEnd() + "..."}
         title={post?.title}
+        postId={post?.post_id}
       />
     </>
   );
