@@ -201,25 +201,26 @@ export default function Header({
                 }}
                 href="/"
                 class="navlink"
+                lang={lang}
               >
                 {translations.home}
               </AnimatedLink>
-              <AnimatedLink href="/car-dealership" class="navlink">
+              <AnimatedLink lang={lang} href="/car-dealership" class="navlink">
                 {translations.car_delership}
               </AnimatedLink>
-              <AnimatedLink href="/trade" class="navlink">
+              <AnimatedLink lang={lang} href="/trade" class="navlink">
                 {translations.trade}
               </AnimatedLink>
-              <AnimatedLink href="/services" class="navlink">
+              <AnimatedLink lang={lang} href="/services" class="navlink">
                 {translations.services}
               </AnimatedLink>
-              <AnimatedLink href="/veko-products" class="navlink">
+              <AnimatedLink lang={lang} href="/veko-products" class="navlink">
                 {translations.veko_products}
               </AnimatedLink>
-              <AnimatedLink href="/about" class="navlink">
+              <AnimatedLink lang={lang} href="/about" class="navlink">
                 {translations.about}
               </AnimatedLink>
-              <AnimatedLink href="/contact" class="navlink">
+              <AnimatedLink lang={lang} href="/contact" class="navlink">
                 {translations.contact}
               </AnimatedLink>
             </div>

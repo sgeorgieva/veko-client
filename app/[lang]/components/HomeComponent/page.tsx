@@ -53,20 +53,29 @@ export default function HomeComponent({
   }, []);
 
   useEffect(() => {
-    if (!initialized.current) {
+    if (!initialized.current && posts.length === 0) {
       initialized.current = true;
       fetchPostsData();
     }
   }, []);
 
   const handleScroll = () => {
-    if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
-      return;
-    } else {
-      if (page <= pagesLength) {
-        fetchPostsData();
-      }
-    }
+    console.log("window.innerHeight", window.innerHeight);
+    console.log(
+      "document.documentElement.scrollTop",
+      document.documentElement.scrollHeight
+    );
+
+    // if (
+    //   window.innerHeight <= document.documentElement.scrollTop ||
+    //   (isLoading && posts.length === 0)
+    // ) {
+    //   return;
+    // } else {
+    //   if (page <= pagesLength) {
+    //     fetchPostsData();
+    //   }
+    // }
   };
 
   useEffect(() => {
