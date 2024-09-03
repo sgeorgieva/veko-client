@@ -17,7 +17,8 @@ import { endpoints, linkUrl, scrollToTop } from "../../../../utils/functions";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 // @ts-ignore
-import VekoCommersial from "../../../../public/video/VEKO_commercial.mp4";
+import VekoCommersialLarge from "../../../../public/video/VEKO_commercial-large.mp4";
+import VekoCommersiaSmall from "../../../../public/video/VEKO_commercial-small.mp4";
 import KiaShoowroomImage from "../../../../public/images/kia-home-cover.jpg";
 
 import "./homeComponent.scss";
@@ -65,26 +66,26 @@ export default function HomeComponent({
       "document.documentElement.scrollTop",
       document.documentElement.scrollHeight
     );
-
-    // if (
-    //   window.innerHeight <= document.documentElement.scrollTop ||
-    //   (isLoading && posts.length === 0)
-    // ) {
+    console.log("body. scrollHeight;", document.body.scrollHeight);
+    // if (posts.length === 0) {
     //   return;
-    // } else {
-    //   if (page <= pagesLength) {
-    //     fetchPostsData();
-    //   }
-    // }
+    // } else
+    if (window.innerHeight <= document.documentElement.scrollTop || isLoading) {
+      return;
+    } else {
+      if (page <= pagesLength) {
+        fetchPostsData();
+      }
+    }
   };
 
   useEffect(() => {
-    if (isLoading) {
-      return;
-    }
+    // if (isLoading) {
+    //   return;
+    // }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading]);
+  }, []);
 
   async function fetchPostsData() {
     setIsLoading(true);
@@ -112,27 +113,6 @@ export default function HomeComponent({
     }
   }
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", scrollFunction);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", scrollFunction);
-  //   };
-  // }, []);
-
-  // function scrollFunction() {
-  //   const mybutton = document.getElementsByTagName("button")[3];
-
-  //   if (
-  //     document.body.scrollTop > 20 ||
-  //     document.documentElement.scrollTop > 20
-  //   ) {
-  //     mybutton.style.display = "block";
-  //   } else {
-  //     mybutton.style.display = "none";
-  //   }
-  // }
-
   return (
     <>
       <Box
@@ -153,7 +133,7 @@ export default function HomeComponent({
             onPlayError={({ error }) => error && setPlaying(false)}
             onVolumeChange={(e) => setVolume(e.volume)}
             playing={playing}
-            src={VekoCommersial}
+            src={isMobile ? VekoCommersiaSmall : VekoCommersialLarge}
             volume={volume}
             type="video/mp4"
             objectFit="contain"
@@ -163,16 +143,6 @@ export default function HomeComponent({
       <div className="d-flex flex-column container mx-auto py-5">
         {isHomePage ? (
           <div className="row">
-            <div className="goToTop-btn">
-              {/* <button type="button" onClick={scrollToTop}> */}
-              {/* <IconButton
-                accessibilityLabel="go to top button"
-                size={`${isMobile ? "sm" : "xl"}`}
-                icon="chevron-up-circle"
-                onClick={scrollToTop}
-              /> */}
-              {/* </button> */}
-            </div>
             <div className="col-sm-12 col-md-7">
               <h1>{pass}</h1>
               <p className="line-height">{translations.home.paragraph}</p>
