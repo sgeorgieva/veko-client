@@ -3,7 +3,7 @@
 
 import { Flex, Heading, Image, Text } from "gestalt";
 import Link from "next/link";
-import { FacebookShare } from "react-share-kit";
+import { InlineShareButtons } from "sharethis-reactjs";
 
 import "./post.scss";
 
@@ -16,9 +16,19 @@ function Block({ title, text, postId }: any) {
         >
           {title}
         </Link>
-        <FacebookShare
-          url={`https://www.facebook.com/posts/${postId}`}
-          quote={title}
+        <InlineShareButtons
+          config={{
+            alignment: "center",
+            color: "social",
+            enabled: true,
+            font_size: 16,
+            labels: "cta",
+            language: "en",
+            networks: ["facebook"],
+            padding: 12,
+            radius: 4,
+            size: 40,
+          }}
         />
       </Heading>
       <Text size="200">{text}</Text>

@@ -54,7 +54,17 @@ export default function UploadImagesComponet({ images, setImages }) {
                 <div className="row d-flex align-items-center justify-content-center pt-3">
                   {imageList.map((image, index) => (
                     <div key={index} className="col-md-4 image-item px-3 pt-3">
-                      <img src={image.dataURL} alt="" width="100" height="30" />
+                      <img
+                        src={
+                          image.dataURL
+                            ? image.dataURL
+                            : `${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${image.name}`
+                        }
+                        alt=""
+                        width="100"
+                        height="30"
+                      />
+                      {/* src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${image.name}`} */}
                       <div className="d-flex align-items-start justify-content-start py-4 image-item__btn-wrapper">
                         <Button
                           text="Качи"

@@ -57,7 +57,7 @@ export default function HomeComponent({
       initialized.current = true;
       fetchPostsData();
     }
-  }, [posts]);
+  }, []);
 
   const handleScroll = () => {
     if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
@@ -70,6 +70,9 @@ export default function HomeComponent({
   };
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isLoading]);
@@ -80,7 +83,7 @@ export default function HomeComponent({
 
     try {
       const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=${page}?language_id=${lang}`,
+        `${linkUrl()}${endpoints.posts}?page=${page}&language_id=${lang}`,
         {
           headers: {
             Accept: "application/json",
@@ -120,8 +123,6 @@ export default function HomeComponent({
   //     mybutton.style.display = "none";
   //   }
   // }
-
-  console.log(posts);
 
   return (
     <>
@@ -186,7 +187,7 @@ export default function HomeComponent({
               />
             </div>
             <hr />
-            {posts && <Posts posts={posts} />}
+            {posts && posts.length > 0 ? <Posts posts={posts} /> : null}
           </div>
         ) : (
           component

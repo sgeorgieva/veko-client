@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Locale, i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
 import HomeComponent from "./components/HomeComponent/page";
+import NotFound from "./not-found";
 
 // import Image from "../../../public/images/portfolio.webp";
 

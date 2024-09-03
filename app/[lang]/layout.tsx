@@ -11,6 +11,7 @@ import { getDictionary } from "@/lib/dictionary";
 import { PostsProvider } from "../context/PostsContext";
 
 import "../globals.scss";
+import NotFound from "./not-found";
 
 export const metadata: Metadata = {
   title: '"Веко ОЙЛ" ЕООД | Русе',
@@ -69,7 +70,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { lang: Locale };
 }) {
-  const { navigation, footer } = await getDictionary(params.lang);
+  const { navigation, footer, page } = await getDictionary(params.lang);
 
   return (
     <LoadingProvider>
@@ -91,7 +92,7 @@ export default async function RootLayout({
                 children={children}
                 translationsFooter={footer}
                 translations={navigation}
-              />
+              ></LayoutComponent>
             </PostsProvider>
           </body>
           <GoogleAnalytics gaId="G-LX59883J0R" />

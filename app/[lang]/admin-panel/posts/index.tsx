@@ -67,7 +67,7 @@ export default function AdminPanelPostsComponent({
 
     try {
       const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=${page}?language_id=${lang}`,
+        `${linkUrl()}${endpoints.posts}?page=${page}&language_id=${lang}`,
         {
           headers: {
             Accept: "application/json",

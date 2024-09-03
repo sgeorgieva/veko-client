@@ -37,7 +37,7 @@ export default function EditCarModal({
   const mapOptions = { 0: ["year", "month"] };
   const itemsCalendar = ["Month & Year"];
   const [itemIndex, setItemIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(carInfo.images);
   const [year, setYear] = useState(carInfo.year);
   const [model, setModel] = useState(carInfo?.model);
   const [description, setDescription] = useState(carInfo?.description);
@@ -515,23 +515,6 @@ export default function EditCarModal({
               </Box>
             )}
             <Box height={400} id="popover-overlaypanel" paddingX={8}>
-              {carInfo?.images &&
-                carInfo.images.map((image) => {
-                  console.log("image", image.name);
-
-                  <Box paddingX={2} rounding={4} width={200}>
-                    <Mask rounding={4}>
-                      <Image
-                        alt="Tropic greens: The taste of Petrol and Porcelain | Interior design, Vintage Sets and Unique Pieces agave"
-                        color="rgb(231, 186, 176)"
-                        naturalHeight={751}
-                        naturalWidth={564}
-                        src={image.name}
-                      />
-                    </Mask>
-                  </Box>;
-                })}
-
               <Box marginBottom={2}>
                 <Label htmlFor="year">Година</Label>
                 <div className="datepicker">

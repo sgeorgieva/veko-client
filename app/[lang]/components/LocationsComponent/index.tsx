@@ -1,16 +1,26 @@
-import { ActivationCard, Box } from 'gestalt';
+import { ActivationCard, Box } from "gestalt";
 
-import './locationComponent.scss';
+import "./locationComponent.scss";
 
-export default function LocationsComponents({title, message, statusMessage, component}: any) {
-
+export default function LocationsComponents({
+  title,
+  message,
+  statusMessage,
+  component,
+}: any) {
   function splitTextByCapitalLetter(input: string): string {
-    let lines = '';
-    if (input.match('ШОУРУМ:')) {
-      lines = input.replaceAll('ШОУРУМ:', '\n ШОУРУМ:');
+    let lines = "";
+
+    if (input.match("ШОУРУМ:")) {
+      lines = input.replaceAll("ШОУРУМ:", "\n ШОУРУМ:");
+
       return lines;
-    } else if (input.match('Станислав Саламанов - управител автосервиз')) {
-      lines = input.replaceAll('Станислав Саламанов - управител автосервиз', '\n Станислав Саламанов - управител автосервиз');
+    } else if (input.match("Станислав Саламанов - управител автосервиз")) {
+      lines = input.replaceAll(
+        "Станислав Саламанов - управител автосервиз",
+        "\n\n Станислав Саламанов - управител автосервиз"
+      );
+
       return lines;
     } else {
       return input;
@@ -28,7 +38,7 @@ export default function LocationsComponents({title, message, statusMessage, comp
       <ActivationCard
         link={{
           label: component,
-          accessibilityLabel: '',
+          accessibilityLabel: "",
         }}
         message={splitTextByCapitalLetter(message)}
         statusMessage={statusMessage}

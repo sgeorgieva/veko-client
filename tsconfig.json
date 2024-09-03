@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/[lang]/services/used-car/[title]/page.tsx.bak"
+    "app/[lang]/services/used-cars/[title]/page.tsx.bak"
   ],
   "exclude": ["node_modules"]
 }

@@ -20,7 +20,6 @@ export default function PostComponent({
 }: any) {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
-  // const { post } = router.query;
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
