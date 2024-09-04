@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Video, Image } from "gestalt";
 import axios from "axios";
 import { endpoints, linkUrl } from "../../../../utils/functions";
-import Link from "next/link";
 // @ts-ignore
 import VekoCommersialLarge from "../../../../public/video/VEKO_commercial-large.mp4";
 import VekoCommersiaSmall from "../../../../public/video/VEKO_commercial-small.mp4";
@@ -31,6 +30,7 @@ export default function HomeComponent({
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [pagesLength, setPagesLength] = useState(null);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -58,6 +58,7 @@ export default function HomeComponent({
         page <= pagesLength
       ) {
         fetchPostsData();
+        setShowButton(true);
       }
     }
   };
@@ -146,7 +147,14 @@ export default function HomeComponent({
               />
             </div>
             <hr />
-            {posts && posts.length > 0 ? <Posts posts={posts} /> : null}
+            {posts && posts.length > 0 ? (
+              <Posts
+                lang={lang}
+                isMobile={isMobile}
+                showButton={showButton}
+                posts={posts}
+              />
+            ) : null}
           </div>
         ) : (
           component
