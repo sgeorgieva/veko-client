@@ -1,20 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Video,
-  Divider,
-  Flex,
-  Heading,
-  Text,
-  Image,
-  IconButton,
-  Spinner,
-} from "gestalt";
+import { Box, Video, Image } from "gestalt";
 import axios from "axios";
-import { endpoints, linkUrl, scrollToTop } from "../../../../utils/functions";
-import { usePathname } from "next/navigation";
+import { endpoints, linkUrl } from "../../../../utils/functions";
 import Link from "next/link";
 // @ts-ignore
 import VekoCommersialLarge from "../../../../public/video/VEKO_commercial-large.mp4";
@@ -23,9 +12,7 @@ import KiaShoowroomImage from "../../../../public/images/kia-home-cover.jpg";
 
 import "./homeComponent.scss";
 import Posts from "../../posts/page";
-import { usePosts } from "@/app/context/PostsContext";
-// import { usePosts } from '../../../context/PostsContext';
-// import { useRouter } from "next/router";
+import { usePosts } from "../../../context/PostsContext";
 
 export default function HomeComponent({
   isHomePage,
@@ -44,8 +31,6 @@ export default function HomeComponent({
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [pagesLength, setPagesLength] = useState(null);
-  const pathname = usePathname();
-  // const router = useRouter();
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -54,38 +39,34 @@ export default function HomeComponent({
   }, []);
 
   useEffect(() => {
-    if (!initialized.current && posts.length === 0) {
+    if (!initialized.current && posts?.length === 0) {
       initialized.current = true;
+
       fetchPostsData();
     }
-  }, []);
+  }, [posts]);
 
   const handleScroll = () => {
-    console.log("window.innerHeight", window.innerHeight);
-    console.log(
-      "document.documentElement.scrollTop",
-      document.documentElement.scrollHeight
-    );
-    console.log("body. scrollHeight;", document.body.scrollHeight);
-    // if (posts.length === 0) {
-    //   return;
-    // } else
-    if (window.innerHeight <= document.documentElement.scrollTop || isLoading) {
+    if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
       return;
     } else {
-      if (page <= pagesLength) {
+      if (
+        Math.abs(
+          document.documentElement.scrollHeight -
+            document.documentElement.clientHeight -
+            document.documentElement.scrollTop
+        ) <= 1 &&
+        page <= pagesLength
+      ) {
         fetchPostsData();
       }
     }
   };
 
   useEffect(() => {
-    // if (isLoading) {
-    //   return;
-    // }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isLoading]);
 
   async function fetchPostsData() {
     setIsLoading(true);
@@ -103,6 +84,11 @@ export default function HomeComponent({
       );
       if (response.status === 200) {
         setPosts((prevItems) => [...prevItems, ...response?.data?.posts?.data]);
+        console.log(
+          "response.data?.posts?.last_page",
+          response.data?.posts?.last_page
+        );
+
         setPagesLength(response.data?.posts?.last_page);
         setPage((prevPage) => prevPage + 1);
       }
@@ -166,6 +152,7 @@ export default function HomeComponent({
               />
             </div>
             <hr />
+            {posts && posts.length > 0 ? <Posts posts={posts} /> : null}
             {posts && posts.length > 0 ? <Posts posts={posts} /> : null}
           </div>
         ) : (
