@@ -41,10 +41,9 @@ export default function HomeComponent({
   useEffect(() => {
     if (!initialized.current && posts?.length === 0) {
       initialized.current = true;
-
       fetchPostsData();
     }
-  }, [posts]);
+  }, []);
 
   const handleScroll = () => {
     if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
@@ -84,11 +83,6 @@ export default function HomeComponent({
       );
       if (response.status === 200) {
         setPosts((prevItems) => [...prevItems, ...response?.data?.posts?.data]);
-        console.log(
-          "response.data?.posts?.last_page",
-          response.data?.posts?.last_page
-        );
-
         setPagesLength(response.data?.posts?.last_page);
         setPage((prevPage) => prevPage + 1);
       }
@@ -152,7 +146,6 @@ export default function HomeComponent({
               />
             </div>
             <hr />
-            {posts && posts.length > 0 ? <Posts posts={posts} /> : null}
             {posts && posts.length > 0 ? <Posts posts={posts} /> : null}
           </div>
         ) : (
