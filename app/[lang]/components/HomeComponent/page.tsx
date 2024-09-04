@@ -124,7 +124,7 @@ export default function HomeComponent({
       <div className="d-flex flex-column container mx-auto py-5">
         {isHomePage ? (
           <div className="row">
-            <div className="col-sm-12 col-md-7">
+            <div className="col-md-12">
               <h1>{pass}</h1>
               <p className="line-height">{translations.home.paragraph}</p>
               <ul className="ms-1">
