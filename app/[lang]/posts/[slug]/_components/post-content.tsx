@@ -4,6 +4,9 @@
 import HomeComponent from "../../../../[lang]/components/HomeComponent/page";
 import { usePosts } from "../../../../context/PostsContext";
 import { Image } from "gestalt";
+import moment from "moment";
+
+import "./postContent.scss";
 
 export default function PostContent({ title }: { title: string }) {
   const { posts } = usePosts();
@@ -21,12 +24,29 @@ export default function PostContent({ title }: { title: string }) {
   return (
     <>
       <HomeComponent isHome={false} />
-      <div className="px-5 pb-3">
-        {post?.images &&
-          post?.images.length > 0 &&
-          post?.images.map((image) => <Image src={`/public/${image}`} />)}
-        <h1>{post?.title}</h1>
-        <p className="pt-4 pb-5">{post?.description}</p>
+      <div className="d-flex post-wrapper py-5">
+        <div>
+          {post?.images &&
+            post?.images.length > 0 &&
+            post?.images.map((image, idx) => (
+              <Image
+                key={idx}
+                src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${image.name}`}
+                alt={image.name}
+              />
+            ))}
+        </div>
+        <div>
+          <h1>{post?.title}</h1>
+          <p>
+            {post?.updated_at !== ""
+              ? moment(moment.utc(post?.updated_at).toDate())
+                  .local()
+                  .format("DD/MM/YYYY")
+              : post?.created_at_}
+          </p>
+          <p className="pt-4 pb-5">{post?.description}</p>
+        </div>
       </div>
     </>
   );

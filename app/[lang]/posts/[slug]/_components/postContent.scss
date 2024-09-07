@@ -1,0 +1,14 @@
+.post-wrapper {
+  div {
+    &:first-of-type {
+      flex: 1;
+
+      img {
+        width: 385px;
+      }
+    }
+    &:last-of-type {
+      flex: 2;
+    }
+  }
+}

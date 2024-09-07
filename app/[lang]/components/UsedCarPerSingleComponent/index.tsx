@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useState } from "react";
 import axios from "axios";
+import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
 import { endpoints, linkUrl } from "../../../../utils/functions";
+import UsedCarSingleId from "../../services/used-car/[id]/page";
 // import UsedCarDescription from "./UsedCarDescription";
 
 import "./usedCarPerSingleComponent.scss";
@@ -16,12 +16,13 @@ export default function UsedCarPerSingleComponent({
   setCarInfo,
   carInfo,
   carId,
-  cars,
+  power,
 }: any) {
   const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
   const [posts, setPosts] = useState([]);
 
-  const handleSingleCar = () => {
+  const handleSingleCar = (e) => {
+    e.preventDefault();
     setIsHandleSingleClicked(true);
   };
 
@@ -60,6 +61,11 @@ export default function UsedCarPerSingleComponent({
     }
   };
 
+  console.log("====================================");
+  console.log("model: " + power);
+  console.log("image", carInfo?.images);
+  console.log("====================================");
+
   return (
     // <Flex
     //   alignItems="center"
@@ -69,12 +75,16 @@ export default function UsedCarPerSingleComponent({
     // >
     <Box column={12} maxWidth={236} padding={2}>
       {!isEdit ? (
-        <Link onClick={handleSingleCar} href={`/services/used-car/${carId}`}>
+        <Link
+          onClick={handleSingleCar}
+          href={`/services/used-car/${model}`}
+          children={<UsedCarSingleId title={model} power={power} />}
+        >
           <WashAnimated
             image={
               <Avatar
                 name={model}
-                src={image}
+                src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${carInfo?.images[0].name}`}
                 verified={true}
                 className="car-image"
               />

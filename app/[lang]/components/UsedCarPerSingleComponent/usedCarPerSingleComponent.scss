@@ -1,5 +1,8 @@
 .Pj7 {
   img {
-    object-fit: none !important;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);  
   }
 }
