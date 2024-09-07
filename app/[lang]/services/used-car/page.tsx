@@ -44,19 +44,24 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
+  // return {
+  //   lang: i18n.locales.map((locale) => ({ lang: locale })),
+  //   id: "1",
+  //   description: "test",
+  // };
   return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
 export default async function UsedCar({
-  params,
+  params
 }: {
-  params: { lang: Locale };
+  params: { lang: Locale; id: string; description: string };
 }) {
-  const { navigation } = await getDictionary(params.lang);
+  const { navigation, page} = await getDictionary(params.lang);  
 
   return (
     <Suspense fallback={<Loader />}>
-      <UsedCarComponent title={navigation.used_cars} />
+      <UsedCarComponent title={navigation.used_cars} translations={page.used_cars} lang={params.lang} />
     </Suspense>
   );
 }

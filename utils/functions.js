@@ -32,6 +32,108 @@ export const renderMonthContent = (month, shortMonth, longMonth, day) => {
   return <span title={tooltipText}>{shortMonth}</span>;
 };
 
+export const generateTypeEngineContent = (typeEngine, lang) => {
+  if (lang === 'bg') {
+    switch (typeEngine) {
+      case "gasoline":
+        return "Бензин";
+      case "diesel":
+        return "Дизел";
+      case "hybrid":
+        return "Хибрид";
+      case "electric":
+        return "Електрически";
+      case "gas":
+        return "Газ";
+      default:
+        return "Бензин";
+    }
+  } else if (lang === "en") {
+    return typeEngine.charAt(0).toUpperCase() + typeEngine.slice(1);
+  }
+}
+export const generateEuroStandard = (euroStandard, lang) => {
+  if (lang === 'bg') {
+    switch (euroStandard) {
+      case "euro1":
+        return "Евро 1";
+      case "euro2":
+        return "Евро 2";
+      case "euro3":
+        return "Евро 3";
+      case "euro4":
+        return "Евро 4";
+      case "euro5":
+        return "Евро 5"
+      case "euro6":
+        return "Евро 6";
+      default:
+        return "Евро 1";
+    }
+  } else {
+    let result = euroStandard.replace(/(\d+)/g, function (_, num){
+      console.log(num);
+      return ' ' + num + ' ';
+    });
+    result = result.trim();
+
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  }
+}
+
+export const generateTransmissionContent = (transmission, lang) => {
+  if (lang === "bg") {
+    switch (transmission) {
+      case "manual":
+        return "Ръчна";
+      case "automatic":
+        return "Автоматична";
+      default:
+        return "Ръчна";
+    }
+  } else {
+    return transmission.charAt(0).toUpperCase() + transmission.slice(1);
+  }
+}
+
+export const generateCategoryContent = (category, lang) => {
+  if (lang === "bg") {
+    switch (category) {
+      case "convertible":
+        return "Кабриолет";
+      case "coupe":
+        return "Купе";
+      case "crossover":
+        return "Кросувър";
+      case "hybrid":
+        return "Хибрид";
+      case "luxury":
+        return "Луксозен";
+      case "sedan":
+        return "Седан";
+      case "sports car":
+        return "Спортен";
+      case "SUV":
+        return "СУВ";
+      case "truck":
+        return "Товарен автомобил/Пикап";
+      case "van/minivan":
+        return "Ван/Миниван";
+      case "hatchback":
+        return "Хетчбек";
+      default:
+        return "Кабриолет";
+    }
+  } else {
+    if (category === "van/minivan") {
+      return "Van/Minivan";
+    } else {
+      return category.charAt(0).toUpperCase() + category.slice(1);
+    
+    }
+  }
+}
+
 export const endpoints = {
   login: "login", //POST
   contact: "contact", //POST

@@ -1,7 +1,7 @@
 import PostContent from "../../posts/[slug]/_components/post-content";
 
 export async function generateStaticParams() {
-  return [{ lang: "bg", slug: "test" }];
+  return [{ lang: "bg", slug: "test", query: { name: "test" } }];
 }
 
 export default function PostDescription({
@@ -9,5 +9,7 @@ export default function PostDescription({
 }: {
   params: { slug: string };
 }) {
+  console.log("params", params);
+
   return <PostContent title={params.slug.replaceAll("-", " ")} />;
 }

@@ -11,7 +11,7 @@ import CroppedKiaImage from "../../../../../public/images/cropped-kia-motors.png
 
 import "./usedCarComponent.scss";
 
-export default function UsedCarComponent({ title }: { title: string }) {
+export default function UsedCarComponent({ title, translations, lang }: { title: string, translations: any, lang: string }) {
   const [isMobile, setIsMobile] = useState(false);
   const [cars, setCars] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +44,14 @@ export default function UsedCarComponent({ title }: { title: string }) {
     if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
       return;
     } else {
-      if (page <= pagesLength) {
+      if (
+        Math.abs(
+          document.documentElement.scrollHeight -
+            document.documentElement.clientHeight -
+            document.documentElement.scrollTop
+        ) <= 1 &&
+        page <= pagesLength
+      ) {
         fetchCarsData();
       }
     }
@@ -83,8 +90,7 @@ export default function UsedCarComponent({ title }: { title: string }) {
       setIsLoading(false);
     }
   }
-
-console.log('cc', cars)
+  
   return (
     <Suspense fallback={<Loader />}>
       <HomeComponent
@@ -92,29 +98,31 @@ console.log('cc', cars)
         component={
           <div
             className={`used-car-wrapper mt-3 ${
-              isMobile ? 'used-car-wrapper-mobile' : ''
+              isMobile ? "used-car-wrapper-mobile" : ""
             }`}
           >
-            <div className='title-contact'>
-              <h1 className='pageHeader mb-4'>{title}</h1>
+            <div className="title-contact">
+              <h1 className="pageHeader mb-4">{title}</h1>
               <Image
-                alt='kia-cropped-image'
+                alt="kia-cropped-image"
                 src={CroppedKiaImage.src}
-                className='test'
               />
             </div>
             <hr />
-            <div className='description-contact pageContent'>
-              <div className='d-flex row align-items-center mx-auto w-80'>
+            <div className="description-contact pageContent">
+              <div className="d-flex row align-items-center mx-auto w-80">
                 {cars &&
                   cars.map((car) => (
-                    <div className='col-md-4' key={car?.id}>
+                    <div className="col-md-4" key={car?.id}>
                       <UsedCarPerSingleComponent
+                        translations={translations}
+                        carInfo={car}
                         model={car?.model}
                         image={car?.image}
                         carId={car?.id}
-                        cars={cars}
+                        power={car?.power}
                         isEdit={false}
+                        lang={lang}
                       />
                     </div>
                   ))}
@@ -124,5 +132,5 @@ console.log('cc', cars)
         }
       />
     </Suspense>
-  )
+  );
 }

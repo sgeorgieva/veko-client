@@ -45,7 +45,14 @@ export default function AdminPanelUsedCarComponent({
     if (window.innerHeight > document.documentElement.scrollTop || isLoading) {
       return;
     } else {
-      if (page <= pagesLength) {
+      if (
+        Math.abs(
+          document.documentElement.scrollHeight -
+            document.documentElement.clientHeight -
+            document.documentElement.scrollTop
+        ) <= 1 &&
+        page <= pagesLength
+      ) {
         fetchCarsData();
       }
     }

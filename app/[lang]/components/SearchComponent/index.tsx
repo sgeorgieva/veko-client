@@ -43,6 +43,8 @@ export default function SearchComponent({
   const [searchedCars, setSearchedCars] = useState<any[]>([]);
   const settingsLinkRef = useRef(null);
   const settingsRef = useRef(null);
+  const pathName = usePathname();
+  const [carInfo, setCarInfo] = useState("");
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -71,8 +73,6 @@ export default function SearchComponent({
   if (!isClient) {
     return null;
   }
-
-  const pathName = usePathname();
 
   const redirectedPathName = (locale: string) => {
     if (!pathName) {
@@ -140,6 +140,21 @@ export default function SearchComponent({
     }
   };
 
+  const fetchSingleCar = async (id) => {
+    try {
+      const response = await axios.get(`${linkUrl()}${endpoints.carId}${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+        },
+      });
+      if (response.status === 200) {
+        setCarInfo(response.data.record);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("jwt");
 
@@ -148,6 +163,8 @@ export default function SearchComponent({
     router.push("/");
     setShowToast(true);
   };
+
+  console.log('carInfo', carInfo)
 
   return (
     <div className="search-wrapper">
@@ -176,7 +193,10 @@ export default function SearchComponent({
                             key={index}
                             href={`/posts/${item.title.replaceAll(" ", "-")}`}
                             as={`/posts/${item.title.replaceAll(" ", "-")}`}
-                            onClick={() => handleSearch("")}
+                            onClick={() => {
+                              fetchSingleCar(item.id)
+                              handleSearch("");
+                            }}
                           >
                             <p>{item.title}</p>
                           </Link>
@@ -188,9 +208,12 @@ export default function SearchComponent({
                         <h3 className="mb-3">Автомобили</h3>
                         {searchedCars.map((item, index) => (
                           <Link
-                            onClick={() => handleSearch("")}
+                            onClick={() => {
+                              fetchSingleCar(item.id);
+                              handleSearch("");
+                            }}
                             key={index}
-                            href={`/services/used-car/${item.model.replaceAll(" ", "-")}`}
+                            href={carInfo && `/services/used-car/${item.model.replaceAll(" ", "-")}`}
                           >
                             <p>{item.model}</p>
                           </Link>
@@ -218,6 +241,7 @@ export default function SearchComponent({
             <Flex height="100%" justifyContent="center" width="100%">
               <Box>
                 <IconButton
+                  disabled={pathName.includes("/en/services/used-car/") || pathName.includes("/services/used-car/")}
                   ref={anchorSecondRef}
                   accessibilityControls="subtext-dropdown-example"
                   accessibilityExpanded={open}

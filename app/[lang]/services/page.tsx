@@ -55,7 +55,7 @@ export default async function Services({
 
   return (
     <Suspense fallback={<Loader />}>
-      <ServicesComponent translations={navigation} />
+      <ServicesComponent translations={navigation} lang={params.lang} />
     </Suspense>
   );
 }

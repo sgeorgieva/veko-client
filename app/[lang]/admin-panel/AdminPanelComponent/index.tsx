@@ -111,8 +111,6 @@ export default function AdminPanelComponent({ lang }) {
     }
   }
 
-  console.log("lang", lang);
-
   return (
     <Suspense fallback={<Loader />}>
       <HomeComponent

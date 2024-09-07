@@ -2,11 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
 import { endpoints, linkUrl } from "../../../../utils/functions";
-import UsedCarSingleId from "../../services/used-car/[id]/page";
-// import UsedCarDescription from "./UsedCarDescription";
 
 import "./usedCarPerSingleComponent.scss";
-export default function UsedCarPerSingleComponent({
+import { usePathname } from "next/navigation";
+import UsedCarSingleId from "../../services/used-car/[id]/page";
+export default async function UsedCarPerSingleComponent({
   isEdit,
   isMobile,
   model,
@@ -15,11 +15,11 @@ export default function UsedCarPerSingleComponent({
   handleDeleteCar,
   setCarInfo,
   carInfo,
-  carId,
-  power,
+  translations,
+  lang
 }: any) {
   const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const pathname = usePathname();
 
   const handleSingleCar = (e) => {
     e.preventDefault();
@@ -42,51 +42,17 @@ export default function UsedCarPerSingleComponent({
     }
   };
 
-  const fetchPostData = async () => {
-    try {
-      const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=1`,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setPosts(response?.data?.records?.data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  console.log("====================================");
-  console.log("model: " + power);
-  console.log("image", carInfo?.images);
-  console.log("====================================");
-
   return (
-    // <Flex
-    //   alignItems="center"
-    //   height="100%"
-    //   justifyContent="center"
-    //   width="100%"
-    // >
     <Box column={12} maxWidth={236} padding={2}>
       {!isEdit ? (
-        <Link
-          onClick={handleSingleCar}
-          href={`/services/used-car/${model}`}
-          children={<UsedCarSingleId title={model} power={power} />}
-        >
+        <Link href={lang !== 'en' ? `/services/used-car/${encodeURIComponent(model)}?carInfo=${encodeURIComponent(JSON.stringify(carInfo))}&translations=${JSON.stringify(translations)}`
+      : `${pathname}/${encodeURIComponent(model)}?carInfo=${encodeURIComponent(JSON.stringify(carInfo))}&translations=${JSON.stringify(translations)}`}>
           <WashAnimated
             image={
               <Avatar
                 name={model}
                 src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${carInfo?.images[0].name}`}
                 verified={true}
-                className="car-image"
               />
             }
           >
@@ -97,9 +63,9 @@ export default function UsedCarPerSingleComponent({
                 </Box>
               </Text>
             </Flex>
-          </WashAnimated>
-        </Link>
-      ) : (
+        </WashAnimated>
+      </Link>
+        ) : (
         <WashAnimated
           image={<Avatar size="fit" name={model} src={image} verified={true} />}
         >
@@ -130,6 +96,5 @@ export default function UsedCarPerSingleComponent({
         </WashAnimated>
       )}
     </Box>
-    // </Flex>
   );
 }

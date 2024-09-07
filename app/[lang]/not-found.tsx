@@ -2,13 +2,14 @@
 
 import { Button, Flex } from "gestalt";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import HomeComponent from "./components/HomeComponent/page";
 import { useEffect } from "react";
 
 export default function NotFound() {
   const params = useParams<{ translations: any }>();
   const router = useRouter();
+  const pathname = usePathname();
 
   // if (typeof window !== "undefined") {
   //   if (params.lang === "en") {

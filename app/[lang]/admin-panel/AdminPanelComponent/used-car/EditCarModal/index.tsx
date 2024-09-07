@@ -474,6 +474,7 @@ export default function EditCarModal({
                     text="Отказ"
                   />
                   <Button
+                    fullWidth={true}
                     color="blue"
                     onClick={(e) => handleEditCar(e)}
                     size={isMobile ? "sm" : "lg"}

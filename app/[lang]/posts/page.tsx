@@ -37,7 +37,7 @@ export default function Posts({
             >
               <Flex direction="column" gap={{ column: 10, row: 0 }}>
                 <div className="d-flex post">
-                  {post && <PostId post={post} />}
+                  {post && <PostId post={post} lang={lang} />}
                 </div>
                 <Divider />
               </Flex>

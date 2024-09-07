@@ -19,7 +19,7 @@ const UsedCarComponent = dynamic(() => import('./UsedCarComponent'), {
 const HomeComponent = dynamic(() => import('../HomeComponent/page'), {
   suspense: true
 })
-export default function ServicesComponent({ translations }) {
+export default function ServicesComponent({ translations, lang }) {
   const router = useRouter()
   const [isMobile, setIsMobile] = useState(false)
 
@@ -27,7 +27,7 @@ export default function ServicesComponent({ translations }) {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       setIsMobile(true)
     }
-  }, [])
+  }, [])  
 
   return (
     <Suspense fallback={<Loader />}>
@@ -66,7 +66,7 @@ export default function ServicesComponent({ translations }) {
                 <Link
                   href='/services/used-car'
                   onClick={() => router.push('/services/used-car')}
-                  children={<UsedCarComponent />}
+                  children={<UsedCarComponent lang={lang}/>}
                   className={`${isMobile ? '' : 'w-25 ms-3'}`}
                 >
                   <img src={UsedCarImage.src} alt='used-car-image' />
