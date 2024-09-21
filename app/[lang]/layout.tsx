@@ -11,14 +11,14 @@ import { getDictionary } from "@/lib/dictionary";
 import { PostsProvider } from "../context/PostsContext";
 
 import "../globals.scss";
-import NotFound from "./not-found";
 
 export const metadata: Metadata = {
-  title: '"Веко ОЙЛ" ЕООД | Русе',
-  description:
-    "Frontend Engineer with customer focused entrepreneurial experience",
-  keywords:
-    "Santiya Georgieva, portfolio, javascript, developer, react, jquery, html, css, figma, adobexd",
+  title: "ВЕКО ОЙЛ ЕООД",
+  description: "ВЕКО ОЙЛ ЕООД",
+  keywords: `ВЕКО ОЙЛ ЕООД, ВЕКО, ВЕКО Русе, Русе, масла русе, VEKO-Oil, масла, търговия, VEKO продукти, автомобилно представителство, 
+    марки, автоцентрове, акумулатори, автоконсумативи, специални течности, екология, автооказион, за нас, контакти,
+    car delearship, trade, oils, services, VEKO products, about, contact, accummulators, autoconsumbles, special liquids, products,
+    Ruse, Rousse, veko oil ruse`,
   icons: {
     icon: "/favicon.ico",
   },
@@ -26,23 +26,18 @@ export const metadata: Metadata = {
     google: "PBhS2OksPMopQ926LID6cpmxuDpdJsyqVVIFt4Vhlwo",
   },
   openGraph: {
-    title: "Santiya Georgieva | Frontend Web Developer",
+    title: "ВЕКО ОЙЛ ЕООД | VEKO Oil Ltd.",
     url:
       process.env.NODE_ENV !== "production"
         ? process.env.LOCALHOST_SITE_URL
         : process.env.SITE_URL,
     type: "website",
-    description:
-      "Frontend Engineer with customer focused entrepreneurial experience",
+    description: "ВЕКО ОЙЛ ЕООД",
     // images: `${process.env.NODE_ENV !== 'production' ? '' : process.env.SITE_URL}${Image.src}`,
     // 'http-equiv': 'Content-Security-Policy',
   },
   alternates: {
-    canonical: `${
-      process.env.NODE_ENV !== "production"
-        ? process.env.LOCALHOST_SITE_URL
-        : process.env.SITE_URL
-    }`,
+    canonical: `${process.env.NODE_ENV !== "production" ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}`,
   },
   other: {
     classification: "business",
@@ -92,6 +87,7 @@ export default async function RootLayout({
                 children={children}
                 translationsFooter={footer}
                 translations={navigation}
+                translationsUsedCars={page.used_cars}
               ></LayoutComponent>
             </PostsProvider>
           </body>

@@ -23,9 +23,9 @@ import { endpoints, linkUrl } from "../../../../../utils/functions";
 import HomeComponent from "../../HomeComponent/page";
 import Loader from "../../Loader";
 import MyDocument from "./appoitments";
+import Message from "../../MessageComponent";
 
 import "./carCentersComponent.scss";
-import Message from "../../MessageComponent";
 
 const generateDatesWithoutSundays = (start, end) => {
   const dates = [];
@@ -332,6 +332,10 @@ export default function CarCentersComponent({
     setYear(value);
   };
 
+  const handleDateChange = (value) => {
+    setDate(value);
+  };
+
   const handleTimeChange = (time) => {
     setTime(time.$d.getTime());
   };
@@ -577,8 +581,9 @@ export default function CarCentersComponent({
                     <div className="row align-items-center">
                       <div className="col-md-8">
                         <DatePicker
+                          name="date"
                           selected={startDate}
-                          onChange={(date) => setStartDate(date)}
+                          onChange={({ value }) => handleDateChange(value)}
                           includeDates={availableDates}
                           placeholderText={`${new Date()}`}
                           localeData={bg}

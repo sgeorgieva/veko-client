@@ -1,25 +1,26 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import CookieConsent from 'react-cookie-consent'
-import Header from '../header'
-import Footer from '../footer'
+import { useEffect, useState } from "react";
+import CookieConsent from "react-cookie-consent";
+import Header from "../header";
+import Footer from "../footer";
 
 export default function LayoutComponent({
   lang,
   font,
   children,
   translations,
-  translationsFooter
+  translationsUsedCars,
+  translationsFooter,
 }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      setIsMobile(true)
+      setIsMobile(true);
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -30,6 +31,7 @@ export default function LayoutComponent({
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           translations={translations}
+          translationsUsedCars={translationsUsedCars}
         />
       </header>
       <main className={font}>{children}</main>
@@ -41,46 +43,46 @@ export default function LayoutComponent({
           className={font}
         />
         <CookieConsent
-          ariaAcceptLabel='testCookieConsent'
+          ariaAcceptLabel="testCookieConsent"
           buttonWrapperClasses={`${
-            isMobile ? 'button-mobile-cookie-wrapper' : 'button-cookie-wrapper'
+            isMobile ? "button-mobile-cookie-wrapper" : "button-cookie-wrapper"
           }`}
-          buttonClasses={`${isMobile ? 'button-cookie' : ''}`}
-          contentClasses={`${isMobile ? 'cookie-content' : ''}`}
+          buttonClasses={`${isMobile ? "button-cookie" : ""}`}
+          contentClasses={`${isMobile ? "cookie-content" : ""}`}
           containerClasses={`${
-            isMobile ? 'cookie-container-mobile' : 'cookie-container-wrapper'
+            isMobile ? "cookie-container-mobile" : "cookie-container-wrapper"
           }`}
-          location='bottom'
-          buttonText='Приемам'
-          cookieName='veko-oil-cookie'
+          location="bottom"
+          buttonText="Приемам"
+          cookieName="veko-oil-cookie"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: '#2B373B',
-            textAlign: 'left',
-            padding: '10px 15px',
-            opacity: '.95',
-            position: 'fixed'
+            display: "flex",
+            alignItems: "center",
+            background: "#2B373B",
+            textAlign: "left",
+            padding: "10px 15px",
+            opacity: ".95",
+            position: "fixed",
           }}
           buttonStyle={{
-            background: '#fff',
-            color: '#4e503b',
-            fontSize: '13px',
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            margin: 0
+            background: "#fff",
+            color: "#4e503b",
+            fontSize: "13px",
+            fontWeight: "600",
+            textTransform: "uppercase",
+            margin: 0,
           }}
-          declineButtonClasses='decline-cookie-button'
+          declineButtonClasses="decline-cookie-button"
           expires={150}
           enableDeclineButton
-          declineButtonText='ОТКАЗВАМ'
+          declineButtonText="ОТКАЗВАМ"
         >
-          <p className='mb-0'>
+          <p className="mb-0">
             ПРАВА НА ПОТРЕБИТЕЛИТЕ ПО ОБЩИЯ РЕГЛАМЕНТ ЗА ЗАЩИТА НА ЛИЧНИТЕ ДАННИ
             (GDPR) И ИЗПОЛЗВАНЕ НА COOKIES/БИСКВИТКИ.
           </p>
         </CookieConsent>
       </footer>
     </>
-  )
+  );
 }

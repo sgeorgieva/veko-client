@@ -33,7 +33,7 @@ export const renderMonthContent = (month, shortMonth, longMonth, day) => {
 };
 
 export const generateTypeEngineContent = (typeEngine, lang) => {
-  if (lang === 'bg') {
+  if (lang === "bg") {
     switch (typeEngine) {
       case "gasoline":
         return "Бензин";
@@ -51,9 +51,9 @@ export const generateTypeEngineContent = (typeEngine, lang) => {
   } else if (lang === "en") {
     return typeEngine.charAt(0).toUpperCase() + typeEngine.slice(1);
   }
-}
+};
 export const generateEuroStandard = (euroStandard, lang) => {
-  if (lang === 'bg') {
+  if (lang === "bg") {
     switch (euroStandard) {
       case "euro1":
         return "Евро 1";
@@ -64,22 +64,22 @@ export const generateEuroStandard = (euroStandard, lang) => {
       case "euro4":
         return "Евро 4";
       case "euro5":
-        return "Евро 5"
+        return "Евро 5";
       case "euro6":
         return "Евро 6";
       default:
         return "Евро 1";
     }
   } else {
-    let result = euroStandard.replace(/(\d+)/g, function (_, num){
+    let result = euroStandard.replace(/(\d+)/g, function (_, num) {
       console.log(num);
-      return ' ' + num + ' ';
+      return " " + num + " ";
     });
     result = result.trim();
 
     return result.charAt(0).toUpperCase() + result.slice(1);
   }
-}
+};
 
 export const generateTransmissionContent = (transmission, lang) => {
   if (lang === "bg") {
@@ -94,7 +94,7 @@ export const generateTransmissionContent = (transmission, lang) => {
   } else {
     return transmission.charAt(0).toUpperCase() + transmission.slice(1);
   }
-}
+};
 
 export const generateCategoryContent = (category, lang) => {
   if (lang === "bg") {
@@ -129,10 +129,9 @@ export const generateCategoryContent = (category, lang) => {
       return "Van/Minivan";
     } else {
       return category.charAt(0).toUpperCase() + category.slice(1);
-    
     }
   }
-}
+};
 
 export const endpoints = {
   login: "login", //POST
