@@ -22,6 +22,7 @@ export default function Header({
   isOpen,
   setIsOpen,
   translations,
+  translationsUsedCars,
 }: {
   lang: Locale;
   props: any;
@@ -29,6 +30,7 @@ export default function Header({
   isOpen: boolean;
   setIsOpen: any;
   translations: any;
+  translationsUsedCars: any;
 }) {
   const isMobile = detectVersion();
   const pathname = usePathname();
@@ -145,7 +147,7 @@ export default function Header({
             !isHover ? "background-overlay" : "background-white"
           }`}
         >
-          <div className="col-md-8">
+          <div className="col-md-8 col-sm-12">
             <span>
               <Icon color="#2b2b2b" inline={true} icon="phone" size={14} />
               <a href="tel:+ +359 66 861 616" className="ps-2">
@@ -162,6 +164,7 @@ export default function Header({
           <div className="col-md-4 col-sm-12">
             <SearchComponent
               translations={translations}
+              translationsUsedCars={translationsUsedCars}
               open={open}
               selected={selected}
               onSelect={onSelect}

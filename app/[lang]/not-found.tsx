@@ -19,13 +19,13 @@ export default function NotFound() {
   //   }
   // }
 
-  useEffect(() => {
-    if (params.lang === "en") {
-      router.replace("/en/not-found");
-    } else {
-      router.replace("/not-found");
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   if (params.lang === "en") {
+  //     router.replace("/en/not-found");
+  //   } else {
+  //     router.replace("/not-found");
+  //   }
+  // }, [router]);
 
   return (
     <>

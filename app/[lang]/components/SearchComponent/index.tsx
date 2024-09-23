@@ -28,6 +28,7 @@ export default function SearchComponent({
   setShowToast,
   handleOpenLanguageMenu,
   translations,
+  translationsUsedCars,
   locale,
   setLocale,
 }: any) {
@@ -140,13 +141,16 @@ export default function SearchComponent({
     }
   };
 
-  const fetchSingleCar = async (id) => {
+  const fetchSingleCar = async (id, lang) => {
     try {
-      const response = await axios.get(`${linkUrl()}${endpoints.carId}${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
-        },
-      });
+      const response = await axios.get(
+        `${linkUrl()}${endpoints.carId}${id}?language_id=${lang}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
+          },
+        }
+      );
       if (response.status === 200) {
         setCarInfo(response.data.record);
       }
@@ -163,8 +167,6 @@ export default function SearchComponent({
     router.push("/");
     setShowToast(true);
   };
-
-  console.log('carInfo', carInfo)
 
   return (
     <div className="search-wrapper">
@@ -191,12 +193,12 @@ export default function SearchComponent({
                         {searchedNews.map((item, index) => (
                           <Link
                             key={index}
-                            href={`/posts/${item.title.replaceAll(" ", "-")}`}
-                            as={`/posts/${item.title.replaceAll(" ", "-")}`}
-                            onClick={() => {
-                              fetchSingleCar(item.id)
-                              handleSearch("");
-                            }}
+                            href={
+                              locale !== "en"
+                                ? `/posts/${encodeURIComponent(item.title)}`
+                                : `${locale}/posts/${encodeURIComponent(item.title)}`
+                            }
+                            onClick={() => handleSearch("")}
                           >
                             <p>{item.title}</p>
                           </Link>
@@ -209,11 +211,18 @@ export default function SearchComponent({
                         {searchedCars.map((item, index) => (
                           <Link
                             onClick={() => {
-                              fetchSingleCar(item.id);
+                              console.log("item", item);
+                              fetchSingleCar(item.id, item?.language_id);
                               handleSearch("");
                             }}
                             key={index}
-                            href={carInfo && `/services/used-car/${item.model.replaceAll(" ", "-")}`}
+                            href={
+                              locale !== "en"
+                                ? carInfo &&
+                                  `/services/used-car/${encodeURIComponent(item.model)}`
+                                : carInfo &&
+                                  `${pathName}/services/used-car/${encodeURIComponent(item.model)}`
+                            }
                           >
                             <p>{item.model}</p>
                           </Link>
@@ -241,7 +250,10 @@ export default function SearchComponent({
             <Flex height="100%" justifyContent="center" width="100%">
               <Box>
                 <IconButton
-                  disabled={pathName.includes("/en/services/used-car/") || pathName.includes("/services/used-car/")}
+                  disabled={
+                    pathName.includes("/en/services/used-car/") ||
+                    pathName.includes("/services/used-car/")
+                  }
                   ref={anchorSecondRef}
                   accessibilityControls="subtext-dropdown-example"
                   accessibilityExpanded={open}

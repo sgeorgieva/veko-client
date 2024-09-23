@@ -11,6 +11,7 @@ import { getDictionary } from "@/lib/dictionary";
 import { PostsProvider } from "../context/PostsContext";
 
 import "../globals.scss";
+import { CarProvider } from "../context/CarContext";
 
 export const metadata: Metadata = {
   title: "ВЕКО ОЙЛ ЕООД",
@@ -80,16 +81,18 @@ export default async function RootLayout({
             ></script>
           </head>
           <body className={sfProFont.className}>
-            <PostsProvider>
-              <LayoutComponent
-                lang={params.lang}
-                font={sfProFont.className}
-                children={children}
-                translationsFooter={footer}
-                translations={navigation}
-                translationsUsedCars={page.used_cars}
-              ></LayoutComponent>
-            </PostsProvider>
+            <CarProvider>
+              <PostsProvider>
+                <LayoutComponent
+                  lang={params.lang}
+                  font={sfProFont.className}
+                  children={children}
+                  translationsFooter={footer}
+                  translations={navigation}
+                  translationsUsedCars={page.used_cars}
+                ></LayoutComponent>
+              </PostsProvider>
+            </CarProvider>
           </body>
           <GoogleAnalytics gaId="G-LX59883J0R" />
         </html>

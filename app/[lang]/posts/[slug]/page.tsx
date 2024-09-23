@@ -1,15 +1,19 @@
-import PostContent from "../../posts/[slug]/_components/post-content";
-
+// import PostContent from './_components/post-content';
+import dynamic from "next/dynamic";
 export async function generateStaticParams() {
-  return [{ lang: "bg", slug: "test", query: { name: "test" } }];
+  return [
+    { lang: "bg", slug: "test", query: { title: "test", description: "test" } },
+  ];
 }
 
-export default function PostDescription({
+const PostContent = dynamic(() => import("./_components/post-content"), {
+  ssr: false,
+});
+
+export default async function PostDescription({
   params,
 }: {
   params: { slug: string };
 }) {
-  console.log("params", params);
-
   return <PostContent title={params.slug.replaceAll("-", " ")} />;
 }

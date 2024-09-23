@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
 import { endpoints, linkUrl } from "../../../../utils/functions";
 
 import "./usedCarPerSingleComponent.scss";
-import { usePathname } from "next/navigation";
-import UsedCarSingleId from "../../services/used-car/[id]/page";
+import { CarProvider, useCarContext } from "@/app/context/CarContext";
 export default async function UsedCarPerSingleComponent({
   isEdit,
   isMobile,
@@ -16,14 +16,23 @@ export default async function UsedCarPerSingleComponent({
   setCarInfo,
   carInfo,
   translations,
-  lang
+  lang,
 }: any) {
-  const [isHandleSingleCarClicked, setIsHandleSingleClicked] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { car, setCar } = useCarContext();
 
   const handleSingleCar = (e) => {
-    e.preventDefault();
-    setIsHandleSingleClicked(true);
+    e.event.preventDefault();
+    setCar(carInfo);
+
+    car &&
+      Object.keys(car).length > 0 &&
+      router.push(
+        lang !== "en"
+          ? `/services/used-car/${encodeURIComponent(model)}`
+          : `${pathname}/${encodeURIComponent(model)}`
+      );
   };
 
   const fetchSingleCar = async (id) => {
@@ -45,8 +54,7 @@ export default async function UsedCarPerSingleComponent({
   return (
     <Box column={12} maxWidth={236} padding={2}>
       {!isEdit ? (
-        <Link href={lang !== 'en' ? `/services/used-car/${encodeURIComponent(model)}?carInfo=${encodeURIComponent(JSON.stringify(carInfo))}&translations=${JSON.stringify(translations)}`
-      : `${pathname}/${encodeURIComponent(model)}?carInfo=${encodeURIComponent(JSON.stringify(carInfo))}&translations=${JSON.stringify(translations)}`}>
+        <Link onClick={handleSingleCar}>
           <WashAnimated
             image={
               <Avatar
@@ -63,9 +71,9 @@ export default async function UsedCarPerSingleComponent({
                 </Box>
               </Text>
             </Flex>
-        </WashAnimated>
-      </Link>
-        ) : (
+          </WashAnimated>
+        </Link>
+      ) : (
         <WashAnimated
           image={<Avatar size="fit" name={model} src={image} verified={true} />}
         >
@@ -96,5 +104,6 @@ export default async function UsedCarPerSingleComponent({
         </WashAnimated>
       )}
     </Box>
+    // </CarProvider>
   );
 }

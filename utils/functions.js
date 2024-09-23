@@ -72,7 +72,6 @@ export const generateEuroStandard = (euroStandard, lang) => {
     }
   } else {
     let result = euroStandard.replace(/(\d+)/g, function (_, num) {
-      console.log(num);
       return " " + num + " ";
     });
     result = result.trim();

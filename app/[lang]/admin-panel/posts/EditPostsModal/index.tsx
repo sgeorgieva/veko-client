@@ -212,7 +212,7 @@ export default function EditPostsModal({
                     color="rgb(231, 186, 176)"
                     naturalHeight={751}
                     naturalWidth={564}
-                    src="https://i.ibb.co/7bQQYkX/stock2.jpg"
+                    src={"https://i.ibb.co/7bQQYkX/stock2.jpg"}
                   />
                 </Mask>
               </Box>

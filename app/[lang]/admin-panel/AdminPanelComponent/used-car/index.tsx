@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -10,6 +10,7 @@ import EditCarModal from "./EditCarModal";
 import DeleteCarModal from "./DeleteCarModal";
 
 import "./adminPanelUsedCar.scss";
+import { CarProvider } from "@/app/context/CarContext";
 
 export default function AdminPanelUsedCarComponent({
   isAddCarModalOpen,
@@ -151,19 +152,21 @@ export default function AdminPanelUsedCarComponent({
           items.map((item) => {
             return (
               <div className="col-md-3">
-                <UsedCarPerSingleComponent
-                  key={item.id}
-                  isMobile={isMobile}
-                  isEdit={true}
-                  handleEditCarData={() => fetchSingleCar(item.id)}
-                  setIsDeleteCarModalOpen={setIsDeleteCarModalOpen}
-                  model={item.model}
-                  id={item.id}
-                  carInfo={carInfo}
-                  setCarInfo={setCarInfo}
-                  image={item?.images[0]?.name}
-                  handleDeleteCar={() => handleDeleteCar(item.id)}
-                />
+                <CarProvider>
+                  <UsedCarPerSingleComponent
+                    key={item.id}
+                    isMobile={isMobile}
+                    isEdit={true}
+                    handleEditCarData={() => fetchSingleCar(item.id)}
+                    setIsDeleteCarModalOpen={setIsDeleteCarModalOpen}
+                    model={item.model}
+                    id={item.id}
+                    carInfo={carInfo}
+                    setCarInfo={setCarInfo}
+                    image={item?.images[0]?.name}
+                    handleDeleteCar={() => handleDeleteCar(item.id)}
+                  />
+                </CarProvider>
               </div>
             );
           })

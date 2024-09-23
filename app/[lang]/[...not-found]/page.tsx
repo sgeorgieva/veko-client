@@ -31,6 +31,6 @@ export default async function NotFoundCatchAll({
   if (!page) {
     notFound();
   } else {
-    return <NotFound translations={page.not_found} />;
+    // return <NotFound translations={page.not_found} />;
   }
 }

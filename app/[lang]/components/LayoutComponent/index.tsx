@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CookieConsent from "react-cookie-consent";
 import Header from "../header";
 import Footer from "../footer";
+import { CarProvider } from "@/app/context/CarContext";
 
 export default function LayoutComponent({
   lang,

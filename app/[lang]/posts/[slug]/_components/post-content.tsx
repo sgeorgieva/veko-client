@@ -1,30 +1,32 @@
 "use client";
 
-// import { usePosts } from "@/app/context/PostsContext";
-import HomeComponent from "../../../../[lang]/components/HomeComponent/page";
+import { Suspense } from "react";
 import { usePosts } from "../../../../context/PostsContext";
 import { Image } from "gestalt";
 import moment from "moment";
+import { useSearchParams } from "next/navigation";
+import HomeComponent from "../../../../[lang]/components/HomeComponent/page";
+import Loader from "@/app/[lang]/components/Loader";
 
 import "./postContent.scss";
+import NotFound from "@/app/[lang]/not-found";
 
-export default function PostContent({ title }: { title: string }) {
+export default function PostContent() {
   const { posts } = usePosts();
-  console.log("====================================");
-  console.log("posts", posts);
-  console.log("====================================");
-  console.log("====================================");
-  console.log("title", title);
-  console.log("====================================");
   const post =
     posts &&
     posts.length > 0 &&
-    posts?.find((post) => post.title === decodeURIComponent(title));
+    posts?.find((post) => post.title === decodeURIComponent(post?.title));
+
+  // Fallback for when the post is not found
+  if (!post) {
+    return <NotFound />;
+  }
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <HomeComponent isHome={false} />
-      <div className="d-flex post-wrapper py-5">
+      <div className="d-flex post-wrapper px-5 py-5">
         <div>
           {post?.images &&
             post?.images.length > 0 &&
@@ -43,11 +45,11 @@ export default function PostContent({ title }: { title: string }) {
               ? moment(moment.utc(post?.updated_at).toDate())
                   .local()
                   .format("DD/MM/YYYY")
-              : post?.created_at_}
+              : post?.created_at}
           </p>
           <p className="pt-4 pb-5">{post?.description}</p>
         </div>
       </div>
-    </>
+    </Suspense>
   );
 }

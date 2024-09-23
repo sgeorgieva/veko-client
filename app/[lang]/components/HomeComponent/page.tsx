@@ -159,7 +159,7 @@ export default function HomeComponent({
         ) : (
           component
         )}
-        {children}
+        {/* {children} */}
       </div>
     </>
   );

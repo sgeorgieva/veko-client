@@ -1,17 +1,26 @@
 "use client";
 
 import { Suspense, useEffect, useRef, useState } from "react";
-import { Image } from "gestalt";
+import { Image, Spinner } from "gestalt";
 import axios from "axios";
 import { endpoints, linkUrl } from "../../../../../utils/functions";
 import Loader from "../../Loader";
 import HomeComponent from "../../HomeComponent/page";
 import UsedCarPerSingleComponent from "../../UsedCarPerSingleComponent";
+import { CarProvider } from "@/app/context/CarContext";
 import CroppedKiaImage from "../../../../../public/images/cropped-kia-motors.png";
 
 import "./usedCarComponent.scss";
 
-export default function UsedCarComponent({ title, translations, lang }: { title: string, translations: any, lang: string }) {
+export default function UsedCarComponent({
+  title,
+  translations,
+  lang,
+}: {
+  title: string;
+  translations: any;
+  lang: string;
+}) {
   const [isMobile, setIsMobile] = useState(false);
   const [cars, setCars] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -90,47 +99,51 @@ export default function UsedCarComponent({ title, translations, lang }: { title:
       setIsLoading(false);
     }
   }
-  
-  return (
-    <Suspense fallback={<Loader />}>
-      <HomeComponent
-        isHomePage={false}
-        component={
-          <div
-            className={`used-car-wrapper mt-3 ${
-              isMobile ? "used-car-wrapper-mobile" : ""
-            }`}
-          >
-            <div className="title-contact">
-              <h1 className="pageHeader mb-4">{title}</h1>
-              <Image
-                alt="kia-cropped-image"
-                src={CroppedKiaImage.src}
-              />
-            </div>
-            <hr />
-            <div className="description-contact pageContent">
-              <div className="d-flex row align-items-center mx-auto w-80">
-                {cars &&
-                  cars.map((car) => (
-                    <div className="col-md-4" key={car?.id}>
-                      <UsedCarPerSingleComponent
-                        translations={translations}
-                        carInfo={car}
-                        model={car?.model}
-                        image={car?.image}
-                        carId={car?.id}
-                        power={car?.power}
-                        isEdit={false}
-                        lang={lang}
-                      />
-                    </div>
-                  ))}
-              </div>
+
+  return cars && cars.length > 0 ? (
+    <HomeComponent
+      isHomePage={false}
+      component={
+        <div
+          className={`used-car-wrapper mt-3 ${
+            isMobile ? "used-car-wrapper-mobile" : ""
+          }`}
+        >
+          <div className="title-contact">
+            <h1 className="pageHeader mb-4">{title}</h1>
+            <Image alt="kia-cropped-image" src={CroppedKiaImage.src} />
+          </div>
+          <hr />
+          <div className="description-contact pageContent">
+            <div className="d-flex row align-items-center mx-auto w-80">
+              {cars && cars.length > 0 ? (
+                cars.map((car) => (
+                  <div className="col-md-4" key={car?.id}>
+                    {/* <CarProvider> */}
+                    <UsedCarPerSingleComponent
+                      translations={translations}
+                      carInfo={car}
+                      model={car?.model}
+                      image={car?.image}
+                      carId={car?.id}
+                      power={car?.power}
+                      isEdit={false}
+                      lang={lang}
+                    />
+                    {/* </CarProvider> */}
+                  </div>
+                ))
+              ) : (
+                <div className="loader-wrapper">
+                  <Spinner show color="default" />
+                </div>
+              )}
             </div>
           </div>
-        }
-      />
-    </Suspense>
+        </div>
+      }
+    />
+  ) : (
+    <Spinner show color="default" />
   );
 }

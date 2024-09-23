@@ -45,17 +45,8 @@ export default function ContactComponent({ translations }) {
                 component={
                   <MapProvider>
                     <MapComponent
-                      lat="43.83615669296568"
-                      lng="25.965429756577716"
-                      markerLat="43.8361"
-                      markerLng="25.96481"
-                      title={translations.base_name}
-                      city={translations.name_ruse}
-                      street={translations.address_ruse}
-                      fax={`${translations.phone_fax} 0700 20 320`}
-                      phone={`${translations.mobile_phone}: 0866 861 616`}
-                      googlePreview={translations.google_preview}
-                      hrefLink="https://www.google.com/maps/place//data=!4m2!3m1!1s0x40ae61d865c50243:0xb8052e6522d0f3e8?sa=X&ved=1t:8290&ictx=111"
+                      hrefLink="https://www.google.com/maps/embed/v1/place?key=AIzaSyAwyOjplXnP6-JJMY8_ZymlBUGbuberxkE
+    &q=KIA Ruse Autocenter VEKO / ВЕКО ОЙЛ"
                     />
                   </MapProvider>
                 }
@@ -68,19 +59,7 @@ export default function ContactComponent({ translations }) {
                 statusMessage={`${translations.name_turnovo}`}
                 component={
                   <MapProvider>
-                    <MapComponent
-                      lat="42.890395806548256"
-                      lng="25.32305843849706"
-                      markerLat="42.8903"
-                      markerLng="25.3230"
-                      title={translations.base_name}
-                      city={translations.name_turnovo}
-                      street={translations.address_turnovo}
-                      fax={`${translations.phone_fax} 062 601 171`}
-                      phone={`${translations.mobile_phone}: 0885 807 782`}
-                      hrefLink="https://www.google.com/maps/place/%D0%92%D0%95%D0%9A%D0%9E+%D0%9E%D0%99%D0%9B+%D0%95%D0%9E%D0%9E%D0%94%2FVEKO+OIL+Ltd./@42.890184,25.32308,16z/data=!4m6!3m5!1s0x40a91a84d3f5f8f3:0x86f7e8acc9d7c3e2!8m2!3d42.8901836!4d25.3230799!16s%2Fg%2F1tj83bqn?hl=en-US&entry=ttu"
-                      googlePreview={translations.google_preview}
-                    />
+                    <MapComponent hrefLink="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2914.5819988520343!2d25.619561299999997!3d43.071258199999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a9272202dd392b%3A0xacbb4d198e211d6e!2zItCS0JXQmtCeINCe0JnQmyIg0JXQntCe0JQ!5e0!3m2!1sen!2sbg!4v1726953369934!5m2!1sen!2sbg" />
                   </MapProvider>
                 }
               />
@@ -94,18 +73,7 @@ export default function ContactComponent({ translations }) {
                 statusMessage={`${translations.name_gabrovo}`}
                 component={
                   <MapProvider>
-                    <MapComponent
-                      lat=" 42.89042767761082"
-                      lng="25.324024137536224"
-                      markerLat="42.8904"
-                      markerLng="25.3240"
-                      title={translations.base_name}
-                      city={translations.name_gabrovo}
-                      street={`${translations.address_trade_gabrovo}`}
-                      phone={`${translations.mobile_phone}: 0889 309 396`}
-                      hrefLink="https://www.google.com/maps?ll=42.890184,25.32308&z=16&t=m&hl=en-US&gl=US&mapclient=embed&cid=9725497749148255202"
-                      googlePreview={translations.google_preview}
-                    />
+                    <MapComponent hrefLink="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2923.1783552069055!2d25.323079900000003!3d42.89018360000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a91a84d3f5f8f3%3A0x86f7e8acc9d7c3e2!2z0JLQldCa0J4g0J7QmdCbINCV0J7QntCUL1ZFS08gT0lMIEx0ZC4!5e0!3m2!1sen!2sbg!4v1726953202356!5m2!1sen!2sbg" />
                   </MapProvider>
                 }
               />
@@ -117,18 +85,7 @@ export default function ContactComponent({ translations }) {
                 statusMessage={`${translations.name_gabrovo}`}
                 component={
                   <MapProvider>
-                    <MapComponent
-                      lat=" 42.89042767761082"
-                      lng="25.324024137536224"
-                      markerLat="42.8904"
-                      markerLng="25.3240"
-                      title={translations.base_name}
-                      city={translations.name_gabrovo}
-                      street={`${translations.address_trade_gabrovo}`}
-                      phone={`${translations.tel} 0887 932 700`}
-                      hrefLink="https://www.google.com/maps?ll=42.890184,25.32308&z=16&t=m&hl=en-US&gl=US&mapclient=embed&cid=9725497749148255202"
-                      googlePreview={translations.google_preview}
-                    />
+                    <MapComponent hrefLink="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2923.1783552069055!2d25.323079900000003!3d42.89018360000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a91a84d3f5f8f3%3A0x86f7e8acc9d7c3e2!2z0JLQldCa0J4g0J7QmdCbINCV0J7QntCUL1ZFS08gT0lMIEx0ZC4!5e0!3m2!1sen!2sbg!4v1726953202356!5m2!1sen!2sbg" />
                   </MapProvider>
                 }
               />
