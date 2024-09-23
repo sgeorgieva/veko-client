@@ -14,4 +14,25 @@
       }
     }
   }
+
+  .share-button {
+    > div {
+      cursor: pointer !important;
+  
+      > div {
+        display: block !important;
+        min-width: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50px !important;
+  
+        img {
+          height: 25px !important;
+          width: 25px !important;
+          top: 8px !important;
+          left: -5px !important;
+        }
+      }
+    }
+  }
 }

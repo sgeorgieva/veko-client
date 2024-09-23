@@ -14,4 +14,16 @@
   .title-contact > div {
     width: 40%;
   }
-} 
+}
+
+.loader-wrapper {
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 9;
+  }
+}
