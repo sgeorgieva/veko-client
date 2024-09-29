@@ -59,6 +59,7 @@ export default async function VekoProducts({
       <VekoProductsComponent
         title={navigation.veko_products}
         translations={page.veko_products}
+        translationsNavigation={navigation}
       />
     </Suspense>
   );

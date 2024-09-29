@@ -38,7 +38,7 @@ export default function AnimatedLink({
             isHover &&
             (href === "/car-dealership" ||
               href === "/services" ||
-              href === "/trade") &&
+              href === "/service_station") &&
             name === title
               ? "active-hover"
               : ""

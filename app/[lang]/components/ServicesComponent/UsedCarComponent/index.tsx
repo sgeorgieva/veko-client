@@ -7,7 +7,6 @@ import { endpoints, linkUrl } from "../../../../../utils/functions";
 import Loader from "../../Loader";
 import HomeComponent from "../../HomeComponent/page";
 import UsedCarPerSingleComponent from "../../UsedCarPerSingleComponent";
-import { CarProvider } from "@/app/context/CarContext";
 import CroppedKiaImage from "../../../../../public/images/cropped-kia-motors.png";
 
 import "./usedCarComponent.scss";

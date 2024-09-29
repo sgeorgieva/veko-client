@@ -1,17 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Box, Video, Image } from "gestalt";
+import { Box, Video, Image, Icon } from "gestalt";
 import axios from "axios";
 import { endpoints, linkUrl } from "../../../../utils/functions";
 // @ts-ignore
-import VekoCommersialLarge from "../../../../public/video/VEKO_commercial-large.mp4";
-import VekoCommersiaSmall from "../../../../public/video/VEKO_commercial-small.mp4";
-import KiaShoowroomImage from "../../../../public/images/kia-home-cover.jpg";
-
-import "./homeComponent.scss";
+// import VekoCommersialLarge from "../../../../public/video/VEKO_commercial-large.mp4";
+// import VekoCommersiaSmall from "../../../../public/video/VEKO_commercial-small.mp4";
 import Posts from "../../posts/page";
 import { usePosts } from "../../../context/PostsContext";
+import VekoBannerImage from "../../../../public/images/veko-banner.png";
+import KiaShoowroomImage from "../../../../public/images/kia-home-cover.jpg";
+import ToolsImage from "../../../../public/images/tools.webp";
+import MoneyPocketImage from "../../../../public/images/money_pocket.png";
+import PeopleImage from "../../../../public/images/people.webp";
+
+import "./homeComponent.scss";
+import EcologyComponent from "../EcologyComponent";
 
 export default function HomeComponent({
   isHomePage,
@@ -96,14 +101,14 @@ export default function HomeComponent({
 
   return (
     <>
-      <Box
+      {/* <Box
         alignItems="center"
         display="flex"
         height="100%"
         justifyContent="center"
       >
-        <Box width={1920}>
-          <Video
+        <Box width={1920}> */}
+      {/* <Video
             loop
             aspectRatio={16 / 9}
             onControlsPause={() => setPlaying(false)}
@@ -118,24 +123,48 @@ export default function HomeComponent({
             volume={volume}
             type="video/mp4"
             objectFit="contain"
-          />
-        </Box>
-      </Box>
-      <div className="d-flex flex-column container mx-auto py-5">
+          /> */}
+      {/* </Box>
+      </Box> */}
+      <Image priority src={VekoBannerImage.src} alt="" />
+      <div className="d-flex flex-column container mx-auto">
         {isHomePage ? (
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-12 text-center">
               <h1>{pass}</h1>
-              <p className="line-height">{translations.home.paragraph}</p>
-              <ul className="ms-1">
-                <li className="mb-1">{translations.home.bullet_one}</li>
-                <li className="mb-1">{translations.home.bullet_two}</li>
-                <li className="mb-1">{translations.home.bullet_three}</li>
-                <li className="mb-1">{translations.home.bullet_four}</li>
-                <li className="mb-1">{translations.home.bullet_five}</li>
-                <li className="mb-1">{translations.home.bullet_six}</li>
-              </ul>
+              <h5 className="line-height">{translations.home.paragraph}</h5>
+              <h5 className="pt-2">{translations.home.bullet_one}</h5>
+              <h5 className="pt-2">{translations.home.bullet_two}</h5>
+              <h5 className="pt-2">{translations.home.bullet_three}</h5>
+              <h5 className="pt-2">{translations.home.bullet_four}</h5>
             </div>
+            <div className="col-md-12 py-4">
+              <h2 className="text-center fw-bold">
+                Получаваш най-високо качество и обслужване от експерти
+              </h2>
+            </div>
+            <div className="col-md-12 py-4 d-flex justify-content-around">
+              <div className="col-md-2 small-image">
+                <Image src={ToolsImage.src} />
+                <p className="text-center">
+                  Организираме всички застраховки, регистрация в КАТ обслужване
+                  и поддръжка
+                </p>
+              </div>
+              <div className="col-md-2 small-image">
+                <Image src={MoneyPocketImage.src} />
+                <p className="text-center">
+                  Пълно съдействие при продажба на автомобили
+                </p>
+              </div>
+              <div className="col-md-2 small-image">
+                <Image src={PeopleImage.src} />
+                <p className="text-center">
+                  Получаваш индивидуален подход и фокус върху твоите нужди
+                </p>
+              </div>
+            </div>
+            <EcologyComponent translations={translations} />
             <div className="col-sm-12 col-md-5 pb-3">
               <Image
                 priority

@@ -5,10 +5,15 @@
     "bg_lang": "Bulgarian",
     "en_lang": "English",
     "login": "Login",
-    "car_delership": "Car delearship",
-    "services": "Services",
-    "trade": "Trade",
-    "veko_products": "VEKO® products",
+    "car": "Car",
+    "dealership": "delearship",
+    "services": "Occassion and",
+    "rent_a_car_title": "rent a car",
+    "service": "Service",
+    "station": "Station",
+    "insurance": "Insurance",
+    "distribution_with": "Distribution of",
+    "auto_consumables": "auto consumables",
     "about": "About",
     "contact": "Contact",
     "brands": "Brands",
@@ -18,7 +23,9 @@
     "autoconsumables": "Autoconsumables",
     "special_liquids": "Special liquids",
     "ecology": "Ecology",
-    "used_cars": "Used cars"
+    "used_cars": "Used cars",
+    "rent_a_car": "RENT a CAR",
+    "comming_soon": " comming soon..."
   },
   "footer": {
     "copy_rights": "All rights reserved",
@@ -41,7 +48,7 @@
       "kia_description_part_two": "brand cars for the cities of Ruse, Gabrovo and Veliko Tarnovo, as well as of SUBARU brand cars for Northern Bulgaria. In 2019, the company became the official representative of the South Korean car manufacturer KIA for Ruse and the region. In both cities, there are modern buildings with a showroom offering all models of the KIA and Subaru brands and workshops equipped with the most modern equipment for prevention, service and repair.",
       "subaru_description": "SUBARU continuously strives to produce cars that offer excellent levels of safety in all road conditions, excellent dynamics and intelligent driving assistants. This is the basis of every vehicle that SUBARU produces. The brand's Symmetrical All Wheel Drive system is at the heart of this concept. The all-wheel drive is designed to be perfectly symmetrical with a low center of gravity, thanks to the horizontal Subaru Boxer engine, the Japanese car brand SUBARU has been a leader in the industry for 65 years. For 40 years it has been famous for its extremely reliable boxer engines, and for more than 30 years it has been a symbol of high cross-country ability thanks to the patented symmetrical four-wheel drive system",
       "dongfeng_description": "The showroom is an importer of cars of the famous Dongfeng brand. It supplies quality, EU-certified products with modern European design, advanced technologies and safety systems, with an unprecedented warranty on the market. Passenger vehicles cover various model types including sedan, SUV, MPV, mini car, etc., and off-road special vehicles cover desert vehicles, off-road 4WD trucks, and more. New energy vehicles cover various types of hybrid vehicles, BEVs, natural gas vehicles, etc.",
-      "talaria_description": "As an official Talaria dealer, 'VEKO OIL' Ltd. believes in electric vehicles as the future of mobility. Our mission is to offer customers the best of the electric motorcycle world while providing uncompromising quality and professional service."
+      "tenax_description": "As an official Talaria dealer, 'VEKO OIL' Ltd. believes in electric vehicles as the future of mobility. Our mission is to offer customers the best of the electric motorcycle world while providing uncompromising quality and professional service."
     },
     "car_centers": {
       "subtitle": "Reserve your service appointment by filling out the following form:",
@@ -73,12 +80,22 @@
       "hour_validation": "Please, pick up a hour",
       "hour_taken_validation": "The date has already been taken. Please, pick up another hour",
       "vin_number_validation": "Please, enter VIN number",
-      "error_message_validation": "Please, enter empty fields"
+      "error_message_validation": "Please, enter empty fields",
+      "auto_center_beko": "Autocenter Веко",
+      "central_office": "- central office",
+      "auto_center_ruse_text": "Showroom and service. Sale of new cars with brands Kia, Subaru and Talaria. Rodina 4, Hristo Botev Blvd. 12, Ruse",
+      "motor_show_beko": "Beko Motor Show",
+      "motor_show_text": "Sale of new Dongfeng brand cars, Tenax light trucks and Talaria electric motors. Showroom - 38 Gotse Delchev Blvd., Ruse.",
+      "auto_center_beko_gabrovo": "- Gabravo",
+      "auto_center_gabrovo_text": "Showroom and service. Sale of Kia, Subaru, Dongfeng, Tenax and Talaria brand cars. Center, 41 Hristo Smirnenski St., Gabrovo.",
+      "motor_show_veliko_turnovo": "- Veliko Turnovo",
+      "motor_show_veliko_turnovo_text": "Sale of new Subaru, Dongfeng and Talaria brand cars. Showroom-ul. “Oborishte“ 18, 5000 Veliko Tarnovo."
     },
     "inside_title": {
       "official_dealer": "Official DISTRIBUTOR of:"
     },
     "ecology": {
+      "title": "Ecology",
       "paragraph": "“VEKO OIL“ Ltd. holds permit No. 010-ДО-686-00 dated 14.06.2012 from RIOSV - city of Ruse for carrying out activities on collection, temporary storage and transportation of waste throughout the country. The company offers consultations, preparation of documents under the Environmental Protection Act, conclusion of a waste contract with a licensed company. The company has developed a program for the following types of waste management activities:",
       "list_item_one": "acceptance of used /waste/ oils from the end user, and from the sites for temporary storage of oils, which were formed as a result of the operation of the machinery and equipment of legal entities, code: 13.02.05*, 13.02.06*, 13.02.08 *, 13.01.10*, 13.01.11*, 13.01.13*, 13.03.07*, 13.03.08*, 13.03.10*, 13.05.06*, 13.05.07*;",
       "list_item_two": "unusable batteries and accumulators, code: 16.06.01*;",
@@ -91,6 +108,30 @@
       "contacts": "For contacts:",
       "copy_permit": "You can see a copy of the Permit",
       "text_here": "here"
+    },
+    "service_station": {
+      "service_station_text": "Premium service center VEKO is certified for warranty and non-warranty servicing of KIA and SUBARU brand cars. It has the latest generation of diagnostic equipment, specialized tools and original spare parts. It is equipped with a bench for adjusting the geometry of the front and rear axles of light and 4x4 cars, a gas analyzer, a machine for charging air conditioners, machines for mounting and balancing tires, a car wash. Thanks to the modern equipment and qualification of the personal service, it performs out-of-warranty service activities on all makes and models of cars.",
+      "our_services": "Our services",
+      "engines":"Engines",
+      "engines_text": "Repair, prevention and servicing of engines and gearboxes. Checking the condition of the engine, turbine, fuel system, clutch and all the important elements for the good operation of your car.",
+      "electronics": "Electronics",
+      "electronics_text": "Electrical repairs of dynamos and starters, computer diagnostics, troubleshooting of all systems in the car. Sale, service and installation of batteries MonBat, Bosch, Gigawath.",
+      "liquid_check": "Fluid check",
+      "liquid_check_text": "Checking the level of antifreeze, wiper fluid, hydraulic fluid and more. If necessary – replacement, addition or repair of the given system.",
+      "oil_change": "Oil change",
+      "oil_change_text": "Sale and change of engine, gearbox, hydraulic and transmission oils with the brands TEXACO, Valvoline, Mobil, Shell.",
+      "filters_change": "Filter change",
+      "filters_change_text": "Baldwin and Fleetguard brand oil, air, fuel, hydraulic and cabin filter changes.",
+      "climatic_systems": "Climate systems",
+      "climatic_systems_text": "Diagnosis, inspection, prevention, repair and charging of air conditioning systems.",
+      "tires": "Tires, brakes, chassis",
+      "tires_text": "Change of tires, linings, brake discs, brake fluid, adjustment and geometry stand of front and rear axle, undercarriage repairs.",
+      "full_computer_diagnostic": "Full computer diagnostics",
+      "full_computer_diagnostic_text": "Comprehensive diagnostics and inspection of all electronic, electrical and mechanical systems in the car. Computer diagnostics of fuel system, engine and electronics. Inspection of suspension, brakes, tires and others.",
+      "auto_accessories": "Auto accessories",
+      "auto_accessories_text": "We have auto cosmetics and consumables from leading global manufacturers - VEKO, Osram.",
+      "repair_services": "Repair services",
+      "repair_services_text": "The workshop provides mechanical and powder coating services for cars that have suffered an accident."
     },
     "used_cars": {
       "title": "Used cars",
@@ -133,6 +174,17 @@
       "stereo_check": "Stereo",
       "others": "Other",
       "new_importation_check": "New import"
+    },
+    "insurance": {
+      "car_insurance": "Car insurance",
+      "insurance_for_your": "Insurance for your:",
+      "home": "home",
+      "office": "office",
+      "enterprises_and_warehouse": "enterprises and warehouse",
+      "construction_site": "construction site",
+      "small_and_medium_business":"small and medium business",
+      "travel_insurances": "Travel insurance, accident, liability and more.",
+      "transport_insurances":"Transport insurances"
     },
     "veko_products": { 
       "text": "The company is engaged in the production of antifreeze, wiper fluids, fuel additives and improvers, auto cosmetics and household products. It has its own modern laboratory, where daily incoming control of raw materials and outgoing control of finished products is carried out. Production complies with European standards for quality, safety of working conditions and environmental protection. For more information, you can visit the following ",

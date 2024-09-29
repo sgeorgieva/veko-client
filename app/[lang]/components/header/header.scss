@@ -71,6 +71,22 @@
   opacity: 1;
   z-index: 3;
 
+  section {
+    &:first-of-type,
+    &:nth-of-type(5),
+    &:nth-of-type(7),
+    &:nth-of-type(8) {
+      a {
+        &:hover {
+          padding-bottom: 50px;
+        }
+        &.active {
+          padding-bottom: 40px !important;
+        }
+      }
+    }
+  }
+
   a {
     color: #fff;
     text-transform: uppercase;

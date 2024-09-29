@@ -3,14 +3,14 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Loader from "../Loader";
-import EcologyImage from "../../../../public/images/kia-ecology.png";
 import UsedCarImage from "../../../../public/images/autotrade.png";
+import RentACarImage from "../../../../public/images/rent-a-car.png";
 
 import "./servicesComponent.scss";
 
-const EcologyComponent = dynamic(() => import("./EcologyComponent"), {
+const RentCarComponent = dynamic(() => import("./RentCarComponet"), {
   suspense: true,
 });
 const UsedCarComponent = dynamic(() => import("./UsedCarComponent"), {
@@ -21,6 +21,7 @@ const HomeComponent = dynamic(() => import("../HomeComponent/page"), {
 });
 export default function ServicesComponent({ translations, lang }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,10 @@ export default function ServicesComponent({ translations, lang }) {
       setIsMobile(true);
     }
   }, []);
+
+  console.log("====================================");
+  console.log(pathname);
+  console.log("====================================");
 
   return (
     <Suspense fallback={<Loader />}>
@@ -42,7 +47,9 @@ export default function ServicesComponent({ translations, lang }) {
                 }`}
               >
                 <div className="col-md-12">
-                  <h1 className="pageHeader">{translations.services}</h1>
+                  <h1 className="pageHeader">
+                    {translations.services} {translations.rent_a_car_title}
+                  </h1>
                 </div>
               </div>
             </div>
@@ -53,25 +60,28 @@ export default function ServicesComponent({ translations, lang }) {
                 }`}
               >
                 <Link
-                  href="/services/ecology"
-                  onClick={() => router.push("/services/ecology")}
-                  children={<EcologyComponent />}
-                  className={`${isMobile ? "" : "w-25"}`}
-                >
-                  <img src={EcologyImage.src} alt="ecology-image" />
-                  <h5 className="fw-bold text-uppercase pt-3 text-center">
-                    {translations.ecology}
-                  </h5>
-                </Link>
-                <Link
-                  href="/services/used-car"
-                  onClick={() => router.push("/services/used-car")}
+                  href={`${pathname}/used-car`}
+                  onClick={() => router.push(`${pathname}/used-car`)}
                   children={<UsedCarComponent lang={lang} />}
                   className={`${isMobile ? "" : "w-25 ms-3"}`}
                 >
                   <img src={UsedCarImage.src} alt="used-car-image" />
                   <h5 className="fw-bold text-uppercase pt-3 text-center">
                     {translations.used_cars}
+                  </h5>
+                </Link>
+                <Link
+                  href={`${pathname}/rent-a-car`}
+                  onClick={() => router.push(`${pathname}/rent-a-car`)}
+                  children={<RentCarComponent />}
+                  className={`${isMobile ? "" : "w-25 text-center"}`}
+                >
+                  <img src={RentACarImage.src} alt="ecology-image" />
+                  <h5 className="fw-bold text-uppercase pt-3 text-center">
+                    {translations.rent_a_car}
+                  </h5>
+                  <h5 className="fw-bold text-uppercase text-center">
+                    {translations.comming_soon}
                   </h5>
                 </Link>
               </div>

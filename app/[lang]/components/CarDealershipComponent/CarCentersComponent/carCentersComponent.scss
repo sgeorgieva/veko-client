@@ -1,3 +1,23 @@
-.ant-picker-now {
-  display: none !important;
+.description {
+  > div {
+    position: relative;
+
+    .item-text {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 30vw;
+    }
+  }
+  img {
+    width: auto;
+  }
+
+  .images-wrapper {
+    img {
+      width: 5vw;
+      padding-top: 50px;
+    }
+  }
 }

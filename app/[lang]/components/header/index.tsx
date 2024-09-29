@@ -48,6 +48,13 @@ export default function Header({
     setHover(true);
   };
 
+  const handleLinesBreak = (value) => {
+    return value
+      .split(" ") // find spaces and make array from string
+      .map((item, idx) => (idx % 1 === 0 ? item : item + "\n")) // add line break to every second word
+      .join(" ");
+  };
+
   const handleMouseLeave = (e) => {
     setHover(false);
   };
@@ -150,14 +157,14 @@ export default function Header({
           <div className="col-md-8 col-sm-12">
             <span>
               <Icon color="#2b2b2b" inline={true} icon="phone" size={14} />
-              <a href="tel:+ +359 66 861 616" className="ps-2">
-                +359 66 861 616
+              <a href="tel: 0700 20 320" className="ps-2">
+                0700 20 320
               </a>
             </span>
             <span className="ms-3">
               <Icon color="#2b2b2b" inline={true} icon="gmail" size={14} />
               <a href="mailto:veko@veko-oil.eu" className="ps-2">
-                veko@veko-oil.eu
+                office@veko-oil.eu
               </a>
             </span>
           </div>
@@ -211,8 +218,8 @@ export default function Header({
               <AnimatedLink lang={lang} href="/car-dealership" class="navlink">
                 {translations.car_delership}
               </AnimatedLink>
-              <AnimatedLink lang={lang} href="/trade" class="navlink">
-                {translations.trade}
+              <AnimatedLink lang={lang} href="/service-station" class="navlink">
+                {translations.service_station}
               </AnimatedLink>
               <AnimatedLink lang={lang} href="/services" class="navlink">
                 {translations.services}
@@ -241,6 +248,14 @@ export default function Header({
                 />
               )}
               <AnimatedLink
+                title={`${translations.home}`}
+                href="/"
+                lang={lang}
+                hasActiveClass={pathname === "/" && pathname.includes("/")}
+              >
+                {translations.home}
+              </AnimatedLink>
+              <AnimatedLink
                 isHover={isHover}
                 title={`${translations.car_dealership}`}
                 name={`${translations.car_dealership}`}
@@ -250,8 +265,14 @@ export default function Header({
                 hasActiveClass={pathname.includes("car-dealership")}
                 lang={lang}
               >
-                {translations.car_delership}
-                {isHover && name === translations.car_delership ? (
+                <span className="d-block text-center">{translations.car}</span>
+                <span className="d-block text-center">
+                  {translations.dealership}
+                </span>
+                {isHover &&
+                name.includes(
+                  `<span class="d-block text-center">${translations.car}</span><span class="d-block text-center">${translations.dealership}</span>`
+                ) ? (
                   <div className="row">
                     <div className="col">
                       <ul className="d-block header-nested-links">
@@ -279,85 +300,40 @@ export default function Header({
                 ) : null}
               </AnimatedLink>
               <AnimatedLink
-                title={`${translations.trade}`}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
-                name={name}
-                isHover={isHover}
-                href="/trade"
                 lang={lang}
-                hasActiveClass={pathname.includes("trade")}
+                title={`${translations.service_station}`}
+                href="/service-station"
+                hasActiveClass={pathname.includes("service-station")}
               >
-                {translations.trade}
-                {isHover && name === translations.trade ? (
-                  <div className="row">
-                    <div className="col">
-                      <ul className="d-block header-nested-links">
-                        <li className="d-flex-inline">
-                          <AnimatedLink
-                            lang={lang}
-                            href="/trade/oils"
-                            hasTarget
-                          >
-                            {translations.oils}
-                          </AnimatedLink>
-                        </li>
-                        <li>
-                          <AnimatedLink
-                            lang={lang}
-                            href="/trade/accumulators"
-                            hasTarget
-                          >
-                            {translations.accumulators}
-                          </AnimatedLink>
-                        </li>
-                        <li>
-                          <AnimatedLink
-                            lang={lang}
-                            href="/trade/auto-consumables"
-                            hasTarget
-                          >
-                            {translations.autoconsumables}
-                          </AnimatedLink>
-                        </li>
-                        <li>
-                          <AnimatedLink
-                            lang={lang}
-                            href="/trade/special-liquids"
-                            hasTarget
-                          >
-                            {translations.special_liquids}
-                          </AnimatedLink>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                ) : null}
+                <span className="d-block text-center">
+                  {translations.service}
+                </span>
+                <span className="d-block text-center">
+                  {translations.station}
+                </span>
               </AnimatedLink>
               <AnimatedLink
-                href="/services"
-                lang={lang}
+                isHover={isHover}
                 title={`${translations.services}`}
+                name={`${translations.services}`}
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
-                name={name}
-                isHover={isHover}
+                href="/services"
                 hasActiveClass={pathname.includes("services")}
+                lang={lang}
               >
-                {translations.services}
-                {isHover && name === translations.services ? (
+                <div className="d-block text-center">
+                  {translations.services}
+                </div>
+                <div className="d-block text-center">
+                  {translations.rent_a_car_title}
+                </div>
+                {isHover &&
+                name ===
+                  `<div class="d-block text-center">${translations.services}</div><div class="d-block text-center">${translations.rent_a_car_title}</div>` ? (
                   <div className="row">
                     <div className="col">
                       <ul className="d-block header-nested-links">
-                        <li className="d-flex-inline">
-                          <AnimatedLink
-                            lang={lang}
-                            pathname="/services/ecology"
-                            href="/services/ecology"
-                          >
-                            {translations.ecology}
-                          </AnimatedLink>
-                        </li>
                         <li>
                           <AnimatedLink
                             lang={lang}
@@ -367,6 +343,20 @@ export default function Header({
                             {translations.used_cars}
                           </AnimatedLink>
                         </li>
+                        <li>
+                          <AnimatedLink
+                            lang={lang}
+                            pathname="/services/rent-a-car"
+                            href="/services/rent-a-car"
+                          >
+                            <div className="d-block">
+                              {translations.rent_a_car}
+                            </div>
+                            <div className="d-block">
+                              {translations.comming_soon}
+                            </div>
+                          </AnimatedLink>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -374,11 +364,24 @@ export default function Header({
               </AnimatedLink>
               <AnimatedLink
                 lang={lang}
+                title={`${translations.insurance}`}
+                href="/insurance"
+                hasActiveClass={pathname.includes("insurance")}
+              >
+                {translations.insurance}
+              </AnimatedLink>
+              <AnimatedLink
+                lang={lang}
                 title={`${translations.veko_products}`}
                 href="/veko-products"
                 hasActiveClass={pathname.includes("veko-products")}
               >
-                {translations.veko_products}
+                <span className="d-block text-center">
+                  {translations.distribution_with}
+                </span>
+                <span className="d-block text-center">
+                  {translations.auto_consumables}
+                </span>
               </AnimatedLink>
               <AnimatedLink
                 title={`${translations.about}`}

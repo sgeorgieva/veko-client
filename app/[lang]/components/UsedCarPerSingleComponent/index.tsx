@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
 import { endpoints, linkUrl } from "../../../../utils/functions";
+import { CarProvider, useCarContext } from "@/app/context/CarContext";
 
 import "./usedCarPerSingleComponent.scss";
-import { CarProvider, useCarContext } from "@/app/context/CarContext";
 export default async function UsedCarPerSingleComponent({
   isEdit,
   isMobile,
@@ -60,7 +59,6 @@ export default async function UsedCarPerSingleComponent({
               <Avatar
                 name={model}
                 src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${carInfo?.images[0].name}`}
-                verified={true}
               />
             }
           >

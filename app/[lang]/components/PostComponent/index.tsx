@@ -54,7 +54,7 @@ export default function PostComponent({
     <Flex alignItems="center" height="100%" justifyContent="start" width="100%">
       <Box column={12} maxWidth={236} padding={2}>
         {!isEdit ? (
-          <Link href={`/services/posts/${id}`}>
+          <Link href={`/car-dealership/posts/${id}`}>
             <WashAnimated
               image={
                 <Avatar

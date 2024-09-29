@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     // 'http-equiv': 'Content-Security-Policy',
   },
   alternates: {
-    canonical: `${process.env.NODE_ENV !== "production" ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/services/used-cars`,
+    canonical: `${process.env.NODE_ENV !== "production" ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/car-dealership/used-cars`,
   },
   other: {
     classification: "business",

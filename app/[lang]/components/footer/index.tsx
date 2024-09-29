@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Icon } from "gestalt";
 import Link from "next/link";
 import AnimatedLink from "../AnimatedLink";
-import Logo from "../../../../public/images/veko-oil.png";
+import Logo from "../../../../public/images/logo_Veko.png";
 import SgLogo from "../../../../public/images/sg-dark-logo.png";
 
 import "./footer.scss";
@@ -34,10 +34,10 @@ export default function Footer({
             {translations.car_delership}
           </AnimatedLink>
           <AnimatedLink
-            href="/trade"
-            hasActiveClass={pathname == "/about" ? true : false}
+            href="/service-station"
+            hasActiveClass={pathname == "/service-station" ? true : false}
           >
-            {translations.trade}
+            {translations.service_station}
           </AnimatedLink>
           <AnimatedLink
             href="/services"

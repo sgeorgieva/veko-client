@@ -9,8 +9,8 @@ export const links = [
     name: 'car dealership'
   },
   {
-    to: '/trade',
-    name: 'trade'
+    to: '/service-station',
+    name: 'service_station'
   },
   {
     to: '/services',
@@ -29,11 +29,11 @@ export const links = [
     name: 'contact'
   },
   {
-    to: '/admin-panel',
-    name: 'admin-panel'
+    to: '/admin',
+    name: 'admin'
   },
   {
-    to: '/admin-panel/news',
-    name: 'admin-panel-news'
+    to: '/admin/news',
+    name: 'admin/news'
   }
 ];

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import CarCentersComponent from "../../components/CarDealershipComponent/CarCentersComponent";
 import { Locale, i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
 // import Image from "../../../public/images/portfolio.webp";
+import CarCentersComponent from "../../components/CarDealershipComponent/CarCentersComponent/index";
 
 export const metadata: Metadata = {
   title: "ВЕКО ОЙЛ ЕООД",

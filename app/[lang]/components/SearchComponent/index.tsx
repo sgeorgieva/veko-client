@@ -13,14 +13,13 @@ import {
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import { i18n } from "@/i18n.config";
 import { usePathname } from "next/navigation";
-import Login from "../../admin-panel/login/page";
+import { endpoints, linkUrl } from "@/utils/functions";
+import Login from "../../admin/login/page";
 
 import "./searchComponent.scss";
-import { endpoints, linkUrl } from "@/utils/functions";
-import axios from "axios";
-import { log } from "console";
 
 export default function SearchComponent({
   isHover,
@@ -34,7 +33,7 @@ export default function SearchComponent({
 }: any) {
   const [searchValue, setSearchValue] = useState("");
   const TOOLTIP__ZINDEX = new FixedZIndex(6);
-  const [isOpenLoginModal, setOpenLoginModal] = useState(false);
+  const [isOpenLoginModal, setOpenLoginModal] = useState(true);
   const [openLoginMenu, setOpenLoginMenu] = useState(false);
   const anchorSecondRef = useRef(null);
   const router = useRouter();
@@ -53,22 +52,14 @@ export default function SearchComponent({
     }
   }, []);
 
-  useEffect(() => {
-    if (settingsRef.current || settingsLinkRef.current) {
-      // router.push("/admin-panel");
-    }
-  }, [settingsRef, settingsLinkRef]);
-
   const toggleLoginModal = () => {
     setOpenLoginModal(!isOpenLoginModal);
+    console.log("HERE");
+    location.reload();
   };
 
   useEffect(() => {
     setIsClient(true);
-
-    if (anchorSecondRef.current !== null) {
-      // router.push("/admin-panel");
-    }
   }, [anchorSecondRef]);
 
   if (!isClient) {
@@ -160,11 +151,10 @@ export default function SearchComponent({
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("jwt");
-
-    localStorage.setItem("isLoginIn", "false");
-    localStorage.removeItem("activeTabIndex");
     router.push("/");
+    localStorage.removeItem("jwt");
+    localStorage.setItem("isLogin", "false");
+    localStorage.removeItem("activeTabIndex");
     setShowToast(true);
   };
 
@@ -219,9 +209,9 @@ export default function SearchComponent({
                             href={
                               locale !== "en"
                                 ? carInfo &&
-                                  `/services/used-car/${encodeURIComponent(item.model)}`
+                                  `/car-dealership/used-car/${encodeURIComponent(item.model)}`
                                 : carInfo &&
-                                  `${pathName}/services/used-car/${encodeURIComponent(item.model)}`
+                                  `${pathName}/car-dealership/used-car/${encodeURIComponent(item.model)}`
                             }
                           >
                             <p>{item.model}</p>
@@ -233,7 +223,7 @@ export default function SearchComponent({
                 </div>
               )}
           </Flex.Item>
-          <Link href={pathName.includes("/en") ? "/en" : "/"}>
+          {/* <Link href={pathName.includes("/en") ? "/en" : "/"}>
             <IconButton
               accessibilityLabel="Home"
               tooltip={{
@@ -245,14 +235,14 @@ export default function SearchComponent({
               size="sm"
               iconColor={`${isHover ? "darkGray" : "white"}`}
             />
-          </Link>
+          </Link> */}
           <>
             <Flex height="100%" justifyContent="center" width="100%">
               <Box>
                 <IconButton
                   disabled={
-                    pathName.includes("/en/services/used-car/") ||
-                    pathName.includes("/services/used-car/")
+                    pathName.includes("/en/car-dealership/used-car/") ||
+                    pathName.includes("/car-dealership/used-car/")
                   }
                   ref={anchorSecondRef}
                   accessibilityControls="subtext-dropdown-example"
@@ -316,21 +306,7 @@ export default function SearchComponent({
             )}
           </>
 
-          {!localStorage.getItem("jwt") ? (
-            <IconButton
-              type="button"
-              size="sm"
-              icon="person"
-              iconColor={`${isHover ? "darkGray" : "white"}`}
-              accessibilityPopupRole="dialog"
-              onClick={toggleLoginModal}
-              tooltip={{
-                text: translations.login,
-                idealDirection: "down",
-                zIndex: new CompositeZIndex([TOOLTIP__ZINDEX]),
-              }}
-            />
-          ) : (
+          {localStorage.getItem("jwt") && (
             <>
               <Flex
                 alignItems="center"
@@ -378,11 +354,7 @@ export default function SearchComponent({
                       marginEnd={2}
                     >
                       <Link
-                        href={
-                          pathName.includes("/en")
-                            ? "/en/admin-panel"
-                            : "/admin-panel"
-                        }
+                        href={pathName.includes("/en") ? "/en/admin" : "/admin"}
                       >
                         <Flex alignItems="center" justifyContent="end">
                           <Text
@@ -443,13 +415,15 @@ export default function SearchComponent({
             </>
           )}
         </Flex>
-        {isOpenLoginModal && (
-          <Login
-            isMobile={isMobile}
-            closeModal={toggleLoginModal}
-            setOpenLoginMenu={setOpenLoginMenu}
-          />
-        )}
+        {pathName === "/admin" &&
+          isOpenLoginModal &&
+          localStorage.getItem("isLogin") === "false" && (
+            <Login
+              isMobile={isMobile}
+              closeModal={toggleLoginModal}
+              setOpenLoginMenu={setOpenLoginMenu}
+            />
+          )}
       </Box>
     </div>
   );
