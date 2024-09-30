@@ -17,7 +17,7 @@ import axios from "axios";
 import { i18n } from "@/i18n.config";
 import { usePathname } from "next/navigation";
 import { endpoints, linkUrl } from "@/utils/functions";
-import Login from "../../admin/login/page";
+import Login from "../../admin/login";
 
 import "./searchComponent.scss";
 

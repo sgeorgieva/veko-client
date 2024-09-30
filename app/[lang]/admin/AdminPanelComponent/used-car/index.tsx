@@ -8,9 +8,9 @@ import UsedCarPerSingleComponent from "../../../components/UsedCarPerSingleCompo
 import AddCarModal from "./AddCarModal";
 import EditCarModal from "./EditCarModal";
 import DeleteCarModal from "./DeleteCarModal";
+import { CarProvider } from "@/app/context/CarContext";
 
 import "./adminPanelUsedCar.scss";
-import { CarProvider } from "@/app/context/CarContext";
 
 export default function AdminPanelUsedCarComponent({
   isAddCarModalOpen,

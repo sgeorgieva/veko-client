@@ -38,6 +38,7 @@ export default function LayoutComponent({
       <main className={font}>{children}</main>
       <footer>
         <Footer
+          lang={lang}
           translationsFooter={translationsFooter}
           translations={translations}
           isMobile={isMobile}

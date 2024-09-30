@@ -4,18 +4,27 @@ import { Suspense, useEffect, useState } from "react";
 import { Box, Flex, IconButton, SegmentedControl, Text } from "gestalt";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import dynamic from "next/dynamic";
 import { endpoints, linkUrl } from "@/utils/functions";
 import Loader from "../../components/Loader";
 import HomeComponent from "../../components/HomeComponent/page";
 import Message from "../../components/MessageComponent";
 import AddCarModal from "./used-car/AddCarModal";
 import AddPostsModal from "../posts/AddPostsModal";
-import AdminPanelUsedCarComponent from "./used-car";
-import AdminPanelPostsComponent from "../posts";
+// import AdminPanelUsedCarComponent from "./used-car";
+// import AdminPanelPostsComponent from "../posts";
 
 import "./adminPanel.scss";
 
-export default function AdminPanelComponent({ lang }) {
+const AdminPanelUsedCarComponent = dynamic(() => import("./used-car"), {
+  ssr: false,
+});
+
+const AdminPanelPostsComponent = dynamic(() => import("../posts"), {
+  ssr: false,
+});
+
+export default function AdminPanelComponent({ lang, translations }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAddCarModalOpen, setIsAddCarOpen] = useState(false);
   const [isAddPostModalOpen, setIsPostModalOpen] = useState(false);
@@ -37,13 +46,13 @@ export default function AdminPanelComponent({ lang }) {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("isLogin") === "true") {
-      // router.push("/admin-panel");
-      setIsLogin(true);
-      // setShowToast(true);
-      handleGetPostsData();
-    } else {
-      setIsLogin(false);
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("isLogin") === "true") {
+        setIsLogin(true);
+        handleGetPostsData();
+      } else {
+        setIsLogin(false);
+      }
     }
   }, [localStorage.getItem("isLogin")]);
 

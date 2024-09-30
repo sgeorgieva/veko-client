@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { Locale, i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
-import AboutComponent from "../components/AboutComponent";
-import AdminPanelComponent from "./AdminPanelComponent";
-
-// import Image from "../../../public/images/portfolio.webp";
+import dynamic from "next/dynamic";
+// import AdminPanelComponent from "./AdminPanelComponent";
+import { Suspense } from "react";
+import Loader from "../components/Loader";
 
 export const metadata: Metadata = {
   title: "ВЕКО ОЙЛ ЕООД",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     // 'http-equiv': 'Content-Security-Policy',
   },
   alternates: {
-    canonical: `${process.env.NODE_ENV !== "production" ? process.env.LOCALHOST_SITE_URL : process.env.SITE_URL}/about`,
+    canonical: `${process.env.NODE_ENV !== "production" ? process.env.LOCALHOST_SITE_URL : process.env.NEXT_PUBLIC_SITE_URL}/admin`,
   },
   other: {
     classification: "business",
@@ -43,15 +43,22 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ lang: locale }));
+  const paths = i18n.locales.map((locale) => ({
+    lang: locale,
+  }));
+  return paths;
 }
 
-export default async function AdminPanel({
-  params,
-}: {
-  params: { lang: Locale };
-}) {
+const AdminPanelComponent = dynamic(() => import("./AdminPanelComponent"), {
+  ssr: false,
+});
+
+export default async function Admin({ params }: { params: { lang: Locale } }) {
   const { page } = await getDictionary(params.lang);
 
-  return <AdminPanelComponent lang={params.lang} />;
+  return (
+    <Suspense fallback={<Loader />}>
+      <AdminPanelComponent lang={params.lang} translations={page} />
+    </Suspense>
+  );
 }
