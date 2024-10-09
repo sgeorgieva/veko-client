@@ -63,7 +63,8 @@ export default function CarCentersComponent({ title, translations }) {
       component={
         <div className="contact-wrapper">
           <div className="title-contact">
-            <h1 className="pageHeader pb-4">{title}</h1>
+            <h1 className="pageHeader py-3">{title}</h1>
+            <hr />
           </div>
           <div className="description d-flex justify-content-around">
             <div onClick={handleExpandKiaRuseFirst}>

@@ -22,33 +22,67 @@ export default function InsuranceComponent({ title, translations }) {
     <HomeComponent
       isHomePage={false}
       component={
-        <div className="contact-wrapper">
-          <div className="title-contact">
-            <h1 className="pageHeader mb-4">{title}</h1>
-          </div>
-          <hr />
-          <div className="d-flex">
-            <ol>
-              <li>{translations.car_insurance}</li>
-              <li>
-                {translations.insurance_for_your}
-                <ul>
-                  <li>{translations.home}</li>
-                  <li>{translations.office}</li>
-                  <li>{translations.enterprises_and_warehouse}</li>
-                  <li>{translations.construction_site}</li>
-                  <li>{translations.small_and_medium_business}</li>
-                </ul>
-              </li>
-              <li>{translations.travel_insurances}</li>
-              <li>{translations.transport_insurances}</li>
-            </ol>
-            <div className="d-flex align-items-center insurance-images-wrapper">
-              <Image src={BulstradInsuranceLogo.src} />
-              <Image src={ArmeecInsuranceLogo.src} />
+        <>
+          {isMobile ? (
+            <>
+              <div className="insurance-wrapper">
+                <div className="title-insurance">
+                  <h1 className="pageHeader pt-3">{title}</h1>
+                </div>
+                <hr />
+                <div className="d-flex">
+                  <ol>
+                    <li>{translations.car_insurance}</li>
+                    <li>
+                      {translations.insurance_for_your}
+                      <ul>
+                        <li>{translations.home}</li>
+                        <li>{translations.office}</li>
+                        <li>{translations.enterprises_and_warehouse}</li>
+                        <li>{translations.construction_site}</li>
+                        <li>{translations.small_and_medium_business}</li>
+                      </ul>
+                    </li>
+                    <li>{translations.travel_insurances}</li>
+                    <li>{translations.transport_insurances}</li>
+                  </ol>
+                </div>
+                <div className="d-flex align-items-center insurance-images-wrapper flex-column">
+                  <Image src={BulstradInsuranceLogo.src} />
+                  <Image src={ArmeecInsuranceLogo.src} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="insurance-wrapper">
+              <div className="title-insurance">
+                <h1 className="pageHeader pt-3">{title}</h1>
+              </div>
+              <hr />
+              <div className="d-flex">
+                <ol>
+                  <li>{translations.car_insurance}</li>
+                  <li>
+                    {translations.insurance_for_your}
+                    <ul>
+                      <li>{translations.home}</li>
+                      <li>{translations.office}</li>
+                      <li>{translations.enterprises_and_warehouse}</li>
+                      <li>{translations.construction_site}</li>
+                      <li>{translations.small_and_medium_business}</li>
+                    </ul>
+                  </li>
+                  <li>{translations.travel_insurances}</li>
+                  <li>{translations.transport_insurances}</li>
+                </ol>
+                <div className="d-flex align-items-center insurance-images-wrapper">
+                  <Image src={BulstradInsuranceLogo.src} />
+                  <Image src={ArmeecInsuranceLogo.src} />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       }
     />
   );

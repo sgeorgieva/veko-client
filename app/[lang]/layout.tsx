@@ -1,17 +1,19 @@
 // import './globals.css'
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Locale, i18n } from "@/i18n.config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import localFont from "next/font/local";
-import { ReCaptchaProvider } from "next-recaptcha-v3";
-import Loader from "./components/Loader";
-import LayoutComponent from "./components/LayoutComponent";
-import { LoadingProvider } from "../context/LoadingContext";
 import { getDictionary } from "@/lib/dictionary";
-import { PostsProvider } from "../context/PostsContext";
+import GlobalLoader from "./components/GlobalLoader";
+import { PostsProvider } from "../contexts/PostsContext";
+import { CarProvider } from "../contexts/CarContext";
 
 import "../globals.scss";
-import { CarProvider } from "../context/CarContext";
+import dynamic from "next/dynamic";
+import Loader from "./components/Loader";
+import { Provider } from "react-redux";
+import store from "@/store/store";
 
 export const metadata: Metadata = {
   title: "ВЕКО ОЙЛ ЕООД",
@@ -59,6 +61,11 @@ export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
+const LayoutComponent = dynamic(() => import("./components/LayoutComponent"), {
+  ssr: true,
+  loading: () => <Loader />,
+});
+
 export default async function RootLayout({
   children,
   params,
@@ -69,20 +76,20 @@ export default async function RootLayout({
   const { navigation, footer, page } = await getDictionary(params.lang);
 
   return (
-    <LoadingProvider>
-      <Loader />
-      <ReCaptchaProvider reCaptchaKey="6Le2XAoqAAAAABcR1RYwjuilen0Q8OvlkxhTGyLr">
-        <html lang={params.lang} className={sfProFont.className}>
-          <head>
-            <script
-              src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-              async
-              defer
-            ></script>
-          </head>
-          <body className={sfProFont.className}>
-            <CarProvider>
-              <PostsProvider>
+    <html lang={params.lang} className={sfProFont.className}>
+      <head>
+        <script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          async
+          defer
+        ></script>
+      </head>
+      <body className={sfProFont.className}>
+        <CarProvider>
+          <PostsProvider>
+            {/* <Provider store={store}> */}
+            <GlobalLoader>
+              <Suspense fallback={<Loader />}>
                 <LayoutComponent
                   lang={params.lang}
                   font={sfProFont.className}
@@ -90,13 +97,14 @@ export default async function RootLayout({
                   translationsFooter={footer}
                   translations={navigation}
                   translationsUsedCars={page.used_cars}
-                ></LayoutComponent>
-              </PostsProvider>
-            </CarProvider>
-          </body>
-          <GoogleAnalytics gaId="G-LX59883J0R" />
-        </html>
-      </ReCaptchaProvider>
-    </LoadingProvider>
+                />
+              </Suspense>
+            </GlobalLoader>
+            {/* </Provider> */}
+          </PostsProvider>
+        </CarProvider>
+      </body>
+      <GoogleAnalytics gaId="G-LX59883J0R" />
+    </html>
   );
 }

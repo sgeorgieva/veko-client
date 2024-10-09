@@ -8,9 +8,9 @@ import PostComponent from "../../components/PostComponent";
 import AddPostsModal from "./AddPostsModal";
 import EditPostsModal from "./EditPostsModal";
 import DeletePostsModal from "./DeletePostsModal";
+import Message from "../../components/MessageComponent";
 
 import "./adminPanelPosts.scss";
-import Message from "../../components/MessageComponent";
 export default function AdminPanelPostsComponent({
   isAddPostModalOpen,
   setIsPostModalOpen,

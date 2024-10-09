@@ -2,19 +2,20 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { Box, Flex, IconButton, SegmentedControl, Text } from "gestalt";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { endpoints, linkUrl } from "@/utils/functions";
 import Loader from "../../components/Loader";
 import HomeComponent from "../../components/HomeComponent/page";
 import Message from "../../components/MessageComponent";
 import AddCarModal from "./used-car/AddCarModal";
 import AddPostsModal from "../posts/AddPostsModal";
+import Login from "../login";
+import { useApiPosts } from "@/hooks/useApiPosts";
 // import AdminPanelUsedCarComponent from "./used-car";
 // import AdminPanelPostsComponent from "../posts";
 
 import "./adminPanel.scss";
+import { useApiLogin } from "@/hooks/useApiLogin";
 
 const AdminPanelUsedCarComponent = dynamic(() => import("./used-car"), {
   ssr: false,
@@ -25,16 +26,11 @@ const AdminPanelPostsComponent = dynamic(() => import("../posts"), {
 });
 
 export default function AdminPanelComponent({ lang, translations }) {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isAddCarModalOpen, setIsAddCarOpen] = useState(false);
   const [isAddPostModalOpen, setIsPostModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [itemIndex, setItemIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [pagesLength, setPagesLength] = useState(null);
-  const [itemsPage, setItemsPage] = useState([]);
   const items = ["Оказион", "Новини"];
   const content = [
     <AdminPanelUsedCarComponent lang={lang} />,
@@ -43,21 +39,27 @@ export default function AdminPanelComponent({ lang, translations }) {
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isOpenLoginModal, setOpenLoginModal] = useState(true);
+  const pathname = usePathname();
+
+  const { fetchPosts, isLoading } = useApiPosts();
+  const { isLogin, setIsLogin } = useApiLogin();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (localStorage.getItem("isLogin") === "true") {
+      if (localStorage.getItem("isLogin") === null) {
+        localStorage.setItem("isLogin", "false");
+      } else if (localStorage.getItem("isLogin") === "true") {
         setIsLogin(true);
         handleGetPostsData();
       } else {
         setIsLogin(false);
       }
     }
-  }, [localStorage.getItem("isLogin")]);
+  }, []);
 
   useEffect(() => {
-    if (Boolean(localStorage.getItem("isLogin"))) {
+    if (localStorage.getItem("isLogin") === "true" && pathname === "/admin") {
       setShowToast(true);
     }
   }, []);
@@ -91,34 +93,14 @@ export default function AdminPanelComponent({ lang, translations }) {
     fetchPostsData();
   };
 
-  async function fetchPostsData() {
-    setIsLoading(true);
-    setError(null);
+  const fetchPostsData = () => {
+    fetchPosts(page, setPage, lang);
+  };
 
-    try {
-      const response = await axios.get(
-        `${linkUrl()}${endpoints.posts}?page=${page}?language_id=${lang}`,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`, // Replace with your actual authorization token
-          },
-        }
-      );
-      if (response.status === 200) {
-        setItemsPage((prevItems) => [
-          ...prevItems,
-          ...response?.data?.posts?.data,
-        ]);
-        setPagesLength(response.data?.posts?.last_page);
-        setPage((prevPage) => prevPage + 1);
-      }
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const toggleLoginModal = () => {
+    setOpenLoginModal(!isOpenLoginModal);
+    location.reload();
+  };
 
   return (
     <Suspense fallback={<Loader />}>
@@ -140,10 +122,19 @@ export default function AdminPanelComponent({ lang, translations }) {
                 setShowToast={setShowSuccessMsg}
               />
             )}
+            {!isLogin &&
+              // isOpenLoginModal &&
+              localStorage.getItem("isLogin") === "false" && (
+                <Login
+                  isMobile={isMobile}
+                  closeModal={toggleLoginModal}
+                  // setOpenLoginMenu={setOpenLoginMenu}
+                />
+              )}
             {isLogin && (
-              <div className="contact-wrapper">
+              <div className="contact-wrapper mb-5">
                 <div className="d-flex align-items-center justify-content-between title-contact">
-                  <h1 className="d-flex pageHeader align-items-center justify-content-between mb-4">
+                  <h1 className="d-flex pageHeader align-items-center justify-content-between py-4">
                     Админстраторски панел на Veko Oil
                   </h1>
                   {itemIndex === 0 && (

@@ -21,8 +21,9 @@ export default function AboutComponent({ title, translations }) {
       component={
         <div className="contact-wrapper">
           <div className="title-contact">
-            <h1 className="pageHeader mb-4">{title}</h1>
+            <h1 className="pageHeader pt-3">{title}</h1>
           </div>
+          <hr />
           <div className="description-contact pageContent">
             <p>{translations.paragraph_text_one}</p>
             <p>{translations.paragraph_text_two}</p>

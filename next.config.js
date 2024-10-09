@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "./.env") });
 
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   // output: "export",
   eslint: {
     ignoreDuringBuilds: true,

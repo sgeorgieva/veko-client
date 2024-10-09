@@ -15,7 +15,7 @@ import HomeComponent from "../../HomeComponent/page";
 import "./usedCarDescription.scss";
 import { Suspense } from "react";
 import Loader from "../../Loader";
-import { useCarContext } from "@/app/context/CarContext";
+import { useCarContext } from "@/app/contexts/CarContext";
 
 export default function UsedCarDescription({ lang, translations }) {
   const { car } = useCarContext();

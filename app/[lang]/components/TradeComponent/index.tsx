@@ -41,7 +41,7 @@ export default function TradeComponent({ translations, translationsPage }) {
                 }`}
               >
                 <div className="col-md-12">
-                  <h1 className="pageHeader">
+                  <h1 className="pageHeader pt-3">
                     {translations.service} {translations.station}
                   </h1>
                   <hr />

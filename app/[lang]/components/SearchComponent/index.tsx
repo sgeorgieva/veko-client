@@ -307,7 +307,7 @@ export default function SearchComponent({
           </>
 
           {localStorage.getItem("jwt") && (
-            <>
+            <div className="avatar-wrapper">
               <Flex
                 alignItems="center"
                 height="100%"
@@ -327,7 +327,7 @@ export default function SearchComponent({
                       text={
                         <Flex height="100%" justifyContent="center">
                           <Box>
-                            <Avatar name="Yasen" size="sm" />
+                            <Avatar name="Admin" size="sm" />
                           </Box>
                         </Flex>
                       }
@@ -412,18 +412,18 @@ export default function SearchComponent({
                   </Popover>
                 )}
               </Flex>
-            </>
+              {/* {pathName === "/admin" &&
+                isOpenLoginModal &&
+                localStorage.getItem("isLogin") === "false" && (
+                  <Login
+                    isMobile={isMobile}
+                    closeModal={toggleLoginModal}
+                    setOpenLoginMenu={setOpenLoginMenu}
+                  />
+                )} */}
+            </div>
           )}
         </Flex>
-        {pathName === "/admin" &&
-          isOpenLoginModal &&
-          localStorage.getItem("isLogin") === "false" && (
-            <Login
-              isMobile={isMobile}
-              closeModal={toggleLoginModal}
-              setOpenLoginMenu={setOpenLoginMenu}
-            />
-          )}
       </Box>
     </div>
   );

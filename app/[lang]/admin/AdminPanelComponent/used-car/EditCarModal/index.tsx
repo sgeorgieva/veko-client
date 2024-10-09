@@ -1163,7 +1163,7 @@ export default function EditCarModal({
                   />
                 </Text>
               </div>
-              <div className="row mt-3 pb-4">
+              <div className="row mt-3 pb-4 buttons">
                 <Box padding={0} marginTop={3} marginBottom={3}>
                   <Button
                     fullWidth

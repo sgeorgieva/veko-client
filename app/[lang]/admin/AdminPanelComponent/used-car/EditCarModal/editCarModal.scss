@@ -1,5 +1,5 @@
 div[name="trap-focus"] {
-  position: static;
+  // position: static;
   .Eqh {
     position: absolute !important;
     top: 0 ;
@@ -17,5 +17,13 @@ div[name="trap-focus"] {
 .Eqh.xuA {
   button[aria-label="Dismiss banner"] {
     display: none;
+  }
+}
+
+div[aria-label="Edit cars"] {
+  .buttons {
+    .zI7.iyn.Hsu {
+      width: 100%;
+    }
   }
 }

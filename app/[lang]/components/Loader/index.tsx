@@ -1,29 +1,21 @@
 "use client";
 
-import { Box, Layer, Spinner } from "gestalt";
-import { useLoading } from "../../../context/LoadingContext";
+import { Flex, Spinner } from "gestalt"; // You can use any loader component or customize your own
 
+import "./loader.scss";
 export default function Loader() {
-  const { loading } = useLoading();
-
-  if (!loading) return null;
-
   return (
-    // <Layer>
-    //   <Box
-    //     position='fixed'
-    //     top
-    //     bottom
-    //     left
-    //     right
-    //     display='flex'
-    //     alignItems='center'
-    //     justifyContent='center'
-    //     color='lightGray'
-    //     opacity={0.5}
-    //   >
-    <Spinner show color="default" />
-    // </Box>
-    // </Layer>
+    <div className="loader-overlay">
+      <Flex
+        alignItems="center"
+        height="100%"
+        justifyContent="center"
+        width="100%"
+      >
+        <Flex direction="column" gap={8} maxWidth={400}>
+          <Spinner accessibilityLabel="Example spinner" show color="default" />
+        </Flex>
+      </Flex>
+    </div>
   );
 }

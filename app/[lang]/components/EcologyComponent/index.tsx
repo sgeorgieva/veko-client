@@ -23,13 +23,13 @@ export default function EcologyComponent({
   return (
     <div className="contact-wrapper">
       <div className="title-contact">
-        <h1 className={`pageHeader ${isMobile ? "" : "mb-4"}`}>
+        <h1 className={`pageHeader ${isMobile ? "" : "pt-5 mb-4"}`}>
           {translations.ecology.title}
         </h1>
       </div>
       <div className="description-contact pageContent">
         <div className={`row ${isMobile ? "flex-column-reverse" : ""}`}>
-          <div className="col-md-9">
+          <div className={`col-md-9 ${isMobile ? "pt-3" : ""}`}>
             <p>{translations.ecology.paragraph}</p>
             <ul>
               <li>{translations.ecology.list_item_one}</li>
@@ -61,7 +61,7 @@ export default function EcologyComponent({
             </div>
             <div className="d-flex mt-3">
               <Icon icon="file-box" color="darkGrey" />
-              <span className="ms-2">
+              <span className="ms-2 pb-3">
                 {translations.ecology.copy_permit}&nbsp;
                 <a
                   className="fw-bold pdf-link"

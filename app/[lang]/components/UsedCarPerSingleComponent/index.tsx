@@ -1,8 +1,19 @@
+// "use client";
+
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
-import { Avatar, Box, Button, Flex, Link, Text, WashAnimated } from "gestalt";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Image,
+  Link,
+  Text,
+  WashAnimated,
+} from "gestalt";
 import { endpoints, linkUrl } from "../../../../utils/functions";
-import { CarProvider, useCarContext } from "@/app/context/CarContext";
+import { CarProvider, useCarContext } from "@/app/contexts/CarContext";
 
 import "./usedCarPerSingleComponent.scss";
 export default async function UsedCarPerSingleComponent({
@@ -54,27 +65,24 @@ export default async function UsedCarPerSingleComponent({
     <Box column={12} maxWidth={236} padding={2}>
       {!isEdit ? (
         <Link onClick={handleSingleCar}>
-          <WashAnimated
-            image={
-              <Avatar
-                name={model}
-                src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${carInfo?.images[0].name}`}
-              />
-            }
-          >
-            <Flex direction="column" justifyContent="center">
-              <Text align="center" weight="bold">
-                <Box paddingX={3} paddingY={2}>
-                  {model}
-                </Box>
-              </Text>
-            </Flex>
-          </WashAnimated>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${carInfo?.images[0].name}`}
+            alt={model}
+          />
+          <Flex direction="column" justifyContent="center">
+            <Text align="center" weight="bold">
+              <Box paddingX={3} paddingY={2}>
+                {model}
+              </Box>
+            </Text>
+          </Flex>
         </Link>
       ) : (
-        <WashAnimated
-          image={<Avatar size="fit" name={model} src={image} verified={true} />}
-        >
+        <>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${image}`}
+            alt={model}
+          />
           <Flex direction="column" justifyContent="center">
             <Text align="center" weight="bold">
               <Box paddingX={3} paddingY={2}>
@@ -99,7 +107,7 @@ export default async function UsedCarPerSingleComponent({
               />
             </Box>
           </Flex>
-        </WashAnimated>
+        </>
       )}
     </Box>
     // </CarProvider>

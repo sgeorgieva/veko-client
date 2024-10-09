@@ -56,14 +56,7 @@ export default function PostComponent({
         {!isEdit ? (
           <Link href={`/car-dealership/posts/${id}`}>
             <WashAnimated
-              image={
-                <Avatar
-                  name={title}
-                  src={image}
-                  verified={false}
-                  className="car-image"
-                />
-              }
+              image={<Avatar name={title} src={image} className="car-image" />}
             >
               <Flex direction="column" justifyContent="center">
                 <Text align="center" weight="bold">

@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useReCaptcha } from "next-recaptcha-v3";
+import { useEffect, useState } from "react";
 import { BannerSlim, Box, Button, Flex, TextArea, TextField } from "gestalt";
+import { useApiContacts } from "@/hooks/useApiContacts";
 
+// import { endpoints, linkUrl } from "../../../../utils/functions";
+// import axios from "axios";
 import "./contactFormComponent.scss";
-import { endpoints, linkUrl } from "../../../../utils/functions";
-import axios from "axios";
 
 export default function ContactFormComponent({ translations }) {
   const [names, setNames] = useState("");
@@ -25,10 +25,16 @@ export default function ContactFormComponent({ translations }) {
   const [hasCityValidationError, setHasCityValidationError] = useState(false);
   const [hasMessageValidationError, setHasMessageValidationError] =
     useState(false);
-  const [messageValidation, setMessageValidation] = useState("");
+  // const [messageValidation, setMessageValidation] = useState("");
   const [isValidForm, setIsValidForm] = useState(true);
-  const [successMessage, setSuccessMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
+
+  const {
+    fetchContacts,
+    setMessageValidation,
+    successMessage,
+    messageValidation,
+  } = useApiContacts();
 
   useEffect(() => {
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -114,30 +120,7 @@ export default function ContactFormComponent({ translations }) {
       !hasCityValidationError &&
       !hasMessageValidationError
     ) {
-      // Send form data to server
-      const response = axios
-        .post(`${linkUrl()}${endpoints.contact}`, {
-          names: names,
-          phone: phone,
-          email: email,
-          city: city,
-          message: message,
-        })
-        .then((data) => {
-          data.status === 200 && setIsValidForm(true);
-          setMesage(data?.data.message);
-        })
-        .catch((error) => {
-          if (error.response.status.startsWith("4")) {
-            setIsValidForm(false);
-            setMessageValidation("Моля, попълнете празните полета");
-          } else {
-            setIsValidForm(true);
-            setMessageValidation(
-              "Има проблем с връзката със сървъра. Моля, опитайте пак."
-            );
-          }
-        });
+      fetchContacts(names, phone, email, city, message, setIsValidForm);
     }
   };
 
@@ -162,6 +145,16 @@ export default function ContactFormComponent({ translations }) {
               message={messageValidation}
               onDismiss={() => setIsValidForm(!isValidForm)}
               type="error"
+            />
+          </Box>
+        )}
+        {successMessage && (
+          <Box width="100%" padding={0} margin={1}>
+            <BannerSlim
+              iconAccessibilityLabel="Information"
+              message={translations.success_message}
+              onDismiss={() => setIsValidForm(!isValidForm)}
+              type="success"
             />
           </Box>
         )}
@@ -266,7 +259,6 @@ export default function ContactFormComponent({ translations }) {
                 text={`${translations.button_send}`}
                 onClick={(e) => handleSubmit(e)}
               />{" "}
-              {successMessage && <p>{successMessage}</p>}
             </Box>
           </Flex>
         </div>

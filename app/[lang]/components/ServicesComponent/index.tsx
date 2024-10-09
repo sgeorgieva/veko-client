@@ -30,29 +30,12 @@ export default function ServicesComponent({ translations, lang }) {
     }
   }, []);
 
-  console.log("====================================");
-  console.log(pathname);
-  console.log("====================================");
-
   return (
     <Suspense fallback={<Loader />}>
       <HomeComponent
         isHomePage={false}
         component={
           <div className="wrapper">
-            <div className="title">
-              <div
-                className={`row d-flex align-items-center ${
-                  isMobile ? "w-90 mx-auto" : ""
-                }`}
-              >
-                <div className="col-md-12">
-                  <h1 className="pageHeader">
-                    {translations.services} {translations.rent_a_car_title}
-                  </h1>
-                </div>
-              </div>
-            </div>
             <div className={`description ${isMobile ? "text-center" : ""}`}>
               <div
                 className={`d-flex align-items-center flex-nowrap py-4 ${

@@ -216,16 +216,19 @@ export default function Header({
                 {translations.home}
               </AnimatedLink>
               <AnimatedLink lang={lang} href="/car-dealership" class="navlink">
-                {translations.car_delership}
+                {translations.car} {translations.dealership}
               </AnimatedLink>
               <AnimatedLink lang={lang} href="/service-station" class="navlink">
-                {translations.service_station}
+                {translations.service} {translations.station}
               </AnimatedLink>
               <AnimatedLink lang={lang} href="/services" class="navlink">
-                {translations.services}
+                {translations.services} {translations.rent_a_car_title}
+              </AnimatedLink>
+              <AnimatedLink lang={lang} href="/insurance" class="navlink">
+                {translations.insurance}
               </AnimatedLink>
               <AnimatedLink lang={lang} href="/veko-products" class="navlink">
-                {translations.veko_products}
+                {translations.distribution_with} {translations.auto_consumables}
               </AnimatedLink>
               <AnimatedLink lang={lang} href="/about" class="navlink">
                 {translations.about}

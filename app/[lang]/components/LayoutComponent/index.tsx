@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import CookieConsent from "react-cookie-consent";
 import Header from "../header";
 import Footer from "../footer";
-import { CarProvider } from "@/app/context/CarContext";
+import { CarProvider } from "@/app/contexts/CarContext";
+import { Provider } from "react-redux";
+import store from "@/store/store";
 
 export default function LayoutComponent({
   lang,
@@ -24,7 +26,7 @@ export default function LayoutComponent({
   }, []);
 
   return (
-    <>
+    <Provider store={store}>
       <header>
         <Header
           lang={lang}
@@ -85,6 +87,6 @@ export default function LayoutComponent({
           </p>
         </CookieConsent>
       </footer>
-    </>
+    </Provider>
   );
 }

@@ -3,18 +3,37 @@
 import { Flex, Heading, Image, Text } from "gestalt";
 import Link from "next/link";
 import { InlineShareButtons } from "sharethis-reactjs";
+import dynamic from "next/dynamic";
+import Loader from "../../components/Loader";
+import { PostsProvider, usePosts } from "@/app/contexts/PostsContext";
 
 import "./post.scss";
-function Block({ title, text, description, postId, lang }: any) {
+
+// const PostPage = dynamic(() => import("../[id]/page"), {
+//   ssr: true,
+//   loading: () => <Loader />,
+// });
+
+function Block({ title, text, description, postId, lang, post }: any) {
+  localStorage.setItem("post", JSON.stringify(post));
+
   return (
     <Flex direction="column" gap={{ column: 2, row: 0 }}>
       <Heading accessibilityLevel="none" size="400">
         <Link
-          href={
-            lang === "en"
-              ? `${lang}/posts/${title.toString().replaceAll(" ", "-")}`
-              : `/posts/${title.toString().replaceAll(" ", "-")}`
-          }
+          // href={{
+          //   pathname:
+          //     lang === "en"
+          //       ? `${lang}/posts/${title.toString().replaceAll(" ", "-")}`
+          //       : `/posts/${title.toString().replaceAll(" ", "-")}`,
+          //   query: { ...post },
+          // }}
+          href={{
+            pathname:
+              lang === "en" ? `${lang}/posts/${postId}` : `/posts/${postId}`,
+            // query: { ...post },
+          }}
+          // children={<PostPage />}
         >
           {title}
         </Link>
@@ -41,20 +60,23 @@ function Block({ title, text, description, postId, lang }: any) {
 }
 export default function PostId({ post, lang }) {
   return (
-    <>
+    <div className="news-wrapper">
       <Image
         alt={`${post?.title} image`}
         height={806}
         width={564}
-        src={post?.images[0]?.name}
+        src={`${process.env.NEXT_PUBLIC_STORAGE_URL}storage/${post?.images[0]?.name}`}
       />
-      <Block
-        lang={lang}
-        text={post?.description.substring(0, 130).trimEnd() + "..."}
-        description={post?.description}
-        title={post?.title}
-        postId={post?.id}
-      />
-    </>
+      <PostsProvider>
+        <Block
+          post={post}
+          lang={lang}
+          text={post?.description.substring(0, 130).trimEnd() + "..."}
+          description={post?.description}
+          title={post?.title}
+          postId={post?.id}
+        />
+      </PostsProvider>
+    </div>
   );
 }

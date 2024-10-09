@@ -2,6 +2,7 @@
 
 import { Box, Divider, Flex, IconButton, Spinner } from "gestalt";
 import PostId from "./post";
+import { PostsProvider } from "@/app/contexts/PostsContext";
 
 export default function Posts({
   posts,
@@ -37,7 +38,11 @@ export default function Posts({
             >
               <Flex direction="column" gap={{ column: 10, row: 0 }}>
                 <div className="d-flex post">
-                  {post && <PostId post={post} lang={lang} />}
+                  {post && (
+                    <PostsProvider>
+                      <PostId post={post} lang={lang} />
+                    </PostsProvider>
+                  )}
                 </div>
                 <Divider />
               </Flex>
@@ -48,7 +53,7 @@ export default function Posts({
         <Spinner show color="default" />
       )}
       {showButton && (
-        <div className="d-flex align-items-center justify-content-end">
+        <div className="d-flex align-items-center justify-content-end pb-4">
           <IconButton
             tooltip={{
               text: lang === "bg" ? "Нагоре" : "Go to Top",

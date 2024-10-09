@@ -5,10 +5,10 @@ import axios from "axios";
 import { Spinner } from "gestalt";
 import { endpoints, linkUrl } from "../../../../../utils/functions";
 import UsedCarPerSingleComponent from "../../../components/UsedCarPerSingleComponent";
+import { CarProvider } from "@/app/contexts/CarContext";
 import AddCarModal from "./AddCarModal";
 import EditCarModal from "./EditCarModal";
 import DeleteCarModal from "./DeleteCarModal";
-import { CarProvider } from "@/app/context/CarContext";
 
 import "./adminPanelUsedCar.scss";
 
@@ -151,7 +151,7 @@ export default function AdminPanelUsedCarComponent({
         {items && items.length > 0 ? (
           items.map((item) => {
             return (
-              <div className="col-md-3">
+              <div className="col-md-3 pb-3">
                 <CarProvider>
                   <UsedCarPerSingleComponent
                     key={item.id}

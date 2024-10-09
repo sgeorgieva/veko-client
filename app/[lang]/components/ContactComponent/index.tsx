@@ -24,9 +24,10 @@ export default function ContactComponent({ translations }) {
       component={
         <div className="contact-wrapper">
           <div className="title-contact">
-            <h1 className="d-flex pageHeader align-items-center justify-content-start mb-4">
+            <h1 className="d-flex pageHeader align-items-center justify-content-start py-3">
               {translations.title}
             </h1>
+            <hr />
           </div>
           <div className="row">
             <div className={`location col-md-6 ${isMobile ? "py-4" : ""}`}>

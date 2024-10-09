@@ -61,7 +61,7 @@
 }
 
 .zI7.iyn.Hsu {
-  width: auto;
+  // width: auto;
   
   .iCM.XiG.L4E.wUN {
     width: 100vw;
@@ -76,34 +76,12 @@
   }
 }
 
-.ecology-image {
-  display: block;
-  background-image: url('../../../../public/images/ecology-image.webp');
-  width: 100%;
-  height: 100vh;
-  background-size: contain;
-  background-repeat: no-repeat no-repeat;
-  background-position: top center;
-}
-
-.mobile-ecology-image {
-  height: 30vh;
-  background-position: top left;
-}
-
-.pdf-link {
-  &:hover {
-    font-size: 1.2rem;
-  }
-}
-
 .XiG.zI7.iyn.Hsu {
   justify-content: center;
 
   .MIw {
     position: static !important;
     margin: 0 auto;
-    padding-bottom: 25px;
   }
 }
 
